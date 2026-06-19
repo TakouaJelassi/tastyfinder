@@ -2,6 +2,8 @@
 
 An AI-powered recipe app built with Angular 22 and Google Gemini. Search recipes from a global database, generate custom recipes from your ingredients, and manage your personal recipe library.
 
+**[Live Demo](https://myauth-app-8d1d2.web.app)**
+
 ---
 
 ## Features
