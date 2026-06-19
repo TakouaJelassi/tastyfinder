@@ -1,0 +1,23 @@
+@if (!hasKey()) {
+  <div class="banner">
+    <span class="banner-icon">✨</span>
+    <span class="banner-text">Gemini API Key eingeben für AI-Features:</span>
+    <input
+      type="password"
+      placeholder="AIza..."
+      [ngModel]="keyInput()"
+      (ngModelChange)="keyInput.set($event)"
+      (keyup.enter)="save()"
+    />
+    <button class="btn-save" (click)="save()">Speichern</button>
+  </div>
+} @else {
+  <div class="banner success">
+    <span class="banner-icon">✅</span>
+    <span class="banner-text">AI aktiv</span>
+    @if (saved()) {
+      <span class="saved-msg">Key gespeichert!</span>
+    }
+    <button class="btn-remove" (click)="remove()">Key entfernen</button>
+  </div>
+}

@@ -1,0 +1,76 @@
+@if (loading()) {
+  <div class="loading-wrap">
+    <div class="spinner"></div>
+  </div>
+} @else if (recipe(); as r) {
+  <div class="detail">
+
+    <div class="detail-hero" [style.backgroundImage]="'url(' + r.strMealThumb + ')'">
+      <div class="hero-overlay">
+        <button class="back-btn" (click)="goBack()">← Zurück</button>
+        <div class="hero-info">
+          <span class="badge">{{ r.strCategory }}</span>
+          <span class="badge">{{ r.strArea }}</span>
+          <h1>{{ r.strMeal }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-body">
+
+      @if (aiLoading()) {
+        <div class="ai-card loading">
+          <span class="ai-icon">✨</span>
+          <p>AI analysiert das Rezept...</p>
+        </div>
+      } @else if (aiSummary()) {
+        <div class="ai-card">
+          <span class="ai-icon">✨</span>
+          <p>{{ aiSummary() }}</p>
+        </div>
+      }
+
+      <div class="two-col">
+        <div class="ingredients-section">
+          <h2>Zutaten</h2>
+          <ul class="ingredients-list">
+            @for (ingredient of r.ingredients; track $index) {
+              <li>
+                <img
+                  [src]="'https://www.themealdb.com/images/ingredients/' + ingredient + '-Small.png'"
+                  [alt]="ingredient"
+                />
+                <span class="measure">{{ r.measures[$index] }}</span>
+                <span>{{ ingredient }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <div class="instructions-section">
+          <h2>Zubereitung</h2>
+          <p class="instructions">{{ r.strInstructions }}</p>
+        </div>
+      </div>
+
+      @if (r.strYoutube) {
+        <div class="video-section">
+          <h2>Video</h2>
+          <div class="video-wrap">
+            <iframe
+              [src]="getYoutubeUrl(r.strYoutube)"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      }
+
+    </div>
+  </div>
+} @else {
+  <div class="loading-wrap">
+    <p>Rezept nicht gefunden.</p>
+    <button (click)="goBack()">Zurück</button>
+  </div>
+}

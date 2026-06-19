@@ -1,0 +1,29 @@
+<div class="favorites">
+  <div class="favorites-header">
+    <h1>Meine Favoriten ♥</h1>
+    <p>{{ recipes().length }} gespeicherte Rezepte</p>
+  </div>
+
+  <div class="container">
+    @if (loading()) {
+      <div class="loading-wrap">
+        <div class="spinner"></div>
+      </div>
+    } @else if (recipes().length === 0) {
+      <div class="empty">
+        <span class="empty-icon">🍽</span>
+        <h2>Noch keine Favoriten</h2>
+        <p>Klicke auf das ♥ Symbol auf einer Rezeptkarte um sie zu speichern.</p>
+      </div>
+    } @else {
+      <div class="grid">
+        @for (recipe of recipes(); track recipe.idMeal) {
+          <app-recipe-card
+            [recipe]="recipe"
+            (favoriteToggled)="onFavoriteToggled($event)"
+          />
+        }
+      </div>
+    }
+  </div>
+</div>

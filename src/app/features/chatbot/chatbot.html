@@ -1,0 +1,55 @@
+<div class="chat-page">
+  <div class="chat-header">
+    <h1>✨ AI Rezept-Assistent</h1>
+    <p>Sag mir was du hast — ich finde das passende Rezept</p>
+  </div>
+
+  <div class="chat-container">
+    <div class="message-list" #messageList>
+      @for (msg of messages(); track $index) {
+        <div class="message" [class.user]="msg.sender === 'user'" [class.bot]="msg.sender === 'bot'">
+          @if (msg.sender === 'bot') {
+            <span class="avatar">🤖</span>
+          }
+          <div class="bubble">{{ msg.text }}</div>
+          @if (msg.sender === 'user') {
+            <span class="avatar">👤</span>
+          }
+        </div>
+      }
+
+      @if (thinking()) {
+        <div class="message bot">
+          <span class="avatar">🤖</span>
+          <div class="bubble typing">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      }
+
+      @if (results().length > 0) {
+        <div class="results-grid">
+          @for (recipe of results(); track recipe.idMeal) {
+            <div class="result-card" (click)="openRecipe(recipe.idMeal)">
+              <img [src]="recipe.strMealThumb" [alt]="recipe.strMeal" />
+              <span>{{ recipe.strMeal }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="input-area">
+      <textarea
+        placeholder="z.B. Ich habe Hühnchen und Kartoffeln..."
+        [ngModel]="userInput()"
+        (ngModelChange)="userInput.set($event)"
+        (keydown)="onKeyDown($event)"
+        rows="2"
+      ></textarea>
+      <button (click)="send()" [disabled]="thinking() || !userInput().trim()">
+        Senden ↗
+      </button>
+    </div>
+  </div>
+</div>
