@@ -1,59 +1,89 @@
-# Tastyfinder
+# 🍽 TastyFinder
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.3.
+An AI-powered recipe app built with Angular 22 and Google Gemini. Search recipes from a global database, generate custom recipes from your ingredients, and manage your personal recipe library.
 
-## Development server
+---
 
-To start a local development server, run:
+## Features
+
+- **Recipe Search** — Search by name or ingredient via MealDB API with live suggestions
+- **AI Recipe Generator** — Input your ingredients and get 3 tailored recipes from Gemini AI
+- **Recipe Library** — All generated recipes saved to Firestore, available anytime
+- **Favorites** — Save and revisit your favorite recipes (localStorage)
+- **AI Chatbot** — Ask the AI for recipe suggestions based on what you have at home
+- **Recipe Detail** — Full instructions, ingredients, and YouTube video for each recipe
+- **SSR** — Server-Side Rendering with Angular for fast initial load
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Angular 22, TypeScript, SCSS |
+| AI | Google Gemini 2.5 Flash Lite |
+| Database | Firebase Firestore |
+| API | MealDB API |
+| SSR | Angular SSR |
+| State | Angular Signals + RxJS |
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 22+
+- Angular CLI 22+
+- A free [Gemini API Key](https://aistudio.google.com/apikey)
+
+### Installation
+
+```bash
+git clone https://github.com/takoua-jelassi/tastyfinder.git
+cd tastyfinder
+npm install
+```
+
+### Environment Setup
+
+```bash
+cp src/environments/environment.example.ts src/environments/environment.ts
+cp src/environments/environment.example.ts src/environments/environment.prod.ts
+```
+
+Fill in your Firebase config in both files. Get it from [Firebase Console](https://console.firebase.google.com) → Project Settings → Your apps.
+
+### Run
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200` and enter your Gemini API Key in the banner at the top.
 
-## Code scaffolding
+## Project Structure
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+src/app/
+├── core/
+│   ├── models/          # TypeScript interfaces
+│   └── services/        # AI, Recipe, Firestore services
+├── features/
+│   ├── home/            # Recipe search
+│   ├── generate/        # AI recipe generator
+│   ├── library/         # Saved recipes
+│   ├── favorites/       # Favorited recipes
+│   ├── chatbot/         # AI chat
+│   └── recipe-detail/   # Recipe detail view
+└── shared/
+    └── components/      # Navbar, RecipeCard, Skeleton, ApiKeyBanner
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## How It Works
 
-```bash
-ng generate --help
-```
+1. Enter your available ingredients in the **Generieren** page
+2. Set preferences: portions, cooking time, cuisine style, diet
+3. Gemini AI generates 3 complete recipes with step-by-step instructions
+4. Recipes are automatically saved to your **Bibliothek**
+5. Use the **AI Chat** to ask for recipe suggestions conversationally
 
-## Building
+## License
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+MIT
