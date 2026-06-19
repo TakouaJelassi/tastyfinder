@@ -127,13 +127,13 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
       const cleaned = raw.replace(/```json|```/g, '').trim();
       const recipes: GeneratedRecipe[] = JSON.parse(cleaned);
       this.generatedRecipes.set(recipes);
-      await this.saveAll(recipes);
+      this.loading.set(false);
+      this.saveAll(recipes);
     } catch (e) {
       this.error.set('Fehler beim Generieren. Bitte nochmal versuchen.');
       console.error(e);
+      this.loading.set(false);
     }
-
-    this.loading.set(false);
   }
 
   private async saveAll(recipes: GeneratedRecipe[]): Promise<void> {
