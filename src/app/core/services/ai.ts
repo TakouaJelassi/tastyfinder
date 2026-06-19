@@ -50,6 +50,11 @@ export class AiService {
     return response.text;
   }
 
+  async generateRaw(prompt: string): Promise<string> {
+    const response = await this.callGemini(prompt);
+    return response.text;
+  }
+
   private async callGemini(prompt: string): Promise<AiResponse> {
     if (!this.apiKey) {
       return { text: '', error: 'Kein API Key gesetzt.' };

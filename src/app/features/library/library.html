@@ -1,0 +1,78 @@
+<div class="library-page">
+  <div class="page-header">
+    <h1>📚 Bibliothek</h1>
+    <p>Deine generierten Rezepte — gespeichert und jederzeit verfügbar.</p>
+  </div>
+
+  @if (loading()) {
+    <div class="loading">Rezepte werden geladen...</div>
+  } @else if (recipes().length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">🍽</span>
+      <h2>Noch keine Rezepte</h2>
+      <p>Generiere dein erstes Rezept auf der <a routerLink="/generate">Generieren-Seite</a>.</p>
+    </div>
+  } @else {
+    <div class="recipe-list">
+      @for (recipe of recipes(); track recipe.id) {
+        <div class="recipe-item" [class.expanded]="expandedId() === recipe.id">
+          <div class="recipe-summary" (click)="toggleExpand(recipe.id!)">
+            <div class="recipe-info">
+              <h3>{{ recipe.title }}</h3>
+              <div class="meta">
+                <span>⏱ {{ recipe.duration }}</span>
+                <span>👤 {{ recipe.portions }} Port.</span>
+                <span>📊 {{ recipe.difficulty }}</span>
+                <span>🍴 {{ recipe.cuisine }}</span>
+                @if (recipe.diet && recipe.diet !== 'none') {
+                  <span class="diet-badge">{{ recipe.diet }}</span>
+                }
+              </div>
+            </div>
+            <span class="chevron">{{ expandedId() === recipe.id ? '▲' : '▼' }}</span>
+          </div>
+
+          @if (expandedId() === recipe.id) {
+            <div class="recipe-detail">
+              <div class="detail-grid">
+                <div class="detail-section">
+                  <h4>Zutaten</h4>
+                  <ul>
+                    @for (ing of recipe.ingredients; track ing) {
+                      <li>{{ ing }}</li>
+                    }
+                  </ul>
+                </div>
+
+                @if (recipe.missingIngredients?.length) {
+                  <div class="detail-section missing">
+                    <h4>Fehlende Zutaten</h4>
+                    <ul>
+                      @for (m of recipe.missingIngredients; track m) {
+                        <li>{{ m }}</li>
+                      }
+                    </ul>
+                  </div>
+                }
+
+                <div class="detail-section steps">
+                  <h4>Zubereitung</h4>
+                  <ol>
+                    @for (step of recipe.steps; track step.step) {
+                      <li>
+                        {{ step.description }}
+                        @if (step.parallel) {
+                          <span class="parallel-badge">⚡ parallel</span>
+                        }
+                      </li>
+                    }
+                  </ol>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
