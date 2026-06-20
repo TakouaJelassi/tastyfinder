@@ -43,6 +43,9 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 
+# Firebase cache
+.firebase/
+
 # Environment files with secrets
 src/environments/environment.ts
 src/environments/environment.prod.ts
