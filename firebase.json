@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/tastyfinder/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
