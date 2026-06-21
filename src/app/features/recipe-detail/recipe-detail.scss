@@ -6,11 +6,19 @@
   min-height: 60vh;
   gap: 16px;
   color: var(--text-muted);
+
+  svg { width: 48px; height: 48px; opacity: 0.3; }
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+  }
 }
 
 .spinner {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 3px solid var(--border);
   border-top-color: var(--primary);
   border-radius: 50%;
@@ -20,48 +28,64 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .detail-hero {
-  height: 420px;
+  height: 480px;
   background-size: cover;
   background-position: center;
   position: relative;
+
+  @media (max-width: 768px) { height: 320px; }
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 60%);
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.15) 55%, transparent 100%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 24px;
+  padding: 28px;
 }
 
 .back-btn {
   align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background: rgba(255,255,255,0.15);
   color: white;
   border: 1px solid rgba(255,255,255,0.3);
-  padding: 8px 16px;
+  padding: 9px 18px;
   border-radius: 50px;
   font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: background 0.2s;
+  backdrop-filter: blur(8px);
+  transition: background var(--transition);
 
+  svg { width: 16px; height: 16px; }
   &:hover { background: rgba(255,255,255,0.25); }
 }
 
 .hero-info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 
   h1 {
     color: white;
-    font-size: 2rem;
-    font-weight: 700;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    line-height: 1.2;
   }
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .badge {
@@ -69,64 +93,108 @@
   background: var(--primary);
   color: white;
   font-size: 12px;
-  font-weight: 600;
-  padding: 4px 12px;
+  font-weight: 700;
+  padding: 5px 14px;
   border-radius: 50px;
-  margin-right: 8px;
+
+  &.badge-area {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.3);
+  }
 }
 
 .detail-body {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 40px 24px 60px;
+  padding: 48px 24px 80px;
 }
 
 .ai-card {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
-  background: linear-gradient(135deg, #fff8f5, #fff3ef);
-  border: 1px solid #ffd5c5;
-  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--primary-light), #FFF7ED);
+  border: 1px solid rgba(249,115,22,0.2);
+  border-radius: var(--radius-lg);
   padding: 20px 24px;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 
-  &.loading { opacity: 0.7; }
+  &.loading { opacity: 0.6; }
+}
 
-  .ai-icon { font-size: 1.4rem; flex-shrink: 0; }
+.ai-icon-wrap {
+  width: 36px;
+  height: 36px;
+  background: var(--primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 
-  p { color: var(--text); line-height: 1.7; margin: 0; }
+  svg { width: 18px; height: 18px; stroke: white; }
+}
+
+.ai-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--primary);
+  margin-bottom: 6px !important;
+}
+
+.ai-card p {
+  color: var(--text);
+  line-height: 1.7;
+  margin: 0;
+  font-size: 15px;
 }
 
 .two-col {
   display: grid;
   grid-template-columns: 300px 1fr;
-  gap: 48px;
-  margin-bottom: 48px;
+  gap: 56px;
+  margin-bottom: 56px;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
 }
 
 h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 24px;
   color: var(--text);
+  letter-spacing: -0.2px;
+
+  svg { width: 20px; height: 20px; color: var(--primary); }
 }
 
 .ingredients-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 
   li {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
     font-size: 14px;
+    transition: background var(--transition);
+
+    &:hover { background: var(--primary-light); border-color: rgba(249,115,22,0.2); }
 
     img {
       width: 36px;
@@ -134,12 +202,19 @@ h2 {
       object-fit: cover;
       border-radius: 8px;
       background: var(--border);
+      flex-shrink: 0;
     }
 
     .measure {
       color: var(--primary);
-      font-weight: 600;
-      min-width: 60px;
+      font-weight: 700;
+      min-width: 55px;
+      font-size: 13px;
+    }
+
+    .ingredient-name {
+      color: var(--text);
+      font-weight: 500;
     }
   }
 }
@@ -156,8 +231,9 @@ h2 {
     position: relative;
     padding-bottom: 56.25%;
     height: 0;
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     overflow: hidden;
+    box-shadow: var(--shadow-lg);
 
     iframe {
       position: absolute;
