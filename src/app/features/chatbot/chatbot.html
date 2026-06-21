@@ -1,7 +1,14 @@
 <div class="chat-page">
   <div class="chat-header">
-    <h1>✨ AI Rezept-Assistent</h1>
-    <p>Sag mir was du hast — ich finde das passende Rezept</p>
+    <div class="chat-header-inner">
+      <div class="chat-avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div>
+        <h1>AI Rezept-Assistent</h1>
+        <p>Sag mir was du hast — ich finde das passende Rezept</p>
+      </div>
+    </div>
   </div>
 
   <div class="chat-container">
@@ -9,18 +16,19 @@
       @for (msg of messages(); track $index) {
         <div class="message" [class.user]="msg.sender === 'user'" [class.bot]="msg.sender === 'bot'">
           @if (msg.sender === 'bot') {
-            <span class="avatar">🤖</span>
+            <div class="avatar bot-avatar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
           }
           <div class="bubble">{{ msg.text }}</div>
-          @if (msg.sender === 'user') {
-            <span class="avatar">👤</span>
-          }
         </div>
       }
 
       @if (thinking()) {
         <div class="message bot">
-          <span class="avatar">🤖</span>
+          <div class="avatar bot-avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
           <div class="bubble typing">
             <span></span><span></span><span></span>
           </div>
@@ -46,9 +54,10 @@
         (ngModelChange)="userInput.set($event)"
         (keydown)="onKeyDown($event)"
         rows="2"
+        aria-label="Nachricht eingeben"
       ></textarea>
-      <button (click)="send()" [disabled]="thinking() || !userInput().trim()">
-        Senden ↗
+      <button (click)="send()" [disabled]="thinking() || !userInput().trim()" aria-label="Senden">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
     </div>
   </div>
