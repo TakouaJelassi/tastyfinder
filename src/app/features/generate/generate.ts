@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../core/services/ai';
+import { N8nService } from '../../core/services/n8n';
 import { FirestoreService } from '../../core/services/firestore';
 import { GeneratedRecipe, RecipePreferences } from '../../core/models/generated-recipe.interface';
 
@@ -18,6 +19,7 @@ interface IngredientInput {
 })
 export class Generate {
   private aiService = inject(AiService);
+  private n8nService = inject(N8nService);
   private firestoreService = inject(FirestoreService);
 
   ingredients = signal<IngredientInput[]>([{ name: '', amount: '', unit: 'g' }]);
@@ -123,7 +125,8 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
 ]`;
 
     try {
-      const raw = await this.aiService.generateRaw(prompt);
+      const prefsText = `Portionen: ${prefs.portions}, Zeit: ${prefs.time}, Küche: ${prefs.cuisine}, Ernährung: ${prefs.diet}`;
+      const raw = await this.n8nService.generateRecipe(ingredientList, prefsText);
       const cleaned = raw.replace(/```json|```/g, '').trim();
       const recipes: GeneratedRecipe[] = JSON.parse(cleaned);
       this.generatedRecipes.set(recipes);
