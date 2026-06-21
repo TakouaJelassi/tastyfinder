@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -9,9 +8,13 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  private router = inject(Router);
+  menuOpen = signal(false);
 
-  goHome(): void {
-    this.router.navigate(['/home']);
+  toggleMenu(): void {
+    this.menuOpen.update(v => !v);
+  }
+
+  closeMenu(): void {
+    this.menuOpen.set(false);
   }
 }
