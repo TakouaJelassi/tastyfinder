@@ -1,20 +1,71 @@
 .hero {
-  background: linear-gradient(135deg, #e8572a 0%, #c44520 100%);
+  background: linear-gradient(135deg, #1F2937 0%, #374151 50%, #1F2937 100%);
   color: white;
+  padding: 80px 24px 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 680px;
+  margin: 0 auto;
   text-align: center;
-  padding: 60px 24px 40px;
+  position: relative;
+  z-index: 1;
+}
 
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(249, 115, 22, 0.2);
+  border: 1px solid rgba(249, 115, 22, 0.4);
+  color: #FED7AA;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 24px;
 
-  p {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-bottom: 32px;
-  }
+  svg { width: 14px; height: 14px; }
+}
+
+.hero-content h1 {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.hero-highlight {
+  color: var(--primary);
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 40px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-blob {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -200px;
+  right: -100px;
 }
 
 .search-bar {
@@ -23,41 +74,83 @@
   gap: 12px;
   background: white;
   border-radius: 50px;
-  padding: 14px 24px;
-  max-width: 560px;
+  padding: 6px 6px 6px 24px;
+  max-width: 580px;
   margin: 0 auto;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 
-  svg {
+  .search-icon {
     width: 20px;
     height: 20px;
-    color: #aaa;
+    color: var(--text-muted);
     flex-shrink: 0;
   }
 
   input {
     border: none;
     outline: none;
-    font-size: 16px;
+    font-size: 15px;
+    font-family: inherit;
     width: 100%;
     color: var(--text);
     background: transparent;
+    font-weight: 500;
 
-    &::placeholder { color: #aaa; }
+    &::placeholder { color: #9CA3AF; font-weight: 400; }
+  }
+
+  &::after {
+    content: 'Suchen';
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 }
 
-.container {
+.main-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 32px 24px;
+  padding: 48px 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+}
+
+.recipe-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 4px 12px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+}
+
+.categories-section {
+  margin-bottom: 48px;
 }
 
 .categories {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 32px;
 }
 
 .cat-chip {
@@ -67,31 +160,54 @@
   background: var(--surface);
   color: var(--text-muted);
   font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition);
+  white-space: nowrap;
 
   &:hover {
     border-color: var(--primary);
     color: var(--primary);
+    background: var(--primary-light);
   }
 
   &.active {
     background: var(--primary);
     border-color: var(--primary);
     color: white;
+    box-shadow: 0 4px 12px rgba(249,115,22,0.3);
   }
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 24px;
 }
 
-.empty {
+.empty-state {
   grid-column: 1 / -1;
   text-align: center;
+  padding: 80px 24px;
   color: var(--text-muted);
-  padding: 60px 0;
-  font-size: 1.1rem;
+
+  svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
 }
