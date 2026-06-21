@@ -1,6 +1,6 @@
 .banner {
-  background: #fff8f5;
-  border-bottom: 1px solid #ffd5c5;
+  background: var(--primary-light);
+  border-bottom: 1px solid rgba(249,115,22,0.2);
   padding: 10px 24px;
   display: flex;
   align-items: center;
@@ -8,8 +8,8 @@
   flex-wrap: wrap;
 
   &.success {
-    background: #f0faf4;
-    border-color: #b7e4c7;
+    background: #F0FDF4;
+    border-color: #BBF7D0;
   }
 }
 
@@ -17,18 +17,21 @@
 
 .banner-text {
   font-size: 13px;
+  font-weight: 600;
   color: var(--text-muted);
   white-space: nowrap;
 }
 
 input {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 6px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  padding: 7px 16px;
   font-size: 13px;
   width: 260px;
   outline: none;
   font-family: monospace;
+  background: white;
+  transition: border-color var(--transition);
 
   &:focus { border-color: var(--primary); }
 }
@@ -37,31 +40,35 @@ input {
   background: var(--primary);
   color: white;
   border: none;
-  padding: 7px 16px;
-  border-radius: 8px;
+  padding: 7px 18px;
+  border-radius: 50px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: inherit;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background var(--transition);
 
   &:hover { background: var(--primary-dark); }
 }
 
 .btn-remove {
   background: none;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   color: var(--text-muted);
-  padding: 5px 12px;
-  border-radius: 8px;
+  padding: 6px 14px;
+  border-radius: 50px;
   font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   margin-left: auto;
+  transition: all var(--transition);
 
-  &:hover { border-color: #e74c3c; color: #e74c3c; }
+  &:hover { border-color: #EF4444; color: #EF4444; }
 }
 
 .saved-msg {
   font-size: 12px;
-  color: #27ae60;
-  font-weight: 600;
+  color: #16A34A;
+  font-weight: 700;
 }
