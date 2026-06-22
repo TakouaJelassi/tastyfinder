@@ -27,7 +27,7 @@ export class RecipeCard {
     if (!isPlatformBrowser(this.platformId)) return;
     const favs: string[] = JSON.parse(localStorage.getItem('favorites') ?? '[]');
     const id = this.recipe().idMeal;
-    const updated = favs.includes(id) ? favs.filter(f => f !== id) : [...favs, id];
+    const updated = favs.includes(id) ? favs.filter((f) => f !== id) : [...favs, id];
     localStorage.setItem('favorites', JSON.stringify(updated));
     this.favoriteToggled.emit(id);
   }

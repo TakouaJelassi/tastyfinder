@@ -11,7 +11,7 @@ export class Navbar {
   menuOpen = signal(false);
 
   toggleMenu(): void {
-    this.menuOpen.update(v => !v);
+    this.menuOpen.update((v) => !v);
   }
 
   closeMenu(): void {

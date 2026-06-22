@@ -6,5 +6,5 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'library', renderMode: RenderMode.Client },
   { path: 'chat', renderMode: RenderMode.Client },
   { path: 'favorites', renderMode: RenderMode.Client },
-  { path: '**', renderMode: RenderMode.Prerender }
+  { path: '**', renderMode: RenderMode.Prerender },
 ];

@@ -7,21 +7,21 @@
 }
 
 :root {
-  --primary: #F97316;
-  --primary-dark: #EA580C;
-  --primary-light: #FFF7ED;
-  --accent: #22C55E;
-  --bg: #FAFAF9;
-  --surface: #FFFFFF;
-  --text: #1F2937;
-  --text-muted: #6B7280;
-  --border: #E5E7EB;
+  --primary: #f97316;
+  --primary-dark: #ea580c;
+  --primary-light: #fff7ed;
+  --accent: #22c55e;
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
   --radius: 16px;
   --radius-sm: 10px;
   --radius-lg: 20px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow: 0 4px 16px rgba(0,0,0,0.08);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
   --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -76,7 +76,10 @@ button {
   font-family: inherit;
   border: none;
   cursor: pointer;
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
 
   &:hover {
     background: var(--primary-dark);
@@ -84,8 +87,15 @@ button {
     box-shadow: 0 4px 16px rgba(249, 115, 22, 0.35);
   }
 
-  &:active { transform: translateY(0); }
-  &:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  &:active {
+    transform: translateY(0);
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 .btn-secondary {

@@ -5,10 +5,10 @@
 }
 
 .chat-header {
-  background: linear-gradient(135deg, #1F2937 0%, #374151 100%);
+  background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
   color: white;
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .chat-header-inner {
@@ -26,7 +26,7 @@
 
   p {
     font-size: 13px;
-    color: rgba(255,255,255,0.6);
+    color: rgba(255, 255, 255, 0.6);
   }
 }
 
@@ -40,7 +40,11 @@
   justify-content: center;
   flex-shrink: 0;
 
-  svg { width: 22px; height: 22px; stroke: white; }
+  svg {
+    width: 22px;
+    height: 22px;
+    stroke: white;
+  }
 }
 
 .chat-container {
@@ -63,9 +67,16 @@
   gap: 16px;
   scroll-behavior: smooth;
 
-  &::-webkit-scrollbar { width: 4px; }
-  &::-webkit-scrollbar-track { background: transparent; }
-  &::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+  }
 }
 
 .message {
@@ -94,7 +105,11 @@
   justify-content: center;
   flex-shrink: 0;
 
-  svg { width: 15px; height: 15px; stroke: white; }
+  svg {
+    width: 15px;
+    height: 15px;
+    stroke: white;
+  }
 }
 
 .bubble {
@@ -124,14 +139,26 @@
     animation: bounce 1.2s infinite;
     opacity: 0.5;
 
-    &:nth-child(2) { animation-delay: 0.2s; }
-    &:nth-child(3) { animation-delay: 0.4s; }
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
   }
 }
 
 @keyframes bounce {
-  0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
-  40% { transform: translateY(-7px); opacity: 1; }
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(-7px);
+    opacity: 1;
+  }
 }
 
 .results-grid {
@@ -147,7 +174,9 @@
   border-radius: var(--radius);
   overflow: hidden;
   cursor: pointer;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
 
   &:hover {
     transform: translateY(-3px);
@@ -182,7 +211,9 @@
   box-shadow: var(--shadow);
   transition: border-color var(--transition);
 
-  &:focus-within { border-color: var(--primary); }
+  &:focus-within {
+    border-color: var(--primary);
+  }
 
   textarea {
     flex: 1;
@@ -195,7 +226,9 @@
     background: transparent;
     line-height: 1.5;
 
-    &::placeholder { color: #9CA3AF; }
+    &::placeholder {
+      color: #9ca3af;
+    }
   }
 
   button {
@@ -209,15 +242,24 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background var(--transition), transform var(--transition);
+    transition:
+      background var(--transition),
+      transform var(--transition);
     flex-shrink: 0;
 
-    svg { width: 18px; height: 18px; }
+    svg {
+      width: 18px;
+      height: 18px;
+    }
 
     &:hover:not(:disabled) {
       background: var(--primary-dark);
       transform: scale(1.05);
     }
-    &:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
   }
 }

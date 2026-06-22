@@ -51,25 +51,25 @@ export class Generate {
   ];
 
   addIngredient(): void {
-    this.ingredients.update(list => [...list, { name: '', amount: '', unit: 'g' }]);
+    this.ingredients.update((list) => [...list, { name: '', amount: '', unit: 'g' }]);
   }
 
   removeIngredient(index: number): void {
-    this.ingredients.update(list => list.filter((_, i) => i !== index));
+    this.ingredients.update((list) => list.filter((_, i) => i !== index));
   }
 
   updateIngredient(index: number, field: keyof IngredientInput, value: string): void {
-    this.ingredients.update(list =>
-      list.map((item, i) => i === index ? { ...item, [field]: value } : item)
+    this.ingredients.update((list) =>
+      list.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
     );
   }
 
   updatePreference<K extends keyof RecipePreferences>(key: K, value: RecipePreferences[K]): void {
-    this.preferences.update(p => ({ ...p, [key]: value }));
+    this.preferences.update((p) => ({ ...p, [key]: value }));
   }
 
   get validIngredients(): IngredientInput[] {
-    return this.ingredients().filter(i => i.name.trim());
+    return this.ingredients().filter((i) => i.name.trim());
   }
 
   async generate(): Promise<void> {
@@ -88,7 +88,7 @@ export class Generate {
     this.saved.set(false);
 
     const ingredientList = this.validIngredients
-      .map(i => `${i.amount} ${i.unit} ${i.name}`.trim())
+      .map((i) => `${i.amount} ${i.unit} ${i.name}`.trim())
       .join(', ');
 
     const prefs = this.preferences();

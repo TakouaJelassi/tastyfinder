@@ -28,19 +28,21 @@ export class Home implements OnInit {
     this.loadInitial();
     this.loadCategories();
 
-    this.search$.pipe(
-      debounceTime(400),
-      distinctUntilChanged(),
-      switchMap(term => {
-        this.loading.set(true);
-        return term
-          ? this.recipeService.searchByName(term)
-          : this.recipeService.searchByName('chicken');
-      })
-    ).subscribe(results => {
-      this.recipes.set(results);
-      this.loading.set(false);
-    });
+    this.search$
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((term) => {
+          this.loading.set(true);
+          return term
+            ? this.recipeService.searchByName(term)
+            : this.recipeService.searchByName('chicken');
+        }),
+      )
+      .subscribe((results) => {
+        this.recipes.set(results);
+        this.loading.set(false);
+      });
   }
 
   onSearch(term: string): void {
@@ -51,21 +53,21 @@ export class Home implements OnInit {
   onCategorySelect(category: string): void {
     this.selectedCategory.set(category);
     this.loading.set(true);
-    this.recipeService.getByCategory(category).subscribe(results => {
+    this.recipeService.getByCategory(category).subscribe((results) => {
       this.recipes.set(results);
       this.loading.set(false);
     });
   }
 
   private loadInitial(): void {
-    this.recipeService.searchByName('chicken').subscribe(results => {
+    this.recipeService.searchByName('chicken').subscribe((results) => {
       this.recipes.set(results);
       this.loading.set(false);
     });
   }
 
   private loadCategories(): void {
-    this.recipeService.getCategories().subscribe(cats => {
+    this.recipeService.getCategories().subscribe((cats) => {
       this.categories.set(cats);
     });
   }

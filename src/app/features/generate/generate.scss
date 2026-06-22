@@ -33,7 +33,9 @@
   flex-direction: column;
   gap: 32px;
 
-  @media (max-width: 600px) { padding: 20px; }
+  @media (max-width: 600px) {
+    padding: 20px;
+  }
 }
 
 .form-section {
@@ -55,7 +57,8 @@
   margin-bottom: 10px;
   align-items: center;
 
-  input, select {
+  input,
+  select {
     padding: 10px 14px;
     border: 1.5px solid var(--border);
     border-radius: var(--radius-sm);
@@ -66,15 +69,28 @@
     color: var(--text);
     transition: border-color var(--transition);
 
-    &:focus { border-color: var(--primary); background: white; }
+    &:focus {
+      border-color: var(--primary);
+      background: white;
+    }
   }
 
-  select { cursor: pointer; }
+  select {
+    cursor: pointer;
+  }
 }
 
-.ingredient-name   { flex: 3; }
-.ingredient-amount { flex: 1; min-width: 70px; }
-.ingredient-unit   { flex: 1; min-width: 70px; }
+.ingredient-name {
+  flex: 3;
+}
+.ingredient-amount {
+  flex: 1;
+  min-width: 70px;
+}
+.ingredient-unit {
+  flex: 1;
+  min-width: 70px;
+}
 
 .btn-remove {
   background: none;
@@ -91,7 +107,11 @@
   flex-shrink: 0;
   transition: all var(--transition);
 
-  &:hover { border-color: #EF4444; color: #EF4444; background: #FEF2F2; }
+  &:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: #fef2f2;
+  }
 }
 
 .btn-add {
@@ -108,7 +128,11 @@
   margin-top: 4px;
   transition: all var(--transition);
 
-  &:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+  &:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+  }
 }
 
 .prefs-grid {
@@ -126,7 +150,7 @@
     margin-bottom: 10px;
   }
 
-  input[type="range"] {
+  input[type='range'] {
     width: 100%;
     accent-color: var(--primary);
     height: 4px;
@@ -161,15 +185,24 @@
     transition: all var(--transition);
     white-space: nowrap;
 
-    &:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
-    &.active { background: var(--primary); border-color: var(--primary); color: white; box-shadow: 0 2px 8px rgba(249,115,22,0.3); }
+    &:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-light);
+    }
+    &.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+    }
   }
 }
 
 .error-msg {
-  background: #FEF2F2;
-  border: 1px solid #FECACA;
-  color: #DC2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
   border-radius: var(--radius-sm);
   padding: 12px 16px;
   font-size: 14px;
@@ -186,7 +219,10 @@
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
-  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -195,15 +231,20 @@
   &:hover:not(:disabled) {
     background: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(249,115,22,0.35);
+    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
   }
-  &:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 .spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255,255,255,0.4);
+  border: 2px solid rgba(255, 255, 255, 0.4);
   border-top-color: white;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
@@ -211,7 +252,11 @@
   flex-shrink: 0;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .results {
   margin-top: 48px;
@@ -226,7 +271,7 @@
 }
 
 .saved-hint {
-  color: #16A34A;
+  color: #16a34a;
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 24px;
@@ -269,7 +314,7 @@
     flex-wrap: wrap;
 
     span {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.2);
       padding: 3px 10px;
       border-radius: 50px;
       font-weight: 600;
@@ -294,7 +339,8 @@
     letter-spacing: 0.8px;
   }
 
-  ul, ol {
+  ul,
+  ol {
     padding-left: 20px;
     font-size: 14px;
     color: var(--text);
@@ -302,18 +348,20 @@
   }
 
   &.missing {
-    background: #FFFBEB;
-    border: 1px solid #FDE68A;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
     border-radius: var(--radius-sm);
     padding: 12px 14px;
-    h4 { color: #D97706; }
+    h4 {
+      color: #d97706;
+    }
   }
 }
 
 .parallel-badge {
   font-size: 11px;
-  background: #EFF6FF;
-  color: #2563EB;
+  background: #eff6ff;
+  color: #2563eb;
   border-radius: 4px;
   padding: 2px 7px;
   margin-left: 6px;
@@ -322,6 +370,10 @@
 }
 
 @media (max-width: 600px) {
-  .ingredient-row { flex-wrap: wrap; }
-  .ingredient-name { flex: 100%; }
+  .ingredient-row {
+    flex-wrap: wrap;
+  }
+  .ingredient-name {
+    flex: 100%;
+  }
 }

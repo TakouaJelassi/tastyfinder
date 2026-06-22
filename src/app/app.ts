@@ -7,6 +7,6 @@ import { ApiKeyBanner } from './shared/components/api-key-banner/api-key-banner'
   selector: 'app-root',
   imports: [RouterOutlet, Navbar, ApiKeyBanner],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {}

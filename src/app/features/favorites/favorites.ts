@@ -31,14 +31,12 @@ export class Favorites implements OnInit {
       return;
     }
 
-    const requests = ids.map(id =>
-      this.recipeService.getById(id)
-    );
+    const requests = ids.map((id) => this.recipeService.getById(id));
 
-    forkJoin(requests).subscribe(results => {
+    forkJoin(requests).subscribe((results) => {
       const previews: RecipePreview[] = results
-        .filter(r => r !== null)
-        .map(r => ({
+        .filter((r) => r !== null)
+        .map((r) => ({
           idMeal: r!.idMeal,
           strMeal: r!.strMeal,
           strMealThumb: r!.strMealThumb,
@@ -49,6 +47,6 @@ export class Favorites implements OnInit {
   }
 
   onFavoriteToggled(id: string): void {
-    this.recipes.update(list => list.filter(r => r.idMeal !== id));
+    this.recipes.update((list) => list.filter((r) => r.idMeal !== id));
   }
 }

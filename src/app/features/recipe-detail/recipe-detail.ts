@@ -25,7 +25,7 @@ export class RecipeDetail implements OnInit {
   aiLoading = signal(false);
 
   ngOnInit(): void {
-    this.recipeService.getById(this.id()).subscribe(recipe => {
+    this.recipeService.getById(this.id()).subscribe((recipe) => {
       this.recipe.set(recipe);
       this.loading.set(false);
       if (recipe) this.loadAiSummary(recipe);
@@ -38,17 +38,12 @@ export class RecipeDetail implements OnInit {
 
   getYoutubeUrl(url: string): SafeResourceUrl {
     const id = url?.split('v=')?.[1] ?? '';
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.youtube.com/embed/${id}`
-    );
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${id}`);
   }
 
   private async loadAiSummary(recipe: Recipe): Promise<void> {
     this.aiLoading.set(true);
-    const summary = await this.aiService.summarizeRecipe(
-      recipe.strMeal,
-      recipe.strInstructions
-    );
+    const summary = await this.aiService.summarizeRecipe(recipe.strMeal, recipe.strInstructions);
     this.aiSummary.set(summary);
     this.aiLoading.set(false);
   }

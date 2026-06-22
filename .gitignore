@@ -43,6 +43,14 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 
+# Logs
+*.log
+pglite-debug.log
+
+# Environment secrets
+.env
+.env.*
+
 # Firebase cache
 .firebase/
 

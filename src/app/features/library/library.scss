@@ -34,7 +34,12 @@
   padding: 80px 24px;
   color: var(--text-muted);
 
-  .empty-icon { font-size: 3rem; display: block; margin-bottom: 16px; opacity: 0.4; }
+  .empty-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
 
   h2 {
     font-size: 1.2rem;
@@ -48,7 +53,9 @@
     font-weight: 700;
     text-decoration: none;
 
-    &:hover { text-decoration: underline; }
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -67,7 +74,7 @@
 
   &.expanded {
     box-shadow: var(--shadow);
-    border-color: rgba(249,115,22,0.2);
+    border-color: rgba(249, 115, 22, 0.2);
   }
 }
 
@@ -79,7 +86,9 @@
   cursor: pointer;
   transition: background var(--transition);
 
-  &:hover { background: var(--bg); }
+  &:hover {
+    background: var(--bg);
+  }
 
   h3 {
     font-size: 1rem;
@@ -90,7 +99,9 @@
   }
 }
 
-.recipe-info { flex: 1; }
+.recipe-info {
+  flex: 1;
+}
 
 .meta {
   display: flex;
@@ -109,9 +120,9 @@
 }
 
 .diet-badge {
-  background: #F0FDF4 !important;
-  color: #16A34A !important;
-  border-color: #BBF7D0 !important;
+  background: #f0fdf4 !important;
+  color: #16a34a !important;
+  border-color: #bbf7d0 !important;
 }
 
 .chevron {
@@ -131,7 +142,7 @@
 
   .expanded & {
     background: var(--primary-light);
-    border-color: rgba(249,115,22,0.3);
+    border-color: rgba(249, 115, 22, 0.3);
     color: var(--primary);
   }
 }
@@ -158,7 +169,8 @@
     margin-bottom: 10px;
   }
 
-  ul, ol {
+  ul,
+  ol {
     padding-left: 20px;
     font-size: 14px;
     color: var(--text);
@@ -166,18 +178,20 @@
   }
 
   &.missing {
-    background: #FFFBEB;
-    border: 1px solid #FDE68A;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
     border-radius: var(--radius-sm);
     padding: 14px 16px;
-    h4 { color: #D97706; }
+    h4 {
+      color: #d97706;
+    }
   }
 }
 
 .parallel-badge {
   font-size: 11px;
-  background: #EFF6FF;
-  color: #2563EB;
+  background: #eff6ff;
+  color: #2563eb;
   border-radius: 4px;
   padding: 2px 7px;
   margin-left: 6px;

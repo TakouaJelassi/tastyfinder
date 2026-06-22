@@ -49,7 +49,9 @@
         <div class="pref-item">
           <label>Portionen: {{ preferences().portions }}</label>
           <input
-            type="range" min="1" max="12"
+            type="range"
+            min="1"
+            max="12"
             [value]="preferences().portions"
             (input)="updatePreference('portions', +$any($event.target).value)"
           />
@@ -63,7 +65,9 @@
               <button
                 [class.active]="preferences().time === t.value"
                 (click)="updatePreference('time', t.value)"
-              >{{ t.label }}</button>
+              >
+                {{ t.label }}
+              </button>
             }
           </div>
         </div>
@@ -75,7 +79,9 @@
               <button
                 [class.active]="preferences().cuisine === c"
                 (click)="updatePreference('cuisine', c)"
-              >{{ c }}</button>
+              >
+                {{ c }}
+              </button>
             }
           </div>
         </div>
@@ -87,7 +93,9 @@
               <button
                 [class.active]="preferences().diet === d.value"
                 (click)="updatePreference('diet', d.value)"
-              >{{ d.label }}</button>
+              >
+                {{ d.label }}
+              </button>
             }
           </div>
         </div>
@@ -95,9 +103,24 @@
         <div class="pref-item">
           <label>Kochhelfer: {{ preferences().helpers }}</label>
           <div class="btn-group">
-            <button [class.active]="preferences().helpers === 1" (click)="updatePreference('helpers', 1)">1 Person</button>
-            <button [class.active]="preferences().helpers === 2" (click)="updatePreference('helpers', 2)">2 Personen</button>
-            <button [class.active]="preferences().helpers === 3" (click)="updatePreference('helpers', 3)">3 Personen</button>
+            <button
+              [class.active]="preferences().helpers === 1"
+              (click)="updatePreference('helpers', 1)"
+            >
+              1 Person
+            </button>
+            <button
+              [class.active]="preferences().helpers === 2"
+              (click)="updatePreference('helpers', 2)"
+            >
+              2 Personen
+            </button>
+            <button
+              [class.active]="preferences().helpers === 3"
+              (click)="updatePreference('helpers', 3)"
+            >
+              3 Personen
+            </button>
           </div>
         </div>
       </div>

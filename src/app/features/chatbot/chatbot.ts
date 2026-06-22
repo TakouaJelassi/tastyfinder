@@ -21,7 +21,11 @@ export class Chatbot implements AfterViewChecked {
 
   userInput = signal('');
   messages = signal<ChatMessage[]>([
-    { sender: 'bot', text: '👋 Hallo! Ich helfe dir Rezepte zu finden. Schreib z.B. "Ich habe Hühnchen und Tomaten" oder "Was kann ich heute kochen?"', timestamp: new Date() }
+    {
+      sender: 'bot',
+      text: '👋 Hallo! Ich helfe dir Rezepte zu finden. Schreib z.B. "Ich habe Hühnchen und Tomaten" oder "Was kann ich heute kochen?"',
+      timestamp: new Date(),
+    },
   ]);
   results = signal<RecipePreview[]>([]);
   thinking = signal(false);
@@ -46,12 +50,16 @@ export class Chatbot implements AfterViewChecked {
     }
 
     try {
-      const englishIngredients = await this.extractViaN8n(text) || await this.aiService.extractEnglishIngredients(text);
+      const englishIngredients =
+        (await this.extractViaN8n(text)) || (await this.aiService.extractEnglishIngredients(text));
 
       const firstIngredient = englishIngredients?.split(',')[0]?.trim();
 
       if (!firstIngredient) {
-        this.addMessage('bot', 'Ich konnte keine Zutaten erkennen. Versuche z.B. "Ich habe Hühnchen und Tomaten".');
+        this.addMessage(
+          'bot',
+          'Ich konnte keine Zutaten erkennen. Versuche z.B. "Ich habe Hühnchen und Tomaten".',
+        );
         this.thinking.set(false);
         return;
       }
@@ -59,7 +67,10 @@ export class Chatbot implements AfterViewChecked {
       const meals = await this.searchByIngredient(firstIngredient);
 
       if (meals.length > 0) {
-        this.addMessage('bot', `Mit "${firstIngredient}" habe ich ${meals.length} Rezepte gefunden:`);
+        this.addMessage(
+          'bot',
+          `Mit "${firstIngredient}" habe ich ${meals.length} Rezepte gefunden:`,
+        );
         this.results.set(meals.slice(0, 8));
       } else {
         const byName = await this.searchByName(firstIngredient);
@@ -67,7 +78,10 @@ export class Chatbot implements AfterViewChecked {
           this.addMessage('bot', `${byName.length} Rezepte gefunden:`);
           this.results.set(byName.slice(0, 8));
         } else {
-          this.addMessage('bot', `Keine Rezepte mit "${firstIngredient}" gefunden. Versuche andere Zutaten.`);
+          this.addMessage(
+            'bot',
+            `Keine Rezepte mit "${firstIngredient}" gefunden. Versuche andere Zutaten.`,
+          );
         }
       }
     } catch {
@@ -89,17 +103,17 @@ export class Chatbot implements AfterViewChecked {
   }
 
   private addMessage(sender: 'user' | 'bot', text: string): void {
-    this.messages.update(msgs => [...msgs, { sender, text, timestamp: new Date() }]);
+    this.messages.update((msgs) => [...msgs, { sender, text, timestamp: new Date() }]);
   }
 
   private searchByName(name: string): Promise<RecipePreview[]> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.recipeService.searchByName(name).subscribe(resolve);
     });
   }
 
   private searchByIngredient(ingredient: string): Promise<RecipePreview[]> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.recipeService.searchByIngredient(ingredient).subscribe(resolve);
     });
   }
@@ -122,6 +136,8 @@ export class Chatbot implements AfterViewChecked {
   private scrollToBottom(): void {
     try {
       this.messageList.nativeElement.scrollTop = this.messageList.nativeElement.scrollHeight;
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }
 }

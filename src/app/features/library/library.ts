@@ -17,13 +17,13 @@ export class Library implements OnInit {
   expandedId = signal<string | null>(null);
 
   ngOnInit(): void {
-    this.firestoreService.getRecipes().subscribe(recipes => {
+    this.firestoreService.getRecipes().subscribe((recipes) => {
       this.recipes.set(recipes);
       this.loading.set(false);
     });
   }
 
   toggleExpand(id: string): void {
-    this.expandedId.update(current => current === id ? null : id);
+    this.expandedId.update((current) => (current === id ? null : id));
   }
 }

@@ -33,7 +33,7 @@ export class N8nService {
 
   private async generateViaGroq(ingredients: string, preferences: string): Promise<string> {
     const apiKey = isPlatformBrowser(this.platformId)
-      ? localStorage.getItem(STORAGE_KEY) ?? ''
+      ? (localStorage.getItem(STORAGE_KEY) ?? '')
       : '';
 
     if (!apiKey) throw new Error('Kein API Key gesetzt.');
@@ -61,7 +61,7 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: MODEL,

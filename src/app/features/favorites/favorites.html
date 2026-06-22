@@ -18,10 +18,7 @@
     } @else {
       <div class="grid">
         @for (recipe of recipes(); track recipe.idMeal) {
-          <app-recipe-card
-            [recipe]="recipe"
-            (favoriteToggled)="onFavoriteToggled($event)"
-          />
+          <app-recipe-card [recipe]="recipe" (favoriteToggled)="onFavoriteToggled($event)" />
         }
       </div>
     }
