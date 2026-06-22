@@ -1,79 +1,127 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Recipe, RecipePreview, Category, MealDbResponse, RawMeal } from '../models/recipe.interface';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import {
+  Recipe, RecipePreview, Category,
+  SpoonacularSearchResponse, SpoonacularRecipeDetail
+} from '../models/recipe.interface';
+
+const BASE = 'https://api.spoonacular.com';
+const KEY = environment.spoonacularApiKey;
+
+const CUISINE_CATEGORIES: Category[] = [
+  { idCategory: '1', strCategory: 'Italian', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '2', strCategory: 'Asian', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '3', strCategory: 'Mexican', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '4', strCategory: 'American', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '5', strCategory: 'French', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '6', strCategory: 'Mediterranean', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '7', strCategory: 'Indian', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '8', strCategory: 'Japanese', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '9', strCategory: 'Chinese', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '10', strCategory: 'Greek', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '11', strCategory: 'Spanish', strCategoryThumb: '', strCategoryDescription: '' },
+  { idCategory: '12', strCategory: 'Middle Eastern', strCategoryThumb: '', strCategoryDescription: '' },
+];
 
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
   private http = inject(HttpClient);
-  private baseUrl = 'https://www.themealdb.com/api/json/v1/1';
 
-  /** Search recipes by name using MealDB API. */
   searchByName(name: string): Observable<RecipePreview[]> {
+    const params = new HttpParams()
+      .set('apiKey', KEY)
+      .set('query', name)
+      .set('number', '20')
+      .set('addRecipeInformation', 'false');
+
     return this.http
-      .get<MealDbResponse<RecipePreview>>(`${this.baseUrl}/search.php?s=${name}`)
-      .pipe(map(res => res.meals ?? []));
+      .get<SpoonacularSearchResponse>(`${BASE}/recipes/complexSearch`, { params })
+      .pipe(
+        map(res => res.results.map(this.toPreview)),
+        catchError(() => of([]))
+      );
   }
 
-  /** Search recipes by a single ingredient using MealDB filter API. */
   searchByIngredient(ingredient: string): Observable<RecipePreview[]> {
+    const params = new HttpParams()
+      .set('apiKey', KEY)
+      .set('ingredients', ingredient)
+      .set('number', '20')
+      .set('ranking', '1');
+
     return this.http
-      .get<MealDbResponse<RecipePreview>>(`${this.baseUrl}/filter.php?i=${ingredient}`)
-      .pipe(map(res => res.meals ?? []));
+      .get<SpoonacularSearchResponse>(`${BASE}/recipes/findByIngredients`, { params })
+      .pipe(
+        map((res: any) => (Array.isArray(res) ? res : res.results ?? []).map(this.toPreview)),
+        catchError(() => of([]))
+      );
   }
 
-  /** Fetch full recipe details by MealDB ID. */
   getById(id: string): Observable<Recipe | null> {
+    const params = new HttpParams().set('apiKey', KEY);
+
     return this.http
-      .get<MealDbResponse<RawMeal>>(`${this.baseUrl}/lookup.php?i=${id}`)
-      .pipe(map((res: MealDbResponse<RawMeal>) => res.meals ? this.mapRecipe(res.meals[0]) : null));
+      .get<SpoonacularRecipeDetail>(`${BASE}/recipes/${id}/information`, { params })
+      .pipe(
+        map(r => this.toRecipe(r)),
+        catchError(() => of(null))
+      );
   }
 
-  /** Fetch a random recipe from MealDB. */
   getRandom(): Observable<Recipe> {
+    const params = new HttpParams().set('apiKey', KEY).set('number', '1');
+
     return this.http
-      .get<MealDbResponse<RawMeal>>(`${this.baseUrl}/random.php`)
-      .pipe(map((res: MealDbResponse<RawMeal>) => this.mapRecipe(res.meals![0])));
+      .get<{ recipes: SpoonacularRecipeDetail[] }>(`${BASE}/recipes/random`, { params })
+      .pipe(map(res => this.toRecipe(res.recipes[0])));
   }
 
-  /** Fetch all recipe categories from MealDB. */
   getCategories(): Observable<Category[]> {
-    return this.http
-      .get<{ categories: Category[] }>(`${this.baseUrl}/categories.php`)
-      .pipe(map(res => res.categories ?? []));
+    return of(CUISINE_CATEGORIES);
   }
 
-  /** Fetch recipes filtered by category name. */
   getByCategory(category: string): Observable<RecipePreview[]> {
+    const params = new HttpParams()
+      .set('apiKey', KEY)
+      .set('cuisine', category)
+      .set('number', '20');
+
     return this.http
-      .get<MealDbResponse<RecipePreview>>(`${this.baseUrl}/filter.php?c=${category}`)
-      .pipe(map((res: MealDbResponse<RecipePreview>) => res.meals ?? []));
+      .get<SpoonacularSearchResponse>(`${BASE}/recipes/complexSearch`, { params })
+      .pipe(
+        map(res => res.results.map(this.toPreview)),
+        catchError(() => of([]))
+      );
   }
 
-  /** Maps raw MealDB response to typed Recipe model, extracting up to 20 ingredients. */
-  private mapRecipe(raw: RawMeal): Recipe {
-    const ingredients: string[] = [];
-    const measures: string[] = [];
+  private toPreview(r: any): RecipePreview {
+    return {
+      idMeal: String(r.id),
+      strMeal: r.title,
+      strMealThumb: r.image ?? '',
+    };
+  }
 
-    for (let i = 1; i <= 20; i++) {
-      const ingredient = raw[`strIngredient${i}`]?.trim();
-      const measure = raw[`strMeasure${i}`]?.trim();
-      if (ingredient) {
-        ingredients.push(ingredient);
-        measures.push(measure ?? '');
-      }
-    }
+  private toRecipe(r: SpoonacularRecipeDetail): Recipe {
+    const ingredients = r.extendedIngredients?.map(i => i.name) ?? [];
+    const measures = r.extendedIngredients?.map(i => `${i.amount} ${i.unit}`.trim()) ?? [];
+
+    const instructions = r.instructions
+      ? r.instructions.replace(/<[^>]*>/g, '').trim()
+      : 'Keine Anleitung verfügbar.';
 
     return {
-      idMeal: raw.idMeal,
-      strMeal: raw.strMeal,
-      strMealThumb: raw.strMealThumb,
-      strCategory: raw.strCategory,
-      strArea: raw.strArea,
-      strInstructions: raw.strInstructions,
-      strYoutube: raw.strYoutube,
-      strTags: raw.strTags,
+      idMeal: String(r.id),
+      strMeal: r.title,
+      strMealThumb: r.image,
+      strCategory: r.dishTypes?.[0] ?? '',
+      strArea: r.cuisines?.[0] ?? '',
+      strInstructions: instructions,
+      strYoutube: '',
+      strTags: r.diets?.join(', ') ?? '',
       ingredients,
       measures,
     };
