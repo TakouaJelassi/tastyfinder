@@ -46,7 +46,7 @@ export class Chatbot implements AfterViewChecked {
     }
 
     try {
-      const englishIngredients = await this.aiService.extractEnglishIngredients(text);
+      const englishIngredients = await this.extractViaN8n(text) || await this.aiService.extractEnglishIngredients(text);
 
       const firstIngredient = englishIngredients?.split(',')[0]?.trim();
 
@@ -102,6 +102,21 @@ export class Chatbot implements AfterViewChecked {
     return new Promise(resolve => {
       this.recipeService.searchByIngredient(ingredient).subscribe(resolve);
     });
+  }
+
+  private async extractViaN8n(message: string): Promise<string> {
+    try {
+      const res = await fetch('http://localhost:5678/webhook/recipe-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message }),
+      });
+      if (!res.ok) return '';
+      const data = await res.json();
+      return data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? '';
+    } catch {
+      return '';
+    }
   }
 
   private scrollToBottom(): void {
