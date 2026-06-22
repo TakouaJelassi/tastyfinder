@@ -126,7 +126,12 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
 
     try {
       const prefsText = `Portionen: ${prefs.portions}, Zeit: ${prefs.time}, Küche: ${prefs.cuisine}, Ernährung: ${prefs.diet}`;
-      const raw = await this.n8nService.generateRecipe(ingredientList, prefsText);
+      let raw = '';
+      try {
+        raw = await this.n8nService.generateRecipe(ingredientList, prefsText);
+      } catch {
+        raw = await this.aiService.generateRaw(prompt);
+      }
       const cleaned = raw.replace(/```json|```/g, '').trim();
       const recipes: GeneratedRecipe[] = JSON.parse(cleaned);
       this.generatedRecipes.set(recipes);
