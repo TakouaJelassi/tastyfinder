@@ -9,7 +9,7 @@
 ## Features
 
 - **Recipe Search** — Search by name, ingredient or cuisine via Spoonacular API
-- **AI Recipe Generator** — Input your ingredients and get 3 tailored recipes via Gemini AI (local: via n8n automation)
+- **AI Recipe Generator** — Input your ingredients and get 3 tailored recipes powered by Groq AI (local: via n8n automation)
 - **Recipe Library** — All generated recipes saved to Firestore, available anytime
 - **Favorites** — Save and revisit your favorite recipes
 - **AI Chatbot** — Ask the AI for recipe suggestions based on what you have at home
@@ -24,7 +24,7 @@
 | Layer | Technology |
 |---|---|
 | Frontend | Angular 22, TypeScript, SCSS |
-| AI | Google Gemini 2.5 Flash |
+| AI | Groq — Llama 3.3 70B |
 | Automation | n8n (local workflow) |
 | Database | Firebase Firestore |
 | Recipe API | Spoonacular API |
@@ -40,7 +40,7 @@
 
 - Node.js 22+
 - npm 11+
-- A free [Gemini API Key](https://aistudio.google.com/apikey)
+- A free [Groq API Key](https://console.groq.com/keys)
 - A free [Spoonacular API Key](https://spoonacular.com/food-api)
 
 ### Installation
@@ -77,7 +77,7 @@ export const environment = {
 npm start
 ```
 
-Open `http://localhost:4200` and enter your Gemini API Key in the banner at the top.
+Open `http://localhost:4200` and enter your **Groq API Key** (`gsk_...`) in the banner at the top.
 
 ### n8n (optional — local AI automation)
 
@@ -85,7 +85,7 @@ Open `http://localhost:4200` and enter your Gemini API Key in the banner at the 
 N8N_SECURE_COOKIE=false npx n8n
 ```
 
-Open `http://localhost:5678` and import the workflow. The app automatically uses n8n locally and falls back to direct Gemini calls in production.
+Open `http://localhost:5678` and set up the workflow. The app automatically uses n8n locally and falls back to direct Groq calls in production.
 
 ---
 
@@ -95,7 +95,7 @@ Open `http://localhost:5678` and import the workflow. The app automatically uses
 src/app/
 ├── core/
 │   ├── models/          # TypeScript interfaces
-│   └── services/        # AI, Recipe, Firestore, n8n services
+│   └── services/        # AI (Groq), Recipe (Spoonacular), Firestore, n8n services
 ├── features/
 │   ├── home/            # Recipe search + category filter
 │   ├── generate/        # AI recipe generator
@@ -113,7 +113,7 @@ src/app/
 
 1. **Search** recipes by name, ingredient or select a cuisine category
 2. **Generate** — Enter your ingredients, set preferences (portions, time, cuisine, diet)
-3. **AI** generates 3 complete recipes with step-by-step instructions
+3. **Groq AI** generates 3 complete recipes with step-by-step instructions
 4. Recipes are automatically saved to your **Bibliothek** (Firestore)
 5. Use the **AI Chat** to ask for recipe suggestions conversationally
 6. Locally: AI calls go through **n8n** for secure workflow automation
