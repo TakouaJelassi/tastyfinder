@@ -3,8 +3,9 @@ import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../../environments/environment';
 
 const N8N_WEBHOOK_URL = '/n8n/webhook/generate-recipe';
-const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
-const STORAGE_KEY = 'tf_gemini_key';
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const STORAGE_KEY = 'tf_groq_key';
+const MODEL = 'llama-3.3-70b-versatile';
 
 @Injectable({ providedIn: 'root' })
 export class N8nService {
@@ -12,7 +13,7 @@ export class N8nService {
 
   async generateRecipe(ingredients: string, preferences: string): Promise<string> {
     if (environment.production) {
-      return this.generateViaGemini(ingredients, preferences);
+      return this.generateViaGroq(ingredients, preferences);
     }
     return this.generateViaN8n(ingredients, preferences);
   }
@@ -30,7 +31,7 @@ export class N8nService {
     return JSON.stringify(Array.isArray(data) ? data : [data]);
   }
 
-  private async generateViaGemini(ingredients: string, preferences: string): Promise<string> {
+  private async generateViaGroq(ingredients: string, preferences: string): Promise<string> {
     const apiKey = isPlatformBrowser(this.platformId)
       ? localStorage.getItem(STORAGE_KEY) ?? ''
       : '';
@@ -56,15 +57,22 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
   }
 ]`;
 
-    const response = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
+    const response = await fetch(GROQ_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+      }),
     });
 
-    if (!response.ok) throw new Error(`Gemini Fehler: ${response.status}`);
+    if (!response.ok) throw new Error(`Groq Fehler: ${response.status}`);
 
     const data = await response.json();
-    return data?.candidates?.[0]?.content?.parts?.[0]?.text ?? '[]';
+    return data?.choices?.[0]?.message?.content ?? '[]';
   }
 }

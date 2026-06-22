@@ -3,10 +3,10 @@
     <div class="banner-left">
       <span class="banner-icon">🔑</span>
       <div class="banner-info">
-        <span class="banner-title">AI-Demo erfordert einen Gemini API Key</span>
+        <span class="banner-title">AI-Demo erfordert einen Groq API Key</span>
         <span class="banner-sub">
           Kostenlos unter
-          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a>
+          <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com</a>
           — dauert 30 Sekunden
         </span>
       </div>
@@ -14,7 +14,7 @@
     <div class="banner-right">
       <input
         type="password"
-        placeholder="AIza..."
+        placeholder="gsk_..."
         [ngModel]="keyInput()"
         (ngModelChange)="keyInput.set($event)"
         (keyup.enter)="save()"
@@ -25,7 +25,7 @@
 } @else {
   <div class="banner success">
     <span class="banner-icon">✅</span>
-    <span class="banner-text">AI aktiv</span>
+    <span class="banner-text">AI aktiv (Groq)</span>
     @if (saved()) {
       <span class="saved-msg">Key gespeichert!</span>
     }
