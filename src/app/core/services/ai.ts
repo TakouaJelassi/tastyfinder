@@ -14,12 +14,14 @@ export class AiService {
     return localStorage.getItem(STORAGE_KEY) ?? '';
   }
 
+  /** Persist Gemini API key to localStorage. */
   setApiKey(key: string): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(STORAGE_KEY, key.trim());
     }
   }
 
+  /** Remove Gemini API key from localStorage. */
   removeApiKey(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(STORAGE_KEY);
@@ -30,6 +32,7 @@ export class AiService {
     return !!this.apiKey;
   }
 
+  /** Extract and translate ingredients from user text to English via Gemini. */
   async extractEnglishIngredients(userInput: string): Promise<string> {
     const prompt = `Extract food ingredients from this text and translate them to English. Return only a comma-separated list of English ingredient names, nothing else. Text: "${userInput}"`;
     const response = await this.callGemini(prompt);
@@ -50,6 +53,7 @@ export class AiService {
     return response.text;
   }
 
+  /** Send a raw prompt to Gemini and return the text response. */
   async generateRaw(prompt: string): Promise<string> {
     const response = await this.callGemini(prompt);
     return response.text;
