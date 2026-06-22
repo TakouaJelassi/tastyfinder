@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +9,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
+  authService = inject(AuthService);
+  private router = inject(Router);
+
   menuOpen = signal(false);
+  userMenuOpen = signal(false);
 
   toggleMenu(): void {
     this.menuOpen.update((v) => !v);
@@ -16,5 +21,20 @@ export class Navbar {
 
   closeMenu(): void {
     this.menuOpen.set(false);
+  }
+
+  toggleUserMenu(): void {
+    this.userMenuOpen.update((v) => !v);
+  }
+
+  async logout(): Promise<void> {
+    await this.authService.logout();
+    this.userMenuOpen.set(false);
+    this.router.navigate(['/login']);
+  }
+
+  get userInitial(): string {
+    const name = this.authService.currentUser()?.displayName ?? this.authService.currentUser()?.email ?? '?';
+    return name.charAt(0).toUpperCase();
   }
 }
