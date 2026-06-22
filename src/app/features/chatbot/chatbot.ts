@@ -106,7 +106,7 @@ export class Chatbot implements AfterViewChecked {
 
   private async extractViaN8n(message: string): Promise<string> {
     try {
-      const res = await fetch('http://localhost:5678/webhook/recipe-chat', {
+      const res = await fetch('/n8n/webhook/recipe-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message }),
