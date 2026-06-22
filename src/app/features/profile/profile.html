@@ -1,0 +1,138 @@
+<div class="profile-page">
+  <div class="profile-container">
+
+    <div class="profile-card avatar-card">
+      <div class="avatar-section">
+        <div class="avatar-wrap">
+          @if (avatarPreview()) {
+            <img [src]="avatarPreview()" alt="Avatar" class="avatar-img" />
+          } @else {
+            <span class="avatar-initial">{{ userInitial }}</span>
+          }
+          <label class="avatar-upload-btn" title="Bild hochladen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+          </label>
+        </div>
+        <div class="avatar-info">
+          <h2>{{ authService.currentUser()?.displayName || 'Dein Profil' }}</h2>
+          <p>{{ authService.currentUser()?.email }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <h3 class="card-title">Profil bearbeiten</h3>
+
+      <div class="form-group">
+        <label>Name</label>
+        <input
+          type="text"
+          [ngModel]="name()"
+          (ngModelChange)="name.set($event)"
+          name="name"
+          placeholder="Dein Name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>E-Mail</label>
+        <input type="email" [value]="authService.currentUser()?.email ?? ''" disabled />
+        <span class="field-hint">E-Mail kann nicht geändert werden</span>
+      </div>
+
+      <div class="form-group">
+        <label>Profilbild</label>
+        <label class="file-upload-area">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <circle cx="8.5" cy="8.5" r="1.5" />
+            <polyline points="21 15 16 10 5 21" />
+          </svg>
+          @if (selectedFile()) {
+            <span>{{ selectedFile()!.name }}</span>
+          } @else {
+            <span>Bild auswählen (JPG, PNG, max. 5 MB)</span>
+          }
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+        </label>
+      </div>
+
+      @if (successMsg()) {
+        <p class="msg success">{{ successMsg() }}</p>
+      }
+      @if (errorMsg()) {
+        <p class="msg error">{{ errorMsg() }}</p>
+      }
+
+      <button class="btn-primary" (click)="saveProfile()" [disabled]="saving()">
+        @if (saving()) { <span class="spinner"></span> } @else { Speichern }
+      </button>
+    </div>
+
+    <div class="profile-card">
+      <h3 class="card-title">Passwort ändern</h3>
+
+      <div class="form-group">
+        <label>Aktuelles Passwort</label>
+        <input
+          type="password"
+          [ngModel]="currentPassword()"
+          (ngModelChange)="currentPassword.set($event)"
+          name="currentPassword"
+          placeholder="••••••••"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Neues Passwort</label>
+        <input
+          type="password"
+          [ngModel]="newPassword()"
+          (ngModelChange)="newPassword.set($event)"
+          name="newPassword"
+          placeholder="Mindestens 6 Zeichen"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Passwort bestätigen</label>
+        <input
+          type="password"
+          [ngModel]="confirmPassword()"
+          (ngModelChange)="confirmPassword.set($event)"
+          name="confirmPassword"
+          placeholder="••••••••"
+        />
+      </div>
+
+      @if (passwordError()) {
+        <p class="msg error">{{ passwordError() }}</p>
+      }
+      @if (passwordSuccess()) {
+        <p class="msg success">{{ passwordSuccess() }}</p>
+      }
+
+      <button class="btn-primary" (click)="changePassword()" [disabled]="savingPassword()">
+        @if (savingPassword()) { <span class="spinner"></span> } @else { Passwort ändern }
+      </button>
+    </div>
+
+    <div class="profile-card danger-zone">
+      <h3 class="card-title">Konto</h3>
+      <button class="btn-logout" (click)="logout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        Abmelden
+      </button>
+    </div>
+
+  </div>
+</div>
