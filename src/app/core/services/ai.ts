@@ -7,7 +7,7 @@ const STORAGE_KEY = 'tf_gemini_key';
 @Injectable({ providedIn: 'root' })
 export class AiService {
   private platformId = inject(PLATFORM_ID);
-  private apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent';
+  private apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
   private get apiKey(): string {
     if (!isPlatformBrowser(this.platformId)) return '';

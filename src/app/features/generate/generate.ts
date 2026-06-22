@@ -132,6 +132,11 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
       } catch {
         raw = await this.aiService.generateRaw(prompt);
       }
+      if (!raw || raw.trim() === '') {
+        this.error.set('Kein API Key aktiv oder ungültig. Bitte Gemini API Key oben eingeben.');
+        this.loading.set(false);
+        return;
+      }
       const cleaned = raw.replace(/```json|```/g, '').trim();
       const recipes: GeneratedRecipe[] = JSON.parse(cleaned);
       this.generatedRecipes.set(recipes);
