@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-const N8N_WEBHOOK_URL = '/n8n/webhook/generate-recipe';
+const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/generate-recipe';
 
 @Injectable({ providedIn: 'root' })
 export class N8nService {
@@ -16,6 +16,7 @@ export class N8nService {
     }
 
     const data = await response.json();
-    return JSON.stringify([data]);
+    const text = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? JSON.stringify(data);
+    return text;
   }
 }
