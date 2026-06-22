@@ -1,7 +1,8 @@
-import { Component, input, output, inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component, input, output, inject, signal, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecipePreview } from '../../../core/models/recipe.interface';
+import { FirestoreService } from '../../../core/services/firestore';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-recipe-card',
@@ -9,26 +10,34 @@ import { RecipePreview } from '../../../core/models/recipe.interface';
   templateUrl: './recipe-card.html',
   styleUrl: './recipe-card.scss',
 })
-export class RecipeCard {
+export class RecipeCard implements OnInit {
   recipe = input.required<RecipePreview>();
   favoriteToggled = output<string>();
 
   private router = inject(Router);
-  private platformId = inject(PLATFORM_ID);
+  private firestoreService = inject(FirestoreService);
+  private authService = inject(AuthService);
 
-  isFavorite(): boolean {
-    if (!isPlatformBrowser(this.platformId)) return false;
-    const favs: string[] = JSON.parse(localStorage.getItem('favorites') ?? '[]');
-    return favs.includes(this.recipe().idMeal);
+  isFavorite = signal(false);
+
+  ngOnInit(): void {
+    if (!this.authService.isLoggedIn) return;
+    this.firestoreService.isFavorite(this.recipe().idMeal).subscribe((val) => {
+      this.isFavorite.set(val);
+    });
   }
 
-  toggleFavorite(event: Event): void {
+  async toggleFavorite(event: Event): Promise<void> {
     event.stopPropagation();
-    if (!isPlatformBrowser(this.platformId)) return;
-    const favs: string[] = JSON.parse(localStorage.getItem('favorites') ?? '[]');
+    if (!this.authService.isLoggedIn) return;
     const id = this.recipe().idMeal;
-    const updated = favs.includes(id) ? favs.filter((f) => f !== id) : [...favs, id];
-    localStorage.setItem('favorites', JSON.stringify(updated));
+    if (this.isFavorite()) {
+      await this.firestoreService.removeFavorite(id);
+      this.isFavorite.set(false);
+    } else {
+      await this.firestoreService.addFavorite(id);
+      this.isFavorite.set(true);
+    }
     this.favoriteToggled.emit(id);
   }
 
