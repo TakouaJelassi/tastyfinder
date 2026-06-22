@@ -1,15 +1,26 @@
 @if (!hasKey()) {
   <div class="banner">
-    <span class="banner-icon">✨</span>
-    <span class="banner-text">Gemini API Key eingeben für AI-Features:</span>
-    <input
-      type="password"
-      placeholder="AIza..."
-      [ngModel]="keyInput()"
-      (ngModelChange)="keyInput.set($event)"
-      (keyup.enter)="save()"
-    />
-    <button class="btn-save" (click)="save()">Speichern</button>
+    <div class="banner-left">
+      <span class="banner-icon">🔑</span>
+      <div class="banner-info">
+        <span class="banner-title">AI-Demo erfordert einen Gemini API Key</span>
+        <span class="banner-sub">
+          Kostenlos unter
+          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com</a>
+          — dauert 30 Sekunden
+        </span>
+      </div>
+    </div>
+    <div class="banner-right">
+      <input
+        type="password"
+        placeholder="AIza..."
+        [ngModel]="keyInput()"
+        (ngModelChange)="keyInput.set($event)"
+        (keyup.enter)="save()"
+      />
+      <button class="btn-save" (click)="save()">Aktivieren</button>
+    </div>
   </div>
 } @else {
   <div class="banner success">
