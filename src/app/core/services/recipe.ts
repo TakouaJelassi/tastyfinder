@@ -51,7 +51,9 @@ export class RecipeService {
     const withKey = params.set('apiKey', KEYS[keyIndex]);
     return this.http.get<T>(url, { params: withKey }).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 402 && keyIndex + 1 < KEYS.length) {
+        // 402 = Tageslimit erreicht, 401 = Key ungültig → nächsten Key versuchen
+        const keyProblem = err.status === 402 || err.status === 401;
+        if (keyProblem && keyIndex + 1 < KEYS.length) {
           return this.getWithKeyRotation<T>(url, params, keyIndex + 1);
         }
         return throwError(() => err);
