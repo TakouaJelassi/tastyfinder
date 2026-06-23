@@ -42,6 +42,16 @@ export class RecipeService {
     return of(CUISINE_CATEGORIES);
   }
 
+  /** Alle Rezepte als Vorschau (z. B. für den Meal-Planner-Picker). */
+  listAll(): RecipePreview[] {
+    return RECIPES.map((r) => this.toPreview(r));
+  }
+
+  /** Volle Rezepte zu einer Liste von IDs (Reihenfolge der Eingabe). */
+  findByIds(ids: string[]): Recipe[] {
+    return ids.map((id) => RECIPES.find((r) => r.id === id)).filter((r): r is Recipe => !!r);
+  }
+
   getByCategory(category: string): Observable<RecipePreview[]> {
     const term = category.toLowerCase().trim();
     const results = RECIPES.filter((r) => r.cuisine.toLowerCase() === term).map((r) =>

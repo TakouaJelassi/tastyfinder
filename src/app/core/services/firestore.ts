@@ -17,7 +17,7 @@ import {
 import { Observable, from, of } from 'rxjs';
 import { AuthService } from './auth';
 import { GeneratedRecipe } from '../models/generated-recipe.interface';
-import { ShoppingItem } from '../models/recipe.interface';
+import { ShoppingItem, MealPlan } from '../models/recipe.interface';
 
 @Injectable({ providedIn: 'root' })
 export class FirestoreService {
@@ -157,5 +157,23 @@ export class FirestoreService {
     const batch = writeBatch(this.firestore);
     snap.docs.filter((d) => d.data()['checked'] === true).forEach((d) => batch.delete(d.ref));
     await batch.commit();
+  }
+
+  // ── Meal Plan ──
+
+  getMealPlan(): Observable<MealPlan | undefined> {
+    const uid = this.uid;
+    if (!uid) return of(undefined);
+    const ref = doc(this.firestore, `users/${uid}/mealplan/data`);
+    return from(
+      getDoc(ref).then((snap) => (snap.exists() ? (snap.data() as MealPlan) : undefined)),
+    );
+  }
+
+  async saveMealPlan(plan: MealPlan): Promise<void> {
+    const uid = this.uid;
+    if (!uid) return;
+    const ref = doc(this.firestore, `users/${uid}/mealplan/data`);
+    await setDoc(ref, plan);
   }
 }

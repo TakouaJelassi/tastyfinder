@@ -1,0 +1,81 @@
+<div class="planner-page">
+  <div class="planner-header">
+    <h1>📅 Wochenplan</h1>
+    <p>{{ totalMeals() }} Gerichte geplant</p>
+  </div>
+
+  <div class="container">
+    @if (loading()) {
+      <div class="loading-wrap"><div class="spinner"></div></div>
+    } @else {
+      @if (totalMeals() > 0) {
+        <button
+          class="btn-week-shopping"
+          (click)="addWeekToShopping()"
+          [disabled]="addedToShopping()"
+        >
+          @if (addedToShopping()) {
+            ✓ Zur Einkaufsliste hinzugefügt
+          } @else {
+            🛒 Alle Zutaten der Woche zur Einkaufsliste
+          }
+        </button>
+      }
+
+      <div class="week-grid">
+        @for (day of days(); track day.key) {
+          <div class="day-card">
+            <div class="day-head">
+              <h3>{{ day.label }}</h3>
+              <span class="day-count">{{ day.recipes.length }}</span>
+            </div>
+
+            <div class="day-recipes">
+              @for (recipe of day.recipes; track $index) {
+                <div class="meal">
+                  <img
+                    [src]="recipe.image"
+                    [alt]="recipe.title"
+                    (click)="openRecipe(recipe.id)"
+                    (error)="onImageError($event)"
+                  />
+                  <span class="meal-title" (click)="openRecipe(recipe.id)">{{ recipe.title }}</span>
+                  <button
+                    class="meal-remove"
+                    (click)="removeRecipe(day.key, $index)"
+                    aria-label="Entfernen"
+                  >
+                    ✕
+                  </button>
+                </div>
+              } @empty {
+                <p class="day-empty">Noch nichts geplant</p>
+              }
+            </div>
+
+            <button class="btn-add-meal" (click)="openPicker(day.key)">+ Rezept</button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+@if (pickerDay()) {
+  <div class="picker-overlay" (click)="closePicker()">
+    <div class="picker" (click)="$event.stopPropagation()">
+      <div class="picker-head">
+        <h3>Rezept hinzufügen</h3>
+        <button class="picker-close" (click)="closePicker()" aria-label="Schließen">✕</button>
+      </div>
+      <div class="picker-list">
+        @for (recipe of allRecipes; track recipe.id) {
+          <button class="picker-item" (click)="addRecipe(recipe)">
+            <img [src]="recipe.image" [alt]="recipe.title" (error)="onImageError($event)" />
+            <span>{{ recipe.title }}</span>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+}

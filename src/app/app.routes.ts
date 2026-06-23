@@ -40,5 +40,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/shopping/shopping').then((m) => m.Shopping),
     canActivate: [authGuard],
   },
+  {
+    path: 'planner',
+    loadComponent: () => import('./features/planner/planner').then((m) => m.Planner),
+    canActivate: [authGuard],
+  },
   { path: '**', redirectTo: 'home' },
 ];

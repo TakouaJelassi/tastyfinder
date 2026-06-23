@@ -28,6 +28,11 @@ export interface ShoppingItem {
   checked: boolean;
 }
 
+export type WeekDay = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
+
+// Wochenplan: pro Tag eine Liste von Rezept-IDs
+export type MealPlan = Record<WeekDay, string[]>;
+
 export interface SpoonacularSearchResult {
   id: number;
   title: string;
