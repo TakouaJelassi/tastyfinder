@@ -11,10 +11,12 @@ import {
   updateProfile,
   User,
 } from '@angular/fire/auth';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private auth = inject(Auth);
+  private firestore = inject(Firestore);
   private platformId = inject(PLATFORM_ID);
 
   currentUser = signal<User | null>(null);
@@ -26,9 +28,26 @@ export class AuthService {
       onAuthStateChanged(this.auth, (user) => {
         this.currentUser.set(user);
         this.loading.set(false);
+        if (user) {
+          this.loadAvatar(user);
+        } else {
+          this.avatarBase64.set('');
+        }
       });
     } else {
       this.loading.set(false);
+    }
+  }
+
+  /** Lädt das gespeicherte Profilbild aus Firestore, fällt sonst auf das Google-Bild zurück. */
+  private async loadAvatar(user: User): Promise<void> {
+    try {
+      const ref = doc(this.firestore, `users/${user.uid}/profile/data`);
+      const snap = await getDoc(ref);
+      const stored = snap.exists() ? (snap.data()['avatarBase64'] as string | undefined) : undefined;
+      this.avatarBase64.set(stored || user.photoURL || '');
+    } catch {
+      this.avatarBase64.set(user.photoURL || '');
     }
   }
 
