@@ -1,51 +1,55 @@
 # 🍽 TastyFinder
 
-**An AI-powered recipe discovery platform** — browse recipes, generate custom ones with AI, chat with a cooking assistant, and manage your personal cookbook, favorites and shopping list.
+An **AI-powered recipe discovery platform**: browse recipes, generate custom
+ones with AI, chat with a cooking assistant, and manage your personal cookbook,
+favorites and shopping list.
 
-### 🔗 [Live Demo → tastyfinder.web.app](https://tastyfinder.web.app)
+### 🔗 Live Demo → [tastyfinder.web.app](https://tastyfinder.web.app)
 
 ---
 
 ## 📸 Screenshots
 
-> Add your screenshots to a `screenshots/` folder in the repo, then they appear here.
+> Add your screenshots to the [`screenshots/`](screenshots/) folder
+> (filenames below) and they will appear here automatically.
 
 | Home | Recipe Detail | AI Chat |
-|---|---|---|
+| :--: | :-----------: | :-----: |
 | ![Home](screenshots/home.png) | ![Detail](screenshots/detail.png) | ![Chat](screenshots/chat.png) |
 
 | AI Generator | Shopping List | Profile |
-|---|---|---|
+| :----------: | :-----------: | :-----: |
 | ![Generate](screenshots/generate.png) | ![Shopping](screenshots/shopping.png) | ![Profile](screenshots/profile.png) |
 
 ---
 
 ## ✨ Features
 
-- **Recipe Search** — Search by name, ingredient or cuisine
-- **AI Recipe Generator** — Enter your ingredients and get tailored recipes powered by **Groq AI** (Llama 3.3 70B)
-- **AI Chat Assistant** — Ask conversationally; finds matching recipes and generates new ones on the fly
+- **Recipe Search** — search by name, ingredient or cuisine
+- **AI Recipe Generator** — turn your ingredients into tailored recipes with
+  **Groq AI** (Llama 3.3 70B)
+- **AI Chat Assistant** — finds matching recipes and generates new ones on the fly
 - **Authentication** — Email/Password and Google Sign-In via Firebase Auth
-- **Personal Library** — Generated recipes saved per user in Firestore
-- **Favorites** — Save and revisit recipes (per user)
-- **Shopping List** — Add ingredients from any recipe, check off items, clear completed
-- **Profile** — Edit name, upload an avatar, change password
-- **Responsive Design** — Clean mobile and desktop layouts
-- **SSR** — Server-Side Rendering with Angular for fast initial load
+- **Personal Library** — generated recipes saved per user in Firestore
+- **Favorites** — save and revisit recipes (per user)
+- **Shopping List** — add ingredients from any recipe, check items off, clear done
+- **Profile** — edit name, upload an avatar, change password
+- **Responsive Design** — clean mobile and desktop layouts
+- **SSR** — Angular Server-Side Rendering for a fast initial load
 
 ---
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Frontend | Angular 22 (Standalone, Signals), TypeScript, SCSS |
-| AI | **Groq** — Llama 3.3 70B Versatile |
-| Auth | Firebase Authentication |
-| Database | Cloud Firestore (per-user collections) |
-| Automation | **n8n** (local workflow, optional) |
-| Hosting | Firebase Hosting + Angular SSR |
-| State | Angular Signals + RxJS |
+| Layer      | Technology                                       |
+| ---------- | ------------------------------------------------ |
+| Frontend   | Angular 22 (Standalone, Signals), TypeScript, SCSS |
+| AI         | **Groq** — Llama 3.3 70B Versatile               |
+| Auth       | Firebase Authentication                          |
+| Database   | Cloud Firestore (per-user collections)           |
+| Automation | **n8n** (local workflow, optional)               |
+| Hosting    | Firebase Hosting + Angular SSR                    |
+| State      | Angular Signals + RxJS                           |
 
 ---
 
@@ -53,44 +57,55 @@
 
 TastyFinder uses **Groq AI** (Llama 3.3 70B) for two things:
 
-1. **Recipe generation** — turns a list of ingredients + preferences into complete recipes (steps, durations, portions)
-2. **Chat assistant** — generates a fresh recipe when nothing matches the local collection
+1. **Recipe generation** — turns a list of ingredients and preferences into
+   complete recipes (steps, durations, portions).
+2. **Chat assistant** — generates a fresh recipe when nothing matches the
+   local collection.
 
-For the demo, users enter their own Groq API key (stored only in the browser's `localStorage`). In production this should run through a secure backend or an n8n webhook so the key never reaches the client.
+For the demo, users enter their own Groq API key, stored only in the browser's
+`localStorage`. In production this should run through a secure backend or an n8n
+webhook so the key never reaches the client.
 
-```
-Dev:        Angular → Angular Proxy → n8n Webhook → Groq
-Production:  Angular → Groq API (user-supplied key)
+```text
+Dev:         Angular → Angular Proxy → n8n Webhook → Groq
+Production:   Angular → Groq API (user-supplied key)
 ```
 
 ---
 
 ## 🔥 Firebase
 
-Firebase powers auth, data and hosting:
+Firebase powers authentication, data and hosting.
 
 - **Authentication** — Email/Password + Google provider
 - **Firestore** — each user owns their data under `users/{uid}/…`:
-  ```
+
+  ```text
   users/{uid}/recipes     # AI-generated recipes (library)
   users/{uid}/favorites   # favorited recipe ids
   users/{uid}/shopping    # shopping list items
   users/{uid}/profile     # display name + avatar
   ```
-- **Security Rules** ([firestore.rules](firestore.rules)) — users can only read/write their own subtree
-- **Hosting** — SSR build deployed to Firebase Hosting
+
+- **Security Rules** — users can only read/write their own subtree
+  (see [`firestore.rules`](firestore.rules))
+- **Hosting** — the SSR build is deployed to Firebase Hosting
 
 ---
 
 ## 🔗 n8n Workflow
 
-In local development, AI calls can be routed through an **n8n** workflow instead of calling Groq directly from the browser — demonstrating real-world workflow automation and keeping the API key server-side.
+In local development, AI calls can be routed through an **n8n** workflow instead
+of calling Groq directly from the browser — demonstrating real-world workflow
+automation and keeping the API key server-side.
 
-```
+```text
 Webhook → Code (build prompt) → HTTP Request (Groq API) → Response
 ```
 
-The Angular dev proxy ([proxy.conf.json](proxy.conf.json)) forwards `/n8n/*` to the local n8n instance. See [n8n/README.md](n8n/README.md) for setup. In production the app falls back to calling Groq directly.
+The Angular dev proxy ([`proxy.conf.json`](proxy.conf.json)) forwards `/n8n/*`
+to the local n8n instance. See [`n8n/README.md`](n8n/README.md) for setup.
+In production the app falls back to calling Groq directly.
 
 ---
 
@@ -100,7 +115,7 @@ The Angular dev proxy ([proxy.conf.json](proxy.conf.json)) forwards `/n8n/*` to 
 
 - Node.js 22+
 - npm 11+
-- A free [Groq API Key](https://console.groq.com/keys) (for AI generation/chat)
+- A free [Groq API Key](https://console.groq.com/keys) for the AI features
 
 ### Installation
 
@@ -114,7 +129,8 @@ npm install --legacy-peer-deps
 
 ### Environment Setup
 
-Create `src/environments/environment.ts` (and `environment.prod.ts`) — both are gitignored:
+Create `src/environments/environment.ts` and `environment.prod.ts`
+(both are gitignored):
 
 ```ts
 export const environment = {
@@ -148,7 +164,7 @@ N8N_SECURE_COOKIE=false npx n8n   # http://localhost:5678
 
 ## 📁 Project Structure
 
-```
+```text
 src/app/
 ├── core/
 │   ├── data/            # Local recipe dataset
@@ -173,12 +189,13 @@ src/app/
 
 ## 💡 What I Learned
 
-- Building a full Angular 22 app with **Standalone Components** and **Signals** (no NgRx)
+- Building a full Angular 22 app with **Standalone Components** and **Signals**
+  (no NgRx)
 - **Firebase Auth** (email + Google) with an SSR-safe route guard
 - Modeling **per-user data** in Firestore with security rules
 - Integrating an **LLM (Groq)** for generation and conversational search
 - **n8n** workflow automation bridged to Angular via a dev proxy
-- Deploying **Angular SSR** to Firebase Hosting and managing multiple hosting sites
+- Deploying **Angular SSR** to Firebase Hosting and managing multiple sites
 - Designing a resilient app that works even without external API quotas
 
 ---
