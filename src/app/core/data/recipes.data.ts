@@ -217,7 +217,7 @@ export const RECIPES: Recipe[] = [
   {
     id: '14',
     title: 'Falafel Wrap',
-    image: img('photo-1593001874117-c99c800e3eb7'),
+    image: img('photo-1615937691194-97dbd3f3dc29'),
     category: 'Wrap',
     cuisine: 'Middle Eastern',
     instructions:
