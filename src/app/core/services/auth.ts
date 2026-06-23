@@ -23,7 +23,13 @@ export class AuthService {
   loading = signal(true);
   avatarBase64 = signal<string>('');
 
+  /** Wird aufgelöst, sobald Firebase den ersten Auth-Status geliefert hat. */
+  readonly ready: Promise<void>;
+  private resolveReady!: () => void;
+
   constructor() {
+    this.ready = new Promise<void>((resolve) => (this.resolveReady = resolve));
+
     if (isPlatformBrowser(this.platformId)) {
       onAuthStateChanged(this.auth, (user) => {
         this.currentUser.set(user);
@@ -33,9 +39,11 @@ export class AuthService {
         } else {
           this.avatarBase64.set('');
         }
+        this.resolveReady();
       });
     } else {
       this.loading.set(false);
+      this.resolveReady();
     }
   }
 

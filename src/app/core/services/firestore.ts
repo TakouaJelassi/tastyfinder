@@ -3,16 +3,16 @@ import {
   Firestore,
   collection,
   addDoc,
-  collectionData,
+  getDocs,
+  getDoc,
   orderBy,
   query,
   doc,
   setDoc,
   deleteDoc,
-  docData,
   Timestamp,
 } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { AuthService } from './auth';
 import { GeneratedRecipe } from '../models/generated-recipe.interface';
 
@@ -39,7 +39,11 @@ export class FirestoreService {
     if (!uid) return of([]);
     const col = collection(this.firestore, `users/${uid}/recipes`);
     const q = query(col, orderBy('createdAt', 'desc'));
-    return collectionData(q, { idField: 'id' }) as Observable<GeneratedRecipe[]>;
+    return from(
+      getDocs(q).then((snap) =>
+        snap.docs.map((d) => ({ id: d.id, ...d.data() }) as GeneratedRecipe),
+      ),
+    );
   }
 
   // ── Favorites ─────────────────────────────────────────────────────────────
@@ -62,20 +66,14 @@ export class FirestoreService {
     const uid = this.uid;
     if (!uid) return of([]);
     const col = collection(this.firestore, `users/${uid}/favorites`);
-    return new Observable((observer) => {
-      collectionData(col, { idField: 'id' }).subscribe((docs: unknown[]) => {
-        observer.next((docs as { id: string }[]).map((d) => d.id));
-      });
-    });
+    return from(getDocs(col).then((snap) => snap.docs.map((d) => d.id)));
   }
 
   isFavorite(recipeId: string): Observable<boolean> {
     const uid = this.uid;
     if (!uid) return of(false);
     const ref = doc(this.firestore, `users/${uid}/favorites/${recipeId}`);
-    return new Observable((observer) => {
-      docData(ref).subscribe((data) => observer.next(!!data));
-    });
+    return from(getDoc(ref).then((snap) => snap.exists()));
   }
 
   // ── User Profile ──────────────────────────────────────────────────────────
@@ -91,6 +89,10 @@ export class FirestoreService {
     const uid = this.uid;
     if (!uid) return of(undefined);
     const ref = doc(this.firestore, `users/${uid}/profile/data`);
-    return docData(ref) as Observable<{ displayName?: string; avatarBase64?: string } | undefined>;
+    return from(
+      getDoc(ref).then((snap) =>
+        snap.exists() ? (snap.data() as { displayName?: string; avatarBase64?: string }) : undefined,
+      ),
+    );
   }
 }
