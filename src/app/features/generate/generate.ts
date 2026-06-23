@@ -78,7 +78,7 @@ export class Generate {
       return;
     }
     if (!this.aiService.hasApiKey()) {
-      this.error.set('Bitte zuerst einen Gemini API Key oben eingeben.');
+      this.error.set('Bitte zuerst einen Groq API Key oben eingeben.');
       return;
     }
 
@@ -133,7 +133,7 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
         raw = await this.aiService.generateRaw(prompt);
       }
       if (!raw || raw.trim() === '') {
-        this.error.set('Kein API Key aktiv oder ungültig. Bitte Gemini API Key oben eingeben.');
+        this.error.set('Kein API Key aktiv oder ungültig. Bitte Groq API Key oben eingeben.');
         this.loading.set(false);
         return;
       }

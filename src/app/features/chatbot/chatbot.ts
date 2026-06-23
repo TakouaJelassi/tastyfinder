@@ -44,7 +44,7 @@ export class Chatbot implements AfterViewChecked {
     this.results.set([]);
 
     if (!this.aiService.hasApiKey()) {
-      this.addMessage('bot', '⚠️ Bitte zuerst einen Gemini API Key oben eingeben.');
+      this.addMessage('bot', '⚠️ Bitte zuerst einen Groq API Key oben eingeben.');
       this.thinking.set(false);
       return;
     }

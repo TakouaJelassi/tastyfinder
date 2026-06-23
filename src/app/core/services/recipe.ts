@@ -17,8 +17,9 @@ const BASE = 'https://api.spoonacular.com';
 
 // Unterstützt mehrere Keys (Rotation bei Limit) und fällt auf den alten Einzel-Key zurück.
 const KEYS: string[] = (
-  (environment as { spoonacularApiKeys?: string[] }).spoonacularApiKeys ??
-  [(environment as { spoonacularApiKey?: string }).spoonacularApiKey]
+  (environment as { spoonacularApiKeys?: string[] }).spoonacularApiKeys ?? [
+    (environment as { spoonacularApiKey?: string }).spoonacularApiKey,
+  ]
 ).filter((k): k is string => !!k);
 
 // Cache: gespeicherte Antworten kosten keine API-Punkte mehr.

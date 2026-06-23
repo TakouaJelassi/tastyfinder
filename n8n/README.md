@@ -2,14 +2,14 @@
 
 ## recipe-chat
 
-Webhook → Code (build Gemini prompt) → HTTP Request (Gemini API) → Response
+Webhook → Code (build Groq prompt) → HTTP Request (Groq API) → Response
 
 ### Setup
 
 1. Start n8n: `n8n start`
 2. Open `http://localhost:5678`
 3. Import `recipe-chat.json`
-4. Add your Gemini API Key in the HTTP Request node URL
+4. Add your Groq API Key in the HTTP Request node URL
 5. Publish the workflow
 
 ### Webhook URL
@@ -25,4 +25,4 @@ Webhook → Code (build Gemini prompt) → HTTP Request (Gemini API) → Respons
 
 ### Response
 
-Returns Gemini API response with extracted English ingredients.
+Returns Groq API response with extracted English ingredients.
