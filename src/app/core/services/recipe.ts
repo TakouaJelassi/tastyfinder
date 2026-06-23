@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
@@ -13,7 +13,12 @@ import {
 } from '../models/recipe.interface';
 
 const BASE = 'https://api.spoonacular.com';
-const KEY = environment.spoonacularApiKey;
+
+// Unterstützt mehrere Keys (Rotation bei Limit) und fällt auf den alten Einzel-Key zurück.
+const KEYS: string[] = (
+  (environment as { spoonacularApiKeys?: string[] }).spoonacularApiKeys ??
+  [(environment as { spoonacularApiKey?: string }).spoonacularApiKey]
+).filter((k): k is string => !!k);
 
 const CUISINE_CATEGORIES: Category[] = [
   { id: '1', name: 'Italian' },
@@ -34,53 +39,73 @@ const CUISINE_CATEGORIES: Category[] = [
 export class RecipeService {
   private http = inject(HttpClient);
 
+  /**
+   * Führt einen GET aus und rotiert bei Erreichen des Tageslimits (HTTP 402)
+   * automatisch zum nächsten Spoonacular-Key.
+   */
+  private getWithKeyRotation<T>(url: string, params: HttpParams, keyIndex = 0): Observable<T> {
+    if (keyIndex >= KEYS.length) {
+      return throwError(() => new Error('Alle Spoonacular-Keys haben das Tageslimit erreicht.'));
+    }
+
+    const withKey = params.set('apiKey', KEYS[keyIndex]);
+    return this.http.get<T>(url, { params: withKey }).pipe(
+      catchError((err: HttpErrorResponse) => {
+        if (err.status === 402 && keyIndex + 1 < KEYS.length) {
+          return this.getWithKeyRotation<T>(url, params, keyIndex + 1);
+        }
+        return throwError(() => err);
+      }),
+    );
+  }
+
   searchByName(name: string): Observable<RecipePreview[]> {
     const params = new HttpParams()
-      .set('apiKey', KEY)
       .set('query', name)
       .set('number', '20')
       .set('addRecipeInformation', 'false');
 
-    return this.http
-      .get<SpoonacularSearchResponse>(`${BASE}/recipes/complexSearch`, { params })
-      .pipe(
-        map((res) => res.results.map(this.toPreview)),
-        catchError(() => of([])),
-      );
+    return this.getWithKeyRotation<SpoonacularSearchResponse>(
+      `${BASE}/recipes/complexSearch`,
+      params,
+    ).pipe(
+      map((res) => res.results.map(this.toPreview)),
+      catchError(() => of([])),
+    );
   }
 
   searchByIngredient(ingredient: string): Observable<RecipePreview[]> {
     const params = new HttpParams()
-      .set('apiKey', KEY)
       .set('ingredients', ingredient)
       .set('number', '20')
       .set('ranking', '1');
 
-    return this.http
-      .get<SpoonacularSearchResponse>(`${BASE}/recipes/findByIngredients`, { params })
-      .pipe(
-        map((res: any) => (Array.isArray(res) ? res : (res.results ?? [])).map(this.toPreview)),
-        catchError(() => of([])),
-      );
+    return this.getWithKeyRotation<SpoonacularSearchResponse>(
+      `${BASE}/recipes/findByIngredients`,
+      params,
+    ).pipe(
+      map((res: any) => (Array.isArray(res) ? res : (res.results ?? [])).map(this.toPreview)),
+      catchError(() => of([])),
+    );
   }
 
   getById(id: string): Observable<Recipe | null> {
-    const params = new HttpParams().set('apiKey', KEY);
-
-    return this.http
-      .get<SpoonacularRecipeDetail>(`${BASE}/recipes/${id}/information`, { params })
-      .pipe(
-        map((r) => this.toRecipe(r)),
-        catchError(() => of(null)),
-      );
+    return this.getWithKeyRotation<SpoonacularRecipeDetail>(
+      `${BASE}/recipes/${id}/information`,
+      new HttpParams(),
+    ).pipe(
+      map((r) => this.toRecipe(r)),
+      catchError(() => of(null)),
+    );
   }
 
   getRandom(): Observable<Recipe> {
-    const params = new HttpParams().set('apiKey', KEY).set('number', '1');
+    const params = new HttpParams().set('number', '1');
 
-    return this.http
-      .get<{ recipes: SpoonacularRecipeDetail[] }>(`${BASE}/recipes/random`, { params })
-      .pipe(map((res) => this.toRecipe(res.recipes[0])));
+    return this.getWithKeyRotation<{ recipes: SpoonacularRecipeDetail[] }>(
+      `${BASE}/recipes/random`,
+      params,
+    ).pipe(map((res) => this.toRecipe(res.recipes[0])));
   }
 
   getCategories(): Observable<Category[]> {
@@ -88,12 +113,13 @@ export class RecipeService {
   }
 
   getByCategory(category: string): Observable<RecipePreview[]> {
-    const params = new HttpParams().set('apiKey', KEY).set('cuisine', category).set('number', '20');
+    const params = new HttpParams().set('cuisine', category).set('number', '20');
 
-    return this.http
-      .get<SpoonacularSearchResponse>(`${BASE}/recipes/complexSearch`, { params })
-      .pipe(
-        map((res) => res.results.map(this.toPreview)),
+    return this.getWithKeyRotation<SpoonacularSearchResponse>(
+      `${BASE}/recipes/complexSearch`,
+      params,
+    ).pipe(
+      map((res) => res.results.map(this.toPreview)),
         catchError(() => of([])),
       );
   }
