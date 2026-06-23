@@ -38,7 +38,8 @@ export class N8nService {
 
     if (!apiKey) throw new Error('Kein API Key gesetzt.');
 
-    const prompt = `Du bist ein Profi-Koch. Generiere genau 3 unterschiedliche Rezeptvorschläge basierend auf diesen Zutaten: ${ingredients}.
+    const prompt = `Du bist ein Profi-Koch. Generiere genau 3 unterschiedliche Rezeptvorschläge \
+basierend auf diesen Zutaten: ${ingredients}.
 
 Präferenzen: ${preferences}
 

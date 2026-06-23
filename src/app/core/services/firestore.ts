@@ -28,7 +28,7 @@ export class FirestoreService {
     return this.auth.uid;
   }
 
-  // ── Generated Recipes (Library) ──────────────────────────────────────────
+  // ── Generated Recipes (Library) ──
 
   saveRecipe(recipe: Omit<GeneratedRecipe, 'id' | 'createdAt'>): Promise<void> {
     const uid = this.uid;
@@ -49,7 +49,7 @@ export class FirestoreService {
     );
   }
 
-  // ── Favorites ─────────────────────────────────────────────────────────────
+  // ── Favorites ──
 
   async addFavorite(recipeId: string): Promise<void> {
     const uid = this.uid;
@@ -79,7 +79,7 @@ export class FirestoreService {
     return from(getDoc(ref).then((snap) => snap.exists()));
   }
 
-  // ── User Profile ──────────────────────────────────────────────────────────
+  // ── User Profile ──
 
   async saveUserProfile(data: { displayName?: string; avatarBase64?: string }): Promise<void> {
     const uid = this.uid;
@@ -101,7 +101,7 @@ export class FirestoreService {
     );
   }
 
-  // ── Shopping List ───────────────────────────────────────────────────────────
+  // ── Shopping List ──
 
   getShoppingList(): Observable<ShoppingItem[]> {
     const uid = this.uid;

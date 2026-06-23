@@ -32,13 +32,19 @@ export class AiService {
   }
 
   async extractEnglishIngredients(userInput: string): Promise<string> {
-    const prompt = `Extract food ingredients from this text and translate them to English. Return only a comma-separated list of English ingredient names, nothing else. Text: "${userInput}"`;
+    const prompt =
+      'Extract food ingredients from this text and translate them to English. ' +
+      'Return only a comma-separated list of English ingredient names, nothing else. ' +
+      `Text: "${userInput}"`;
     const response = await this.callGroq(prompt);
     return response.text;
   }
 
   async summarizeRecipe(recipeName: string, instructions: string): Promise<string> {
-    const prompt = `Fasse dieses Rezept "${recipeName}" in 2-3 Sätzen zusammen und gib den Schwierigkeitsgrad an (Einfach/Mittel/Schwer). Anweisungen: ${instructions.substring(0, 500)}`;
+    const prompt =
+      `Fasse dieses Rezept "${recipeName}" in 2-3 Sätzen zusammen und gib den ` +
+      `Schwierigkeitsgrad an (Einfach/Mittel/Schwer). ` +
+      `Anweisungen: ${instructions.substring(0, 500)}`;
     const response = await this.callGroq(prompt);
     return response.text;
   }
@@ -46,7 +52,9 @@ export class AiService {
   async suggestRecipe(): Promise<string> {
     const hour = new Date().getHours();
     const mealTime = hour < 11 ? 'Frühstück' : hour < 15 ? 'Mittagessen' : 'Abendessen';
-    const prompt = `Schlage ein passendes Rezept für ${mealTime} vor. Nenne nur den Namen und einen kurzen Grund warum es passt.`;
+    const prompt =
+      `Schlage ein passendes Rezept für ${mealTime} vor. ` +
+      'Nenne nur den Namen und einen kurzen Grund warum es passt.';
     const response = await this.callGroq(prompt);
     return response.text;
   }
