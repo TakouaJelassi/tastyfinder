@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() =>
       initializeFirestore(getApp(), {
-        experimentalAutoDetectLongPolling: true,
+        experimentalForceLongPolling: true,
       }),
     ),
     provideAuth(() => getAuth()),
