@@ -22,6 +22,12 @@ export interface Category {
   name: string;
 }
 
+export interface ShoppingItem {
+  id: string;
+  name: string;
+  checked: boolean;
+}
+
 export interface SpoonacularSearchResult {
   id: number;
   title: string;

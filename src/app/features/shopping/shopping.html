@@ -1,0 +1,62 @@
+<div class="shopping-page">
+  <div class="shopping-header">
+    <h1>🛒 Einkaufsliste</h1>
+    <p>{{ items().length }} Artikel — {{ checkedCount }} erledigt</p>
+  </div>
+
+  <div class="container">
+    <form class="add-bar" (ngSubmit)="addItem()">
+      <input
+        type="text"
+        placeholder="Artikel hinzufügen (z. B. Tomaten)"
+        [ngModel]="newItem()"
+        (ngModelChange)="newItem.set($event)"
+        name="newItem"
+      />
+      <button type="submit" class="btn-add" [disabled]="!newItem().trim()">Hinzufügen</button>
+    </form>
+
+    @if (loading()) {
+      <div class="loading-wrap"><div class="spinner"></div></div>
+    } @else if (items().length === 0) {
+      <div class="empty">
+        <span class="empty-icon">🛒</span>
+        <h2>Deine Einkaufsliste ist leer</h2>
+        <p>Füge Artikel manuell hinzu oder öffne ein Rezept und tippe auf „Zur Einkaufsliste".</p>
+      </div>
+    } @else {
+      <ul class="list">
+        @for (item of items(); track item.id) {
+          <li class="list-item" [class.done]="item.checked">
+            <label class="item-label">
+              <input type="checkbox" [checked]="item.checked" (change)="toggle(item)" />
+              <span class="checkmark"></span>
+              <span class="item-name">{{ item.name }}</span>
+            </label>
+            <button class="btn-remove" (click)="remove(item)" aria-label="Entfernen">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="16"
+                height="16"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </li>
+        }
+      </ul>
+
+      @if (checkedCount > 0) {
+        <button class="btn-clear" (click)="clearChecked()">
+          {{ checkedCount }} erledigte entfernen
+        </button>
+      }
+    }
+  </div>
+</div>

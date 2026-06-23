@@ -84,6 +84,16 @@
               </li>
             }
           </ul>
+
+          @if (isLoggedIn && r.ingredients.length) {
+            <button class="btn-shopping" (click)="addToShoppingList()" [disabled]="addedToList()">
+              @if (addedToList()) {
+                ✓ Zur Einkaufsliste hinzugefügt
+              } @else {
+                🛒 Zutaten zur Einkaufsliste
+              }
+            </button>
+          }
         </div>
 
         <div class="instructions-section">

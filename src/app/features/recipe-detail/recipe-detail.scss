@@ -276,3 +276,30 @@ h2 {
     }
   }
 }
+
+.btn-shopping {
+  margin-top: 1.25rem;
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s;
+
+  &:hover:not(:disabled) {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  &:disabled {
+    background: #f0fdf4;
+    color: #15803d;
+    border-color: #bbf7d0;
+    cursor: default;
+  }
+}

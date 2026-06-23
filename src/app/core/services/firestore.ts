@@ -9,12 +9,15 @@ import {
   query,
   doc,
   setDoc,
+  updateDoc,
   deleteDoc,
+  writeBatch,
   Timestamp,
 } from '@angular/fire/firestore';
 import { Observable, from, of } from 'rxjs';
 import { AuthService } from './auth';
 import { GeneratedRecipe } from '../models/generated-recipe.interface';
+import { ShoppingItem } from '../models/recipe.interface';
 
 @Injectable({ providedIn: 'root' })
 export class FirestoreService {
@@ -96,5 +99,63 @@ export class FirestoreService {
           : undefined,
       ),
     );
+  }
+
+  // ── Shopping List ───────────────────────────────────────────────────────────
+
+  getShoppingList(): Observable<ShoppingItem[]> {
+    const uid = this.uid;
+    if (!uid) return of([]);
+    const col = collection(this.firestore, `users/${uid}/shopping`);
+    return from(
+      getDocs(col).then((snap) =>
+        snap.docs
+          .map((d) => ({ id: d.id, ...(d.data() as Omit<ShoppingItem, 'id'>) }))
+          .sort((a, b) => Number(a.checked) - Number(b.checked)),
+      ),
+    );
+  }
+
+  /** Fügt mehrere Zutaten auf einmal hinzu (Duplikate werden übersprungen). */
+  async addShoppingItems(names: string[]): Promise<void> {
+    const uid = this.uid;
+    if (!uid || names.length === 0) return;
+    const col = collection(this.firestore, `users/${uid}/shopping`);
+
+    const existing = await getDocs(col);
+    const existingNames = new Set(
+      existing.docs.map((d) => (d.data()['name'] as string)?.toLowerCase().trim()),
+    );
+
+    const batch = writeBatch(this.firestore);
+    for (const name of names) {
+      const clean = name.trim();
+      if (!clean || existingNames.has(clean.toLowerCase())) continue;
+      existingNames.add(clean.toLowerCase());
+      batch.set(doc(col), { name: clean, checked: false, createdAt: Timestamp.now() });
+    }
+    await batch.commit();
+  }
+
+  async toggleShoppingItem(id: string, checked: boolean): Promise<void> {
+    const uid = this.uid;
+    if (!uid) return;
+    await updateDoc(doc(this.firestore, `users/${uid}/shopping/${id}`), { checked });
+  }
+
+  async removeShoppingItem(id: string): Promise<void> {
+    const uid = this.uid;
+    if (!uid) return;
+    await deleteDoc(doc(this.firestore, `users/${uid}/shopping/${id}`));
+  }
+
+  async clearCheckedShoppingItems(): Promise<void> {
+    const uid = this.uid;
+    if (!uid) return;
+    const col = collection(this.firestore, `users/${uid}/shopping`);
+    const snap = await getDocs(col);
+    const batch = writeBatch(this.firestore);
+    snap.docs.filter((d) => d.data()['checked'] === true).forEach((d) => batch.delete(d.ref));
+    await batch.commit();
   }
 }

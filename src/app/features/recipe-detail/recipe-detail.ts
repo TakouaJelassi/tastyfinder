@@ -3,6 +3,8 @@ import { Location } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RecipeService } from '../../core/services/recipe';
 import { AiService } from '../../core/services/ai';
+import { FirestoreService } from '../../core/services/firestore';
+import { AuthService } from '../../core/services/auth';
 import { Recipe } from '../../core/models/recipe.interface';
 
 @Component({
@@ -16,6 +18,8 @@ export class RecipeDetail implements OnInit {
 
   private recipeService = inject(RecipeService);
   private aiService = inject(AiService);
+  private firestoreService = inject(FirestoreService);
+  private authService = inject(AuthService);
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
 
@@ -23,6 +27,19 @@ export class RecipeDetail implements OnInit {
   loading = signal(true);
   aiSummary = signal('');
   aiLoading = signal(false);
+  addedToList = signal(false);
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn;
+  }
+
+  async addToShoppingList(): Promise<void> {
+    const recipe = this.recipe();
+    if (!recipe || !this.isLoggedIn) return;
+    await this.firestoreService.addShoppingItems(recipe.ingredients);
+    this.addedToList.set(true);
+    setTimeout(() => this.addedToList.set(false), 2500);
+  }
 
   ngOnInit(): void {
     this.recipeService.getById(this.id()).subscribe((recipe) => {
