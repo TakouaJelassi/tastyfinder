@@ -1,10 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { updateProfile, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from '@angular/fire/auth';
-import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 import { Auth } from '@angular/fire/auth';
 import { AuthService } from '../../core/services/auth';
+import { FirestoreService } from '../../core/services/firestore';
 
 @Component({
   selector: 'app-profile',
@@ -12,15 +12,14 @@ import { AuthService } from '../../core/services/auth';
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
-export class Profile {
+export class Profile implements OnInit {
   private auth = inject(Auth);
-  private storage = inject(Storage);
   authService = inject(AuthService);
+  private firestoreService = inject(FirestoreService);
   private router = inject(Router);
 
   name = signal(this.authService.currentUser()?.displayName ?? '');
-  avatarPreview = signal(this.authService.currentUser()?.photoURL ?? '');
-  selectedFile = signal<File | null>(null);
+  avatarBase64 = signal(this.authService.currentUser()?.photoURL ?? '');
 
   currentPassword = signal('');
   newPassword = signal('');
@@ -33,13 +32,28 @@ export class Profile {
   passwordError = signal('');
   passwordSuccess = signal('');
 
+  ngOnInit(): void {
+    this.firestoreService.getUserProfile().subscribe((profile) => {
+      if (profile?.displayName) this.name.set(profile.displayName);
+      if (profile?.avatarBase64) {
+        this.avatarBase64.set(profile.avatarBase64);
+        this.authService.avatarBase64.set(profile.avatarBase64);
+      }
+    });
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (!file) return;
-    this.selectedFile.set(file);
+
+    if (file.size > 1024 * 1024) {
+      this.errorMsg.set('Bild zu groß — maximal 1 MB erlaubt.');
+      return;
+    }
+
     const reader = new FileReader();
-    reader.onload = (e) => this.avatarPreview.set(e.target?.result as string);
+    reader.onload = (e) => this.avatarBase64.set(e.target?.result as string);
     reader.readAsDataURL(file);
   }
 
@@ -51,20 +65,13 @@ export class Profile {
     this.errorMsg.set('');
 
     try {
-      let photoURL = user.photoURL ?? '';
-
-      if (this.selectedFile()) {
-        const storageRef = ref(this.storage, `avatars/${user.uid}`);
-        await uploadBytes(storageRef, this.selectedFile()!);
-        photoURL = await getDownloadURL(storageRef);
-      }
-
-      await updateProfile(user, {
+      await updateProfile(user, { displayName: this.name() });
+      await this.firestoreService.saveUserProfile({
         displayName: this.name(),
-        photoURL: photoURL || undefined,
+        avatarBase64: this.avatarBase64(),
       });
-
-      this.authService.currentUser.set({ ...user, displayName: this.name(), photoURL } as typeof user);
+      this.authService.currentUser.set({ ...user, displayName: this.name() } as typeof user);
+      this.authService.avatarBase64.set(this.avatarBase64());
       this.successMsg.set('Profil erfolgreich gespeichert!');
     } catch {
       this.errorMsg.set('Fehler beim Speichern. Bitte erneut versuchen.');

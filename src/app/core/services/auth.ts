@@ -19,6 +19,7 @@ export class AuthService {
 
   currentUser = signal<User | null>(null);
   loading = signal(true);
+  avatarBase64 = signal<string>('');
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {

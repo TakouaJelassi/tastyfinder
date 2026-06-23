@@ -77,4 +77,20 @@ export class FirestoreService {
       docData(ref).subscribe((data) => observer.next(!!data));
     });
   }
+
+  // ── User Profile ──────────────────────────────────────────────────────────
+
+  async saveUserProfile(data: { displayName?: string; avatarBase64?: string }): Promise<void> {
+    const uid = this.uid;
+    if (!uid) return;
+    const ref = doc(this.firestore, `users/${uid}/profile/data`);
+    await setDoc(ref, data, { merge: true });
+  }
+
+  getUserProfile(): Observable<{ displayName?: string; avatarBase64?: string } | undefined> {
+    const uid = this.uid;
+    if (!uid) return of(undefined);
+    const ref = doc(this.firestore, `users/${uid}/profile/data`);
+    return docData(ref) as Observable<{ displayName?: string; avatarBase64?: string } | undefined>;
+  }
 }

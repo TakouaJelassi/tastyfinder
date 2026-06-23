@@ -48,8 +48,8 @@
       } @else if (authService.isLoggedIn) {
         <div class="user-menu-wrapper">
           <button class="avatar-btn" (click)="toggleUserMenu()" [attr.aria-label]="'Benutzermenü'">
-            @if (authService.currentUser()?.photoURL) {
-              <img [src]="authService.currentUser()!.photoURL!" alt="Avatar" class="avatar-img" />
+            @if (authService.avatarBase64()) {
+              <img [src]="authService.avatarBase64()" alt="Avatar" class="avatar-img" />
             } @else {
               <span class="avatar-initial">{{ userInitial }}</span>
             }

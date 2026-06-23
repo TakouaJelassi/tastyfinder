@@ -4,8 +4,8 @@
     <div class="profile-card avatar-card">
       <div class="avatar-section">
         <div class="avatar-wrap">
-          @if (avatarPreview()) {
-            <img [src]="avatarPreview()" alt="Avatar" class="avatar-img" />
+          @if (avatarBase64()) {
+            <img [src]="avatarBase64()" alt="Avatar" class="avatar-img" />
           } @else {
             <span class="avatar-initial">{{ userInitial }}</span>
           }
@@ -53,11 +53,7 @@
             <circle cx="8.5" cy="8.5" r="1.5" />
             <polyline points="21 15 16 10 5 21" />
           </svg>
-          @if (selectedFile()) {
-            <span>{{ selectedFile()!.name }}</span>
-          } @else {
-            <span>Bild auswählen (JPG, PNG, max. 5 MB)</span>
-          }
+          <span>Bild auswählen (JPG, PNG, max. 1 MB)</span>
           <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
         </label>
       </div>
