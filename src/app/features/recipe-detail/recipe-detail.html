@@ -5,7 +5,7 @@
   </div>
 } @else if (recipe(); as r) {
   <div class="detail">
-    <div class="detail-hero" [style.backgroundImage]="'url(' + r.strMealThumb + ')'">
+    <div class="detail-hero" [style.backgroundImage]="'url(' + r.image + ')'">
       <div class="hero-overlay">
         <button class="back-btn" (click)="goBack()">
           <svg
@@ -23,10 +23,10 @@
         </button>
         <div class="hero-info">
           <div class="badges">
-            <span class="badge">{{ r.strCategory }}</span>
-            <span class="badge badge-area">{{ r.strArea }}</span>
+            <span class="badge">{{ r.category }}</span>
+            <span class="badge badge-area">{{ r.cuisine }}</span>
           </div>
-          <h1>{{ r.strMeal }}</h1>
+          <h1>{{ r.title }}</h1>
         </div>
       </div>
     </div>
@@ -79,12 +79,6 @@
           <ul class="ingredients-list">
             @for (ingredient of r.ingredients; track $index) {
               <li>
-                <img
-                  [src]="
-                    'https://www.themealdb.com/images/ingredients/' + ingredient + '-Small.png'
-                  "
-                  [alt]="ingredient"
-                />
                 <span class="measure">{{ r.measures[$index] }}</span>
                 <span class="ingredient-name">{{ ingredient }}</span>
               </li>
@@ -110,11 +104,11 @@
             </svg>
             Zubereitung
           </h2>
-          <p class="instructions">{{ r.strInstructions }}</p>
+          <p class="instructions">{{ r.instructions }}</p>
         </div>
       </div>
 
-      @if (r.strYoutube) {
+      @if (r.video) {
         <div class="video-section">
           <h2>
             <svg
@@ -132,7 +126,7 @@
           </h2>
           <div class="video-wrap">
             <iframe
-              [src]="getYoutubeUrl(r.strYoutube)"
+              [src]="getYoutubeUrl(r.video)"
               frameborder="0"
               allowfullscreen
               title="Rezept Video"

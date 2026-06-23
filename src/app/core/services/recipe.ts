@@ -8,6 +8,7 @@ import {
   RecipePreview,
   Category,
   SpoonacularSearchResponse,
+  SpoonacularSearchResult,
   SpoonacularRecipeDetail,
 } from '../models/recipe.interface';
 
@@ -15,28 +16,18 @@ const BASE = 'https://api.spoonacular.com';
 const KEY = environment.spoonacularApiKey;
 
 const CUISINE_CATEGORIES: Category[] = [
-  { idCategory: '1', strCategory: 'Italian', strCategoryThumb: '', strCategoryDescription: '' },
-  { idCategory: '2', strCategory: 'Asian', strCategoryThumb: '', strCategoryDescription: '' },
-  { idCategory: '3', strCategory: 'Mexican', strCategoryThumb: '', strCategoryDescription: '' },
-  { idCategory: '4', strCategory: 'American', strCategoryThumb: '', strCategoryDescription: '' },
-  { idCategory: '5', strCategory: 'French', strCategoryThumb: '', strCategoryDescription: '' },
-  {
-    idCategory: '6',
-    strCategory: 'Mediterranean',
-    strCategoryThumb: '',
-    strCategoryDescription: '',
-  },
-  { idCategory: '7', strCategory: 'Indian', strCategoryThumb: '', strCategoryDescription: '' },
-  { idCategory: '8', strCategory: 'Japanese', strCategoryThumb: '', strCategoryDescription: '' },
-  { idCategory: '9', strCategory: 'Chinese', strCategoryThumb: '', strCategoryDescription: '' },
-  { idCategory: '10', strCategory: 'Greek', strCategoryThumb: '', strCategoryDescription: '' },
-  { idCategory: '11', strCategory: 'Spanish', strCategoryThumb: '', strCategoryDescription: '' },
-  {
-    idCategory: '12',
-    strCategory: 'Middle Eastern',
-    strCategoryThumb: '',
-    strCategoryDescription: '',
-  },
+  { id: '1', name: 'Italian' },
+  { id: '2', name: 'Asian' },
+  { id: '3', name: 'Mexican' },
+  { id: '4', name: 'American' },
+  { id: '5', name: 'French' },
+  { id: '6', name: 'Mediterranean' },
+  { id: '7', name: 'Indian' },
+  { id: '8', name: 'Japanese' },
+  { id: '9', name: 'Chinese' },
+  { id: '10', name: 'Greek' },
+  { id: '11', name: 'Spanish' },
+  { id: '12', name: 'Middle Eastern' },
 ];
 
 @Injectable({ providedIn: 'root' })
@@ -107,11 +98,11 @@ export class RecipeService {
       );
   }
 
-  private toPreview(r: any): RecipePreview {
+  private toPreview(r: SpoonacularSearchResult): RecipePreview {
     return {
-      idMeal: String(r.id),
-      strMeal: r.title,
-      strMealThumb: r.image ?? '',
+      id: String(r.id),
+      title: r.title,
+      image: r.image ?? '',
     };
   }
 
@@ -124,14 +115,14 @@ export class RecipeService {
       : 'Keine Anleitung verfügbar.';
 
     return {
-      idMeal: String(r.id),
-      strMeal: r.title,
-      strMealThumb: r.image,
-      strCategory: r.dishTypes?.[0] ?? '',
-      strArea: r.cuisines?.[0] ?? '',
-      strInstructions: instructions,
-      strYoutube: '',
-      strTags: r.diets?.join(', ') ?? '',
+      id: String(r.id),
+      title: r.title,
+      image: r.image,
+      category: r.dishTypes?.[0] ?? '',
+      cuisine: r.cuisines?.[0] ?? '',
+      instructions,
+      video: '',
+      tags: r.diets?.join(', ') ?? '',
       ingredients,
       measures,
     };

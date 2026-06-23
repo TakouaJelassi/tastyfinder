@@ -4,10 +4,10 @@
   role="button"
   tabindex="0"
   (keydown.enter)="openDetail()"
-  [attr.aria-label]="recipe().strMeal"
+  [attr.aria-label]="recipe().title"
 >
   <div class="card-img-wrap">
-    <img [src]="recipe().strMealThumb" [alt]="recipe().strMeal" loading="lazy" />
+    <img [src]="recipe().image" [alt]="recipe().title" loading="lazy" />
     <div class="card-overlay"></div>
     <button
       class="fav-btn"
@@ -29,6 +29,6 @@
     </button>
   </div>
   <div class="card-body">
-    <h3 class="card-title">{{ recipe().strMeal }}</h3>
+    <h3 class="card-title">{{ recipe().title }}</h3>
   </div>
 </article>

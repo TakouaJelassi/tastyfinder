@@ -52,7 +52,9 @@ export class AuthService {
     try {
       const ref = doc(this.firestore, `users/${user.uid}/profile/data`);
       const snap = await getDoc(ref);
-      const stored = snap.exists() ? (snap.data()['avatarBase64'] as string | undefined) : undefined;
+      const stored = snap.exists()
+        ? (snap.data()['avatarBase64'] as string | undefined)
+        : undefined;
       this.avatarBase64.set(stored || user.photoURL || '');
     } catch {
       this.avatarBase64.set(user.photoURL || '');

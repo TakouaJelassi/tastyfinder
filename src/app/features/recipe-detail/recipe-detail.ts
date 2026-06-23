@@ -43,7 +43,7 @@ export class RecipeDetail implements OnInit {
 
   private async loadAiSummary(recipe: Recipe): Promise<void> {
     this.aiLoading.set(true);
-    const summary = await this.aiService.summarizeRecipe(recipe.strMeal, recipe.strInstructions);
+    const summary = await this.aiService.summarizeRecipe(recipe.title, recipe.instructions);
     this.aiSummary.set(summary);
     this.aiLoading.set(false);
   }

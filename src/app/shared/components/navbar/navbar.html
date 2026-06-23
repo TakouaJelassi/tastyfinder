@@ -7,14 +7,28 @@
 
     <div class="nav-links">
       <a routerLink="/home" routerLinkActive="active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
           <polyline points="9 22 9 12 15 12 15 22" />
         </svg>
         Rezepte
       </a>
       <a routerLink="/generate" routerLinkActive="active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M12 2L2 7l10 5 10-5-10-5z" />
           <path d="M2 17l10 5 10-5" />
           <path d="M2 12l10 5 10-5" />
@@ -22,20 +36,43 @@
         Generieren
       </a>
       <a routerLink="/library" routerLinkActive="active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
           <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
         </svg>
         Bibliothek
       </a>
       <a routerLink="/favorites" routerLinkActive="active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+          />
         </svg>
         Favoriten
       </a>
       <a routerLink="/chat" routerLinkActive="active">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
         </svg>
         AI Chat
@@ -57,11 +94,22 @@
           @if (userMenuOpen()) {
             <div class="user-dropdown">
               <div class="user-info">
-                <span class="user-name">{{ authService.currentUser()?.displayName || 'Benutzer' }}</span>
+                <span class="user-name">{{
+                  authService.currentUser()?.displayName || 'Benutzer'
+                }}</span>
                 <span class="user-email">{{ authService.currentUser()?.email }}</span>
               </div>
               <a routerLink="/profile" class="dropdown-item" (click)="userMenuOpen.set(false)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  width="16"
+                  height="16"
+                >
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />
                 </svg>
@@ -69,7 +117,16 @@
               </a>
               <hr />
               <button class="dropdown-item logout" (click)="logout()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  width="16"
+                  height="16"
+                >
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                   <polyline points="16 17 21 12 16 7" />
                   <line x1="21" y1="12" x2="9" y2="12" />
@@ -84,7 +141,14 @@
       }
 
       <button class="menu-toggle" aria-label="Menü öffnen" (click)="toggleMenu()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <line x1="3" y1="6" x2="21" y2="6" />
           <line x1="3" y1="12" x2="21" y2="12" />
           <line x1="3" y1="18" x2="21" y2="18" />
@@ -99,7 +163,7 @@
     <a routerLink="/library" routerLinkActive="active" (click)="closeMenu()">Bibliothek</a>
     <a routerLink="/favorites" routerLinkActive="active" (click)="closeMenu()">Favoriten</a>
     <a routerLink="/chat" routerLinkActive="active" (click)="closeMenu()">AI Chat</a>
-    <hr style="border-color: var(--border); margin: 0.5rem 0;" />
+    <hr style="border-color: var(--border); margin: 0.5rem 0" />
     @if (authService.isLoggedIn) {
       <button class="mobile-logout" (click)="logout(); closeMenu()">Abmelden</button>
     } @else {
@@ -107,4 +171,3 @@
     }
   </div>
 </nav>
-

@@ -156,7 +156,9 @@
   cursor: pointer;
   color: var(--text-muted);
   font-size: 0.9rem;
-  transition: border-color 0.18s, background 0.18s;
+  transition:
+    border-color 0.18s,
+    background 0.18s;
 
   &:hover {
     border-color: var(--primary);
@@ -245,5 +247,7 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }

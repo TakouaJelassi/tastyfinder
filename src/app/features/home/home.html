@@ -48,13 +48,13 @@
         <h2>Kategorien</h2>
       </div>
       <div class="categories">
-        @for (cat of categories(); track cat.idCategory) {
+        @for (cat of categories(); track cat.id) {
           <button
             class="cat-chip"
-            [class.active]="selectedCategory() === cat.strCategory"
-            (click)="onCategorySelect(cat.strCategory)"
+            [class.active]="selectedCategory() === cat.name"
+            (click)="onCategorySelect(cat.name)"
           >
-            {{ cat.strCategory }}
+            {{ cat.name }}
           </button>
         }
       </div>
@@ -78,7 +78,7 @@
         @if (loading()) {
           <app-skeleton-loader />
         } @else {
-          @for (recipe of recipes(); track recipe.idMeal) {
+          @for (recipe of recipes(); track recipe.id) {
             <app-recipe-card [recipe]="recipe" />
           } @empty {
             <div class="empty-state">

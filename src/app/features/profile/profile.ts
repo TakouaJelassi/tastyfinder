@@ -1,7 +1,12 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { updateProfile, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from '@angular/fire/auth';
+import {
+  updateProfile,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from '@angular/fire/auth';
 import { Auth } from '@angular/fire/auth';
 import { AuthService } from '../../core/services/auth';
 import { FirestoreService } from '../../core/services/firestore';
@@ -145,7 +150,8 @@ export class Profile implements OnInit {
   }
 
   get userInitial(): string {
-    const name = this.authService.currentUser()?.displayName ?? this.authService.currentUser()?.email ?? '?';
+    const name =
+      this.authService.currentUser()?.displayName ?? this.authService.currentUser()?.email ?? '?';
     return name.charAt(0).toUpperCase();
   }
 

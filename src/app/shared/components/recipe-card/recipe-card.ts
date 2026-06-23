@@ -22,7 +22,7 @@ export class RecipeCard implements OnInit {
 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn) return;
-    this.firestoreService.isFavorite(this.recipe().idMeal).subscribe((val) => {
+    this.firestoreService.isFavorite(this.recipe().id).subscribe((val) => {
       this.isFavorite.set(val);
     });
   }
@@ -30,7 +30,7 @@ export class RecipeCard implements OnInit {
   async toggleFavorite(event: Event): Promise<void> {
     event.stopPropagation();
     if (!this.authService.isLoggedIn) return;
-    const id = this.recipe().idMeal;
+    const id = this.recipe().id;
     if (this.isFavorite()) {
       await this.firestoreService.removeFavorite(id);
       this.isFavorite.set(false);
@@ -42,6 +42,6 @@ export class RecipeCard implements OnInit {
   }
 
   openDetail(): void {
-    this.router.navigate(['/recipe', this.recipe().idMeal]);
+    this.router.navigate(['/recipe', this.recipe().id]);
   }
 }

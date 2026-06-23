@@ -91,7 +91,9 @@ export class FirestoreService {
     const ref = doc(this.firestore, `users/${uid}/profile/data`);
     return from(
       getDoc(ref).then((snap) =>
-        snap.exists() ? (snap.data() as { displayName?: string; avatarBase64?: string }) : undefined,
+        snap.exists()
+          ? (snap.data() as { displayName?: string; avatarBase64?: string })
+          : undefined,
       ),
     );
   }

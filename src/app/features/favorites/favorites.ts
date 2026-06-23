@@ -31,9 +31,9 @@ export class Favorites implements OnInit {
         const previews: RecipePreview[] = results
           .filter((r) => r !== null)
           .map((r) => ({
-            idMeal: r!.idMeal,
-            strMeal: r!.strMeal,
-            strMealThumb: r!.strMealThumb,
+            id: r!.id,
+            title: r!.title,
+            image: r!.image,
           }));
         this.recipes.set(previews);
         this.loading.set(false);
@@ -42,6 +42,6 @@ export class Favorites implements OnInit {
   }
 
   onFavoriteToggled(id: string): void {
-    this.recipes.update((list) => list.filter((r) => r.idMeal !== id));
+    this.recipes.update((list) => list.filter((r) => r.id !== id));
   }
 }
