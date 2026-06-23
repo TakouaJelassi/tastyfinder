@@ -3,12 +3,15 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AiService } from '../../core/services/ai';
 import { RecipeService } from '../../core/services/recipe';
+import { FirestoreService } from '../../core/services/firestore';
 import { ChatMessage } from '../../core/models/chat.interface';
 import { RecipePreview } from '../../core/models/recipe.interface';
+import { GeneratedRecipe } from '../../core/models/generated-recipe.interface';
 import { onImageError } from '../../shared/image-fallback';
 
 interface ChatTurn extends ChatMessage {
   recipes?: RecipePreview[];
+  generated?: GeneratedRecipe;
 }
 
 @Component({
@@ -22,6 +25,7 @@ export class Chatbot implements AfterViewChecked {
 
   private aiService = inject(AiService);
   private recipeService = inject(RecipeService);
+  private firestoreService = inject(FirestoreService);
   private router = inject(Router);
 
   userInput = signal('');
@@ -61,8 +65,31 @@ export class Chatbot implements AfterViewChecked {
 
     try {
       const recipes = await this.search(text);
-      const reply = await this.buildReply(text, recipes);
-      this.addMessage('bot', reply, recipes.slice(0, 6));
+
+      if (recipes.length > 0) {
+        const reply = await this.buildReply(text, recipes);
+        this.addMessage('bot', reply, recipes.slice(0, 6));
+      } else if (this.aiService.hasApiKey()) {
+        const generated = await this.generateRecipe(text);
+        if (generated) {
+          this.addMessage(
+            'bot',
+            `In der Sammlung war nichts Passendes — ich habe dir ein neues Rezept erstellt: „${generated.title}"`,
+            undefined,
+            generated,
+          );
+        } else {
+          this.addMessage(
+            'bot',
+            'Ich konnte gerade kein Rezept erstellen. Formuliere es bitte etwas anders.',
+          );
+        }
+      } else {
+        this.addMessage(
+          'bot',
+          'Dazu habe ich kein Rezept in der Sammlung. Mit einem Groq API Key (oben) erstelle ich dir gerne ein neues Rezept.',
+        );
+      }
     } catch {
       this.addMessage('bot', 'Ein Fehler ist aufgetreten. Bitte versuche es erneut.');
     }
@@ -72,6 +99,37 @@ export class Chatbot implements AfterViewChecked {
 
   openRecipe(id: string): void {
     this.router.navigate(['/recipe', id]);
+  }
+
+  async addGeneratedToShopping(recipe: GeneratedRecipe): Promise<void> {
+    await this.firestoreService.addShoppingItems(recipe.ingredients);
+    this.addMessage('bot', `✓ Zutaten für „${recipe.title}" wurden zur Einkaufsliste hinzugefügt.`);
+  }
+
+  /** Generiert per Groq ein einzelnes Rezept aus der freien Anfrage. */
+  private async generateRecipe(query: string): Promise<GeneratedRecipe | null> {
+    const prompt = `Du bist ein Profi-Koch. Erstelle EIN Rezept passend zu dieser Anfrage: "${query}".
+Antworte NUR mit einem validen JSON-Objekt ohne Markdown, genau in diesem Format:
+{
+  "title": "Rezeptname",
+  "ingredients": ["Zutat 1", "Zutat 2"],
+  "missingIngredients": [],
+  "steps": [{ "step": 1, "description": "Schritt", "parallel": false, "assignedTo": 1 }],
+  "duration": "30 Min",
+  "difficulty": "Einfach",
+  "cuisine": "Italienisch",
+  "diet": "none",
+  "portions": 2
+}`;
+    try {
+      const raw = await this.aiService.generateRaw(prompt);
+      const cleaned = raw.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(cleaned) as GeneratedRecipe;
+      if (!parsed?.title || !Array.isArray(parsed.ingredients)) return null;
+      return parsed;
+    } catch {
+      return null;
+    }
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -111,8 +169,16 @@ export class Chatbot implements AfterViewChecked {
     });
   }
 
-  private addMessage(sender: 'user' | 'bot', text: string, recipes?: RecipePreview[]): void {
-    this.messages.update((msgs) => [...msgs, { sender, text, timestamp: new Date(), recipes }]);
+  private addMessage(
+    sender: 'user' | 'bot',
+    text: string,
+    recipes?: RecipePreview[],
+    generated?: GeneratedRecipe,
+  ): void {
+    this.messages.update((msgs) => [
+      ...msgs,
+      { sender, text, timestamp: new Date(), recipes, generated },
+    ]);
   }
 
   private scrollToBottom(): void {
