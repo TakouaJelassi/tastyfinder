@@ -47,14 +47,41 @@ export class Profile implements OnInit {
     const file = input.files?.[0];
     if (!file) return;
 
-    if (file.size > 1024 * 1024) {
-      this.errorMsg.set('Bild zu groß — maximal 1 MB erlaubt.');
+    if (!file.type.startsWith('image/')) {
+      this.errorMsg.set('Bitte eine Bilddatei auswählen.');
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => this.avatarBase64.set(e.target?.result as string);
-    reader.readAsDataURL(file);
+    this.errorMsg.set('');
+    this.resizeImage(file, 256)
+      .then((dataUrl) => this.avatarBase64.set(dataUrl))
+      .catch(() => this.errorMsg.set('Bild konnte nicht verarbeitet werden.'));
+  }
+
+  /** Verkleinert das Bild auf max. `size`px (quadratisch, zentriert) und gibt ein JPEG-DataURL zurück. */
+  private resizeImage(file: File, size: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
+          if (!ctx) return reject();
+          const minSide = Math.min(img.width, img.height);
+          const sx = (img.width - minSide) / 2;
+          const sy = (img.height - minSide) / 2;
+          ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, size, size);
+          resolve(canvas.toDataURL('image/jpeg', 0.8));
+        };
+        img.onerror = reject;
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   }
 
   async saveProfile(): Promise<void> {
