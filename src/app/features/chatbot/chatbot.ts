@@ -5,6 +5,11 @@ import { AiService } from '../../core/services/ai';
 import { RecipeService } from '../../core/services/recipe';
 import { ChatMessage } from '../../core/models/chat.interface';
 import { RecipePreview } from '../../core/models/recipe.interface';
+import { onImageError } from '../../shared/image-fallback';
+
+interface ChatTurn extends ChatMessage {
+  recipes?: RecipePreview[];
+}
 
 @Component({
   selector: 'app-chatbot',
@@ -20,18 +25,30 @@ export class Chatbot implements AfterViewChecked {
   private router = inject(Router);
 
   userInput = signal('');
-  messages = signal<ChatMessage[]>([
+  thinking = signal(false);
+  onImageError = onImageError;
+  messages = signal<ChatTurn[]>([
     {
       sender: 'bot',
-      text: '👋 Hallo! Ich helfe dir Rezepte zu finden. Schreib z.B. "Ich habe Hühnchen und Tomaten" oder "Was kann ich heute kochen?"',
+      text: '👋 Hallo! Ich helfe dir, das passende Rezept zu finden. Schreib mir, welche Zutaten du hast oder worauf du Lust hast.',
       timestamp: new Date(),
     },
   ]);
-  results = signal<RecipePreview[]>([]);
-  thinking = signal(false);
+
+  readonly quickPrompts = [
+    'Ich habe Hähnchen und Tomaten',
+    'Etwas Vegetarisches',
+    'Italienisch',
+    'Eine Suppe',
+  ];
 
   ngAfterViewChecked(): void {
     this.scrollToBottom();
+  }
+
+  sendQuick(prompt: string): void {
+    this.userInput.set(prompt);
+    this.send();
   }
 
   async send(): Promise<void> {
@@ -41,49 +58,11 @@ export class Chatbot implements AfterViewChecked {
     this.addMessage('user', text);
     this.userInput.set('');
     this.thinking.set(true);
-    this.results.set([]);
-
-    if (!this.aiService.hasApiKey()) {
-      this.addMessage('bot', '⚠️ Bitte zuerst einen Groq API Key oben eingeben.');
-      this.thinking.set(false);
-      return;
-    }
 
     try {
-      const englishIngredients =
-        (await this.extractViaN8n(text)) || (await this.aiService.extractEnglishIngredients(text));
-
-      const firstIngredient = englishIngredients?.split(',')[0]?.trim();
-
-      if (!firstIngredient) {
-        this.addMessage(
-          'bot',
-          'Ich konnte keine Zutaten erkennen. Versuche z.B. "Ich habe Hühnchen und Tomaten".',
-        );
-        this.thinking.set(false);
-        return;
-      }
-
-      const meals = await this.searchByIngredient(firstIngredient);
-
-      if (meals.length > 0) {
-        this.addMessage(
-          'bot',
-          `Mit "${firstIngredient}" habe ich ${meals.length} Rezepte gefunden:`,
-        );
-        this.results.set(meals.slice(0, 8));
-      } else {
-        const byName = await this.searchByName(firstIngredient);
-        if (byName.length > 0) {
-          this.addMessage('bot', `${byName.length} Rezepte gefunden:`);
-          this.results.set(byName.slice(0, 8));
-        } else {
-          this.addMessage(
-            'bot',
-            `Keine Rezepte mit "${firstIngredient}" gefunden. Versuche andere Zutaten.`,
-          );
-        }
-      }
+      const recipes = await this.search(text);
+      const reply = await this.buildReply(text, recipes);
+      this.addMessage('bot', reply, recipes.slice(0, 6));
     } catch {
       this.addMessage('bot', 'Ein Fehler ist aufgetreten. Bitte versuche es erneut.');
     }
@@ -102,35 +81,38 @@ export class Chatbot implements AfterViewChecked {
     }
   }
 
-  private addMessage(sender: 'user' | 'bot', text: string): void {
-    this.messages.update((msgs) => [...msgs, { sender, text, timestamp: new Date() }]);
-  }
-
-  private searchByName(name: string): Promise<RecipePreview[]> {
-    return new Promise((resolve) => {
-      this.recipeService.searchByName(name).subscribe(resolve);
-    });
-  }
-
-  private searchByIngredient(ingredient: string): Promise<RecipePreview[]> {
-    return new Promise((resolve) => {
-      this.recipeService.searchByIngredient(ingredient).subscribe(resolve);
-    });
-  }
-
-  private async extractViaN8n(message: string): Promise<string> {
-    try {
-      const res = await fetch('/n8n/webhook/recipe-chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message }),
-      });
-      if (!res.ok) return '';
-      const data = await res.json();
-      return data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? '';
-    } catch {
-      return '';
+  /** Erzeugt die Bot-Antwort: mit Groq eine natürliche Antwort, sonst eine Vorlage. */
+  private async buildReply(query: string, recipes: RecipePreview[]): Promise<string> {
+    if (recipes.length === 0) {
+      return 'Dazu habe ich leider kein passendes Rezept gefunden. Versuche es mit anderen Zutaten, einer Küche (z. B. „italienisch") oder „vegetarisch".';
     }
+
+    const names = recipes
+      .slice(0, 3)
+      .map((r) => r.title)
+      .join(', ');
+
+    if (this.aiService.hasApiKey()) {
+      try {
+        const prompt = `Du bist ein freundlicher Koch-Assistent. Der Nutzer schrieb: "${query}". Ich schlage diese Rezepte vor: ${names}. Antworte in EINEM kurzen, freundlichen deutschen Satz, der zu den Vorschlägen hinführt. Keine Aufzählung, kein Markdown.`;
+        const aiText = await this.aiService.generateRaw(prompt);
+        if (aiText?.trim()) return aiText.trim();
+      } catch {
+        /* Fallback unten */
+      }
+    }
+
+    return `Ich habe ${recipes.length} passende ${recipes.length === 1 ? 'Rezept' : 'Rezepte'} für dich gefunden:`;
+  }
+
+  private search(text: string): Promise<RecipePreview[]> {
+    return new Promise((resolve) => {
+      this.recipeService.searchSmart(text).subscribe(resolve);
+    });
+  }
+
+  private addMessage(sender: 'user' | 'bot', text: string, recipes?: RecipePreview[]): void {
+    this.messages.update((msgs) => [...msgs, { sender, text, timestamp: new Date(), recipes }]);
   }
 
   private scrollToBottom(): void {

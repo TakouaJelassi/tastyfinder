@@ -49,4 +49,90 @@ export class RecipeService {
     );
     return of(results);
   }
+
+  /**
+   * Freitext-Suche für den Chat: bewertet jedes Rezept danach, wie viele
+   * Wörter der Anfrage in Titel, Zutaten, Küche, Kategorie oder Tags vorkommen.
+   */
+  searchSmart(queryText: string): Observable<RecipePreview[]> {
+    const stop = new Set([
+      'ich',
+      'habe',
+      'hab',
+      'und',
+      'oder',
+      'was',
+      'kann',
+      'man',
+      'kochen',
+      'machen',
+      'mit',
+      'heute',
+      'möchte',
+      'will',
+      'ein',
+      'eine',
+      'einen',
+      'der',
+      'die',
+      'das',
+      'für',
+      'mir',
+      'zeig',
+      'zeige',
+      'etwas',
+      'gibt',
+      'es',
+      'aus',
+      'noch',
+      'nur',
+      'auch',
+      'rezept',
+      'rezepte',
+    ]);
+
+    // Deutsche Begriffe → englische Küche/Tags im Datensatz
+    const synonyms: Record<string, string> = {
+      italienisch: 'italian',
+      asiatisch: 'asian',
+      mexikanisch: 'mexican',
+      japanisch: 'japanese',
+      indisch: 'indian',
+      griechisch: 'greek',
+      spanisch: 'spanish',
+      amerikanisch: 'american',
+      französisch: 'french',
+      chinesisch: 'chinese',
+      vegetarisch: 'vegetarian',
+      vegan: 'vegan',
+      scharf: 'spicy',
+      suppe: 'soup',
+      salat: 'salad',
+      nudeln: 'noodles pasta',
+    };
+
+    const words = queryText
+      .toLowerCase()
+      .replace(/[^a-zäöüß\s]/g, ' ')
+      .split(/\s+/)
+      .map((w) => synonyms[w] ?? w)
+      .join(' ')
+      .split(/\s+/)
+      .filter((w) => w.length > 2 && !stop.has(w));
+
+    if (words.length === 0) return of([]);
+
+    const scored = RECIPES.map((r) => {
+      const haystack = [r.title, r.cuisine, r.category, r.tags, ...r.ingredients]
+        .join(' ')
+        .toLowerCase();
+      const score = words.reduce((acc, w) => acc + (haystack.includes(w) ? 1 : 0), 0);
+      return { r, score };
+    })
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map((x) => this.toPreview(x.r));
+
+    return of(scored);
+  }
 }

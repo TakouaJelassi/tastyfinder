@@ -35,7 +35,19 @@
               </svg>
             </div>
           }
-          <div class="bubble">{{ msg.text }}</div>
+          <div class="message-content">
+            <div class="bubble">{{ msg.text }}</div>
+            @if (msg.recipes && msg.recipes.length) {
+              <div class="results-grid">
+                @for (recipe of msg.recipes; track recipe.id) {
+                  <div class="result-card" (click)="openRecipe(recipe.id)">
+                    <img [src]="recipe.image" [alt]="recipe.title" (error)="onImageError($event)" />
+                    <span>{{ recipe.title }}</span>
+                  </div>
+                }
+              </div>
+            }
+          </div>
         </div>
       }
 
@@ -49,18 +61,15 @@
           <div class="bubble typing"><span></span><span></span><span></span></div>
         </div>
       }
-
-      @if (results().length > 0) {
-        <div class="results-grid">
-          @for (recipe of results(); track recipe.id) {
-            <div class="result-card" (click)="openRecipe(recipe.id)">
-              <img [src]="recipe.image" [alt]="recipe.title" />
-              <span>{{ recipe.title }}</span>
-            </div>
-          }
-        </div>
-      }
     </div>
+
+    @if (messages().length <= 1) {
+      <div class="quick-prompts">
+        @for (p of quickPrompts; track p) {
+          <button class="chip" (click)="sendQuick(p)">{{ p }}</button>
+        }
+      </div>
+    }
 
     <div class="input-area">
       <textarea
