@@ -21,7 +21,6 @@ export class Home implements OnInit {
   categories = signal<Category[]>([]);
   selectedCategory = signal('');
   loading = signal(true);
-  quotaExhausted = this.recipeService.quotaExhausted;
 
   private search$ = new Subject<string>();
 

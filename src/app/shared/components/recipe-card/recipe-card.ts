@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RecipePreview } from '../../../core/models/recipe.interface';
 import { FirestoreService } from '../../../core/services/firestore';
 import { AuthService } from '../../../core/services/auth';
+import { onImageError } from '../../image-fallback';
 
 @Component({
   selector: 'app-recipe-card',
@@ -19,6 +20,7 @@ export class RecipeCard implements OnInit {
   private authService = inject(AuthService);
 
   isFavorite = signal(false);
+  onImageError = onImageError;
 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn) return;

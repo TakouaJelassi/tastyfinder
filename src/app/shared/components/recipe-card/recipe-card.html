@@ -7,7 +7,12 @@
   [attr.aria-label]="recipe().title"
 >
   <div class="card-img-wrap">
-    <img [src]="recipe().image" [alt]="recipe().title" loading="lazy" />
+    <img
+      [src]="recipe().image"
+      [alt]="recipe().title"
+      loading="lazy"
+      (error)="onImageError($event)"
+    />
     <div class="card-overlay"></div>
     <button
       class="fav-btn"
