@@ -2,7 +2,7 @@
 
 **An AI-powered recipe discovery platform** — search by ingredient, generate custom recipes with AI, and manage your personal cookbook.
 
-**[Live Demo](https://myauth-app-8d1d2.web.app)**
+**[Live Demo](https://tastyfinder.web.app)**
 
 ---
 

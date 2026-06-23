@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "hosting": {
-    "site": "myauth-app-8d1d2",
+    "site": "tastyfinder",
     "public": "dist/tastyfinder/browser",
     "ignore": [
       "firebase.json",
