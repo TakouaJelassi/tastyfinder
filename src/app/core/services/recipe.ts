@@ -101,7 +101,7 @@ export class RecipeService {
 
     const params = new HttpParams()
       .set('query', name)
-      .set('number', '20')
+      .set('number', '10')
       .set('addRecipeInformation', 'false');
 
     return this.getWithKeyRotation<SpoonacularSearchResponse>(
@@ -121,7 +121,7 @@ export class RecipeService {
 
     const params = new HttpParams()
       .set('ingredients', ingredient)
-      .set('number', '20')
+      .set('number', '10')
       .set('ranking', '1');
 
     return this.getWithKeyRotation<SpoonacularSearchResponse>(
@@ -167,7 +167,7 @@ export class RecipeService {
     const cached = this.readCache<RecipePreview[]>(cacheKey);
     if (cached) return of(cached);
 
-    const params = new HttpParams().set('cuisine', category).set('number', '20');
+    const params = new HttpParams().set('cuisine', category).set('number', '10');
 
     return this.getWithKeyRotation<SpoonacularSearchResponse>(
       `${BASE}/recipes/complexSearch`,
