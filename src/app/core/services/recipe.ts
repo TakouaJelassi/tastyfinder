@@ -1,4 +1,4 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { Injectable, inject, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
@@ -45,6 +45,9 @@ export class RecipeService {
   private http = inject(HttpClient);
   private platformId = inject(PLATFORM_ID);
 
+  /** true, wenn alle Spoonacular-Keys das Tageslimit erreicht haben (oder ungültig sind). */
+  quotaExhausted = signal(false);
+
   // ── Cache-Helfer ──────────────────────────────────────────────────────────
 
   private readCache<T>(key: string): T | null {
@@ -78,16 +81,21 @@ export class RecipeService {
    */
   private getWithKeyRotation<T>(url: string, params: HttpParams, keyIndex = 0): Observable<T> {
     if (keyIndex >= KEYS.length) {
+      this.quotaExhausted.set(true);
       return throwError(() => new Error('Alle Spoonacular-Keys haben das Tageslimit erreicht.'));
     }
 
     const withKey = params.set('apiKey', KEYS[keyIndex]);
     return this.http.get<T>(url, { params: withKey }).pipe(
+      tap(() => this.quotaExhausted.set(false)),
       catchError((err: HttpErrorResponse) => {
         // 402 = Tageslimit erreicht, 401 = Key ungültig → nächsten Key versuchen
         const keyProblem = err.status === 402 || err.status === 401;
         if (keyProblem && keyIndex + 1 < KEYS.length) {
           return this.getWithKeyRotation<T>(url, params, keyIndex + 1);
+        }
+        if (keyProblem) {
+          this.quotaExhausted.set(true);
         }
         return throwError(() => err);
       }),
