@@ -1,7 +1,8 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   Recipe,
@@ -19,6 +20,10 @@ const KEYS: string[] = (
   (environment as { spoonacularApiKeys?: string[] }).spoonacularApiKeys ??
   [(environment as { spoonacularApiKey?: string }).spoonacularApiKey]
 ).filter((k): k is string => !!k);
+
+// Cache: gespeicherte Antworten kosten keine API-Punkte mehr.
+const CACHE_PREFIX = 'tf_cache_';
+const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 Tage
 
 const CUISINE_CATEGORIES: Category[] = [
   { id: '1', name: 'Italian' },
@@ -38,6 +43,34 @@ const CUISINE_CATEGORIES: Category[] = [
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
   private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
+
+  // ── Cache-Helfer ──────────────────────────────────────────────────────────
+
+  private readCache<T>(key: string): T | null {
+    if (!isPlatformBrowser(this.platformId)) return null;
+    try {
+      const raw = localStorage.getItem(CACHE_PREFIX + key);
+      if (!raw) return null;
+      const entry = JSON.parse(raw) as { t: number; v: T };
+      if (Date.now() - entry.t > CACHE_TTL_MS) {
+        localStorage.removeItem(CACHE_PREFIX + key);
+        return null;
+      }
+      return entry.v;
+    } catch {
+      return null;
+    }
+  }
+
+  private writeCache<T>(key: string, value: T): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    try {
+      localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ t: Date.now(), v: value }));
+    } catch {
+      // localStorage voll oder nicht verfügbar → einfach ignorieren
+    }
+  }
 
   /**
    * Führt einen GET aus und rotiert bei Erreichen des Tageslimits (HTTP 402)
@@ -62,6 +95,10 @@ export class RecipeService {
   }
 
   searchByName(name: string): Observable<RecipePreview[]> {
+    const cacheKey = `search:name:${name.toLowerCase().trim()}`;
+    const cached = this.readCache<RecipePreview[]>(cacheKey);
+    if (cached) return of(cached);
+
     const params = new HttpParams()
       .set('query', name)
       .set('number', '20')
@@ -72,11 +109,16 @@ export class RecipeService {
       params,
     ).pipe(
       map((res) => res.results.map(this.toPreview)),
+      tap((data) => this.writeCache(cacheKey, data)),
       catchError(() => of([])),
     );
   }
 
   searchByIngredient(ingredient: string): Observable<RecipePreview[]> {
+    const cacheKey = `search:ing:${ingredient.toLowerCase().trim()}`;
+    const cached = this.readCache<RecipePreview[]>(cacheKey);
+    if (cached) return of(cached);
+
     const params = new HttpParams()
       .set('ingredients', ingredient)
       .set('number', '20')
@@ -87,16 +129,22 @@ export class RecipeService {
       params,
     ).pipe(
       map((res: any) => (Array.isArray(res) ? res : (res.results ?? [])).map(this.toPreview)),
+      tap((data) => this.writeCache(cacheKey, data)),
       catchError(() => of([])),
     );
   }
 
   getById(id: string): Observable<Recipe | null> {
+    const cacheKey = `recipe:${id}`;
+    const cached = this.readCache<Recipe>(cacheKey);
+    if (cached) return of(cached);
+
     return this.getWithKeyRotation<SpoonacularRecipeDetail>(
       `${BASE}/recipes/${id}/information`,
       new HttpParams(),
     ).pipe(
       map((r) => this.toRecipe(r)),
+      tap((data) => this.writeCache(cacheKey, data)),
       catchError(() => of(null)),
     );
   }
@@ -115,6 +163,10 @@ export class RecipeService {
   }
 
   getByCategory(category: string): Observable<RecipePreview[]> {
+    const cacheKey = `search:cat:${category.toLowerCase().trim()}`;
+    const cached = this.readCache<RecipePreview[]>(cacheKey);
+    if (cached) return of(cached);
+
     const params = new HttpParams().set('cuisine', category).set('number', '20');
 
     return this.getWithKeyRotation<SpoonacularSearchResponse>(
@@ -122,8 +174,9 @@ export class RecipeService {
       params,
     ).pipe(
       map((res) => res.results.map(this.toPreview)),
-        catchError(() => of([])),
-      );
+      tap((data) => this.writeCache(cacheKey, data)),
+      catchError(() => of([])),
+    );
   }
 
   private toPreview(r: SpoonacularSearchResult): RecipePreview {
