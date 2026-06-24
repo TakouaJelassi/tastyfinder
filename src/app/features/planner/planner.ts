@@ -2,7 +2,8 @@ import { Component, inject, signal, computed, OnInit, DestroyRef } from '@angula
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import { RecipeService } from '../../core/services/recipe';
-import { FirestoreService } from '../../core/services/firestore';
+import { MealPlanStore } from '../../core/stores/meal-plan.store';
+import { ShoppingStore } from '../../core/stores/shopping.store';
 import { RecipePreview, MealPlan, WeekDay } from '../../core/models/recipe.interface';
 import { onImageError } from '../../shared/image-fallback';
 
@@ -32,7 +33,8 @@ const DAY_LABELS: { key: WeekDay; label: string }[] = [
 })
 export class Planner implements OnInit {
   private recipeService = inject(RecipeService);
-  private firestoreService = inject(FirestoreService);
+  private mealPlanStore = inject(MealPlanStore);
+  private shoppingStore = inject(ShoppingStore);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
@@ -61,8 +63,8 @@ export class Planner implements OnInit {
   totalMeals = computed(() => Object.values(this.plan()).reduce((sum, ids) => sum + ids.length, 0));
 
   ngOnInit(): void {
-    this.firestoreService
-      .getMealPlan()
+    this.mealPlanStore
+      .get()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((plan) => {
         if (plan) this.plan.set({ ...EMPTY_PLAN, ...plan });
@@ -99,14 +101,14 @@ export class Planner implements OnInit {
     const ids = Object.values(this.plan()).flat();
     if (ids.length === 0) return;
     const ingredients = this.recipeService.findByIds(ids).flatMap((r) => r.ingredients);
-    await this.firestoreService.addShoppingItems(ingredients);
+    await this.shoppingStore.add(ingredients);
     this.addedToShopping.set(true);
     setTimeout(() => this.addedToShopping.set(false), 2500);
   }
 
   private async persist(): Promise<void> {
     this.saving.set(true);
-    await this.firestoreService.saveMealPlan(this.plan());
+    await this.mealPlanStore.save(this.plan());
     this.saving.set(false);
   }
 }

@@ -2,7 +2,7 @@ import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { FirestoreService } from '../../core/services/firestore';
+import { ShoppingStore } from '../../core/stores/shopping.store';
 import { ShoppingItem } from '../../core/models/recipe.interface';
 
 @Component({
@@ -12,7 +12,7 @@ import { ShoppingItem } from '../../core/models/recipe.interface';
   styleUrl: './shopping.scss',
 })
 export class Shopping implements OnInit {
-  private firestoreService = inject(FirestoreService);
+  private shoppingStore = inject(ShoppingStore);
   private destroyRef = inject(DestroyRef);
 
   items = signal<ShoppingItem[]>([]);
@@ -24,8 +24,8 @@ export class Shopping implements OnInit {
   }
 
   private load(): void {
-    this.firestoreService
-      .getShoppingList()
+    this.shoppingStore
+      .list()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((items) => {
         this.items.set(items);
@@ -37,24 +37,24 @@ export class Shopping implements OnInit {
     const name = this.newItem().trim();
     if (!name) return;
     this.newItem.set('');
-    await this.firestoreService.addShoppingItems([name]);
+    await this.shoppingStore.add([name]);
     this.load();
   }
 
   async toggle(item: ShoppingItem): Promise<void> {
     const checked = !item.checked;
     this.items.update((list) => list.map((i) => (i.id === item.id ? { ...i, checked } : i)));
-    await this.firestoreService.toggleShoppingItem(item.id, checked);
+    await this.shoppingStore.toggle(item.id, checked);
   }
 
   async remove(item: ShoppingItem): Promise<void> {
     this.items.update((list) => list.filter((i) => i.id !== item.id));
-    await this.firestoreService.removeShoppingItem(item.id);
+    await this.shoppingStore.remove(item.id);
   }
 
   async clearChecked(): Promise<void> {
     this.items.update((list) => list.filter((i) => !i.checked));
-    await this.firestoreService.clearCheckedShoppingItems();
+    await this.shoppingStore.clearChecked();
   }
 
   get checkedCount(): number {

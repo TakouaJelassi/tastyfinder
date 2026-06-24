@@ -2,7 +2,7 @@ import { Component, input, output, inject, signal, OnInit, DestroyRef } from '@a
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { RecipePreview } from '../../../core/models/recipe.interface';
-import { FirestoreService } from '../../../core/services/firestore';
+import { FavoriteStore } from '../../../core/stores/favorite.store';
 import { AuthService } from '../../../core/services/auth';
 import { onImageError } from '../../image-fallback';
 
@@ -17,7 +17,7 @@ export class RecipeCard implements OnInit {
   favoriteToggled = output<string>();
 
   private router = inject(Router);
-  private firestoreService = inject(FirestoreService);
+  private favoriteStore = inject(FavoriteStore);
   private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
 
@@ -26,7 +26,7 @@ export class RecipeCard implements OnInit {
 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn) return;
-    this.firestoreService
+    this.favoriteStore
       .isFavorite(this.recipe().id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((val) => {
@@ -39,10 +39,10 @@ export class RecipeCard implements OnInit {
     if (!this.authService.isLoggedIn) return;
     const id = this.recipe().id;
     if (this.isFavorite()) {
-      await this.firestoreService.removeFavorite(id);
+      await this.favoriteStore.remove(id);
       this.isFavorite.set(false);
     } else {
-      await this.firestoreService.addFavorite(id);
+      await this.favoriteStore.add(id);
       this.isFavorite.set(true);
     }
     this.favoriteToggled.emit(id);

@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { FirestoreService } from '../../core/services/firestore';
+import { UserRecipeStore } from '../../core/stores/user-recipe.store';
 import { GeneratedRecipe } from '../../core/models/generated-recipe.interface';
 
 @Component({
@@ -11,7 +11,7 @@ import { GeneratedRecipe } from '../../core/models/generated-recipe.interface';
   styleUrl: './library.scss',
 })
 export class Library implements OnInit {
-  private firestoreService = inject(FirestoreService);
+  private userRecipeStore = inject(UserRecipeStore);
   private destroyRef = inject(DestroyRef);
 
   recipes = signal<GeneratedRecipe[]>([]);
@@ -19,8 +19,8 @@ export class Library implements OnInit {
   expandedId = signal<string | null>(null);
 
   ngOnInit(): void {
-    this.firestoreService
-      .getRecipes()
+    this.userRecipeStore
+      .list()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((recipes) => {
         this.recipes.set(recipes);

@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AiService } from '../../core/services/ai';
 import { RecipeService } from '../../core/services/recipe';
-import { FirestoreService } from '../../core/services/firestore';
+import { ShoppingStore } from '../../core/stores/shopping.store';
 import { GeneratedRecipeParser } from '../../core/services/generated-recipe-parser';
 import { PromptBuilder } from '../../core/services/prompt-builder';
 import { ChatMessage } from '../../core/models/chat.interface';
@@ -28,7 +28,7 @@ export class Chatbot implements AfterViewChecked {
 
   private aiService = inject(AiService);
   private recipeService = inject(RecipeService);
-  private firestoreService = inject(FirestoreService);
+  private shoppingStore = inject(ShoppingStore);
   private recipeParser = inject(GeneratedRecipeParser);
   private promptBuilder = inject(PromptBuilder);
   private router = inject(Router);
@@ -107,7 +107,7 @@ export class Chatbot implements AfterViewChecked {
   }
 
   async addGeneratedToShopping(recipe: GeneratedRecipe): Promise<void> {
-    await this.firestoreService.addShoppingItems(recipe.ingredients);
+    await this.shoppingStore.add(recipe.ingredients);
     this.addMessage('bot', `✓ Zutaten für „${recipe.title}" wurden zur Einkaufsliste hinzugefügt.`);
   }
 

@@ -4,7 +4,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { PLATFORM_ID } from '@angular/core';
 import { RecipeService } from '../../core/services/recipe';
 import { AiService } from '../../core/services/ai';
-import { FirestoreService } from '../../core/services/firestore';
+import { ShoppingStore } from '../../core/stores/shopping.store';
+import { FavoriteStore } from '../../core/stores/favorite.store';
 import { AuthService } from '../../core/services/auth';
 import { Recipe } from '../../core/models/recipe.interface';
 
@@ -19,7 +20,8 @@ export class RecipeDetail implements OnInit {
 
   private recipeService = inject(RecipeService);
   private aiService = inject(AiService);
-  private firestoreService = inject(FirestoreService);
+  private shoppingStore = inject(ShoppingStore);
+  private favoriteStore = inject(FavoriteStore);
   private authService = inject(AuthService);
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
@@ -39,7 +41,7 @@ export class RecipeDetail implements OnInit {
   async addToShoppingList(): Promise<void> {
     const recipe = this.recipe();
     if (!recipe || !this.isLoggedIn) return;
-    await this.firestoreService.addShoppingItems(recipe.ingredients);
+    await this.shoppingStore.add(recipe.ingredients);
     this.addedToList.set(true);
     setTimeout(() => this.addedToList.set(false), 2500);
   }
@@ -49,10 +51,10 @@ export class RecipeDetail implements OnInit {
     if (!recipe || !this.isLoggedIn) return;
 
     if (this.favorite()) {
-      await this.firestoreService.removeFavorite(recipe.id);
+      await this.favoriteStore.remove(recipe.id);
       this.favorite.set(false);
     } else {
-      await this.firestoreService.addFavorite(recipe.id);
+      await this.favoriteStore.add(recipe.id);
       this.favorite.set(true);
     }
   }
@@ -63,7 +65,7 @@ export class RecipeDetail implements OnInit {
       this.loading.set(false);
       if (recipe) {
         this.loadAiSummary(recipe);
-        this.firestoreService.isFavorite(recipe.id).subscribe((isFavorite) => {
+        this.favoriteStore.isFavorite(recipe.id).subscribe((isFavorite) => {
           this.favorite.set(isFavorite);
         });
       }

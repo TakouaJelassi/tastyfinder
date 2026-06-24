@@ -10,7 +10,7 @@ import {
 } from '@angular/fire/auth';
 import { Auth } from '@angular/fire/auth';
 import { AuthService } from '../../core/services/auth';
-import { FirestoreService } from '../../core/services/firestore';
+import { ProfileStore } from '../../core/stores/profile.store';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +21,7 @@ import { FirestoreService } from '../../core/services/firestore';
 export class Profile implements OnInit {
   private auth = inject(Auth);
   authService = inject(AuthService);
-  private firestoreService = inject(FirestoreService);
+  private profileStore = inject(ProfileStore);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
@@ -40,8 +40,8 @@ export class Profile implements OnInit {
   passwordSuccess = signal('');
 
   ngOnInit(): void {
-    this.firestoreService
-      .getUserProfile()
+    this.profileStore
+      .get()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((profile) => {
         if (profile?.displayName) this.name.set(profile.displayName);
@@ -109,7 +109,7 @@ export class Profile implements OnInit {
         await updateProfile(user, { displayName: this.name() });
         this.authService.currentUser.set({ ...user, displayName: this.name() } as typeof user);
       }
-      await this.firestoreService.saveUserProfile({
+      await this.profileStore.save({
         displayName: this.name(),
         avatarBase64: this.avatarBase64(),
       });

@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../core/services/ai';
 import { N8nService } from '../../core/services/n8n';
-import { FirestoreService } from '../../core/services/firestore';
+import { UserRecipeStore } from '../../core/stores/user-recipe.store';
 import { GeneratedRecipeParser } from '../../core/services/generated-recipe-parser';
 import { PromptBuilder } from '../../core/services/prompt-builder';
 import { ErrorMapper } from '../../core/errors/error-mapper';
@@ -24,7 +24,7 @@ interface IngredientInput {
 export class Generate {
   private aiService = inject(AiService);
   private n8nService = inject(N8nService);
-  private firestoreService = inject(FirestoreService);
+  private userRecipeStore = inject(UserRecipeStore);
   private recipeParser = inject(GeneratedRecipeParser);
   private promptBuilder = inject(PromptBuilder);
   private errorMapper = inject(ErrorMapper);
@@ -127,7 +127,7 @@ export class Generate {
 
   private async saveAll(recipes: GeneratedRecipe[]): Promise<void> {
     for (const recipe of recipes) {
-      await this.firestoreService.saveRecipe(recipe);
+      await this.userRecipeStore.save(recipe);
     }
     this.saved.set(true);
   }
