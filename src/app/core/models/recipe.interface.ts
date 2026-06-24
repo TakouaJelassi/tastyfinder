@@ -37,33 +37,3 @@ export interface ShoppingItem {
 export type WeekDay = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
 
 export type MealPlan = Record<WeekDay, string[]>;
-
-export interface SpoonacularSearchResult {
-  id: number;
-  title: string;
-  image: string;
-}
-
-export interface SpoonacularSearchResponse {
-  results: SpoonacularSearchResult[];
-}
-
-export interface SpoonacularIngredient {
-  name: string;
-  amount: number;
-  unit: string;
-}
-
-export interface SpoonacularRecipeDetail {
-  id: number;
-  title: string;
-  image: string;
-  dishTypes: string[];
-  cuisines: string[];
-  diets: string[];
-  instructions: string;
-  extendedIngredients: SpoonacularIngredient[];
-  readyInMinutes: number;
-  servings: number;
-  summary: string;
-}
