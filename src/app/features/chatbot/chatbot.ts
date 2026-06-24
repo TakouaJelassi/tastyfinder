@@ -106,7 +106,6 @@ export class Chatbot implements AfterViewChecked {
     this.addMessage('bot', `✓ Zutaten für „${recipe.title}" wurden zur Einkaufsliste hinzugefügt.`);
   }
 
-  /** Generiert per Groq ein einzelnes Rezept aus der freien Anfrage. */
   private async generateRecipe(query: string): Promise<GeneratedRecipe | null> {
     const prompt = `Du bist ein Profi-Koch. Erstelle EIN Rezept passend zu dieser Anfrage: "${query}".
 Antworte NUR mit einem validen JSON-Objekt ohne Markdown, genau in diesem Format:
@@ -139,7 +138,6 @@ Antworte NUR mit einem validen JSON-Objekt ohne Markdown, genau in diesem Format
     }
   }
 
-  /** Erzeugt die Bot-Antwort: mit Groq eine natürliche Antwort, sonst eine Vorlage. */
   private async buildReply(query: string, recipes: RecipePreview[]): Promise<string> {
     if (recipes.length === 0) {
       return 'Dazu habe ich leider kein passendes Rezept gefunden. Versuche es mit anderen Zutaten, einer Küche (z. B. „italienisch") oder „vegetarisch".';

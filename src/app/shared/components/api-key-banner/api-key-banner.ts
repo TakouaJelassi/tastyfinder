@@ -15,6 +15,10 @@ export class ApiKeyBanner {
   saved = signal(false);
   hasKey = signal(this.aiService.hasApiKey());
 
+  get allKeysSet(): boolean {
+    return this.hasKey();
+  }
+
   save(): void {
     const key = this.keyInput().trim();
     if (!key) return;
@@ -25,7 +29,7 @@ export class ApiKeyBanner {
     setTimeout(() => this.saved.set(false), 3000);
   }
 
-  remove(): void {
+  removeAll(): void {
     this.aiService.removeApiKey();
     this.hasKey.set(false);
   }

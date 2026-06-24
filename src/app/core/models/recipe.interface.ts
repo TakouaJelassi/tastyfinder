@@ -15,6 +15,12 @@ export interface Recipe {
   tags: string;
   ingredients: string[];
   measures: string[];
+  cuisines: string[];
+  diets: string[];
+  readyInMinutes: number;
+  servings: number;
+  sourceUrl: string;
+  youtube?: string;
 }
 
 export interface Category {
@@ -30,7 +36,6 @@ export interface ShoppingItem {
 
 export type WeekDay = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
 
-// Wochenplan: pro Tag eine Liste von Rezept-IDs
 export type MealPlan = Record<WeekDay, string[]>;
 
 export interface SpoonacularSearchResult {

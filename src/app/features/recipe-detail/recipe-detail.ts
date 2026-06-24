@@ -1,6 +1,7 @@
 import { Component, inject, signal, OnInit, input } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location, isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PLATFORM_ID } from '@angular/core';
 import { RecipeService } from '../../core/services/recipe';
 import { AiService } from '../../core/services/ai';
 import { FirestoreService } from '../../core/services/firestore';
@@ -22,6 +23,7 @@ export class RecipeDetail implements OnInit {
   private authService = inject(AuthService);
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
+  private platformId = inject(PLATFORM_ID);
 
   recipe = signal<Recipe | null>(null);
   loading = signal(true);
@@ -59,6 +61,7 @@ export class RecipeDetail implements OnInit {
   }
 
   private async loadAiSummary(recipe: Recipe): Promise<void> {
+    if (!isPlatformBrowser(this.platformId)) return;
     this.aiLoading.set(true);
     const summary = await this.aiService.summarizeRecipe(recipe.title, recipe.instructions);
     this.aiSummary.set(summary);
