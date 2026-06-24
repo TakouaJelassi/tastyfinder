@@ -11,22 +11,25 @@
       @for (ingredient of ingredients(); track $index) {
         <div class="ingredient-row">
           <input
+            #nameRef
             type="text"
             placeholder="Zutat (z.B. Tomaten)"
             [value]="ingredient.name"
-            (input)="updateIngredient($index, 'name', $any($event.target).value)"
+            (input)="updateIngredient($index, 'name', nameRef.value)"
             class="ingredient-name"
           />
           <input
+            #amountRef
             type="text"
             placeholder="Menge"
             [value]="ingredient.amount"
-            (input)="updateIngredient($index, 'amount', $any($event.target).value)"
+            (input)="updateIngredient($index, 'amount', amountRef.value)"
             class="ingredient-amount"
           />
           <select
+            #unitRef
             [value]="ingredient.unit"
-            (change)="updateIngredient($index, 'unit', $any($event.target).value)"
+            (change)="updateIngredient($index, 'unit', unitRef.value)"
             class="ingredient-unit"
           >
             @for (unit of units; track unit) {
@@ -49,11 +52,12 @@
         <div class="pref-item">
           <label>Portionen: {{ preferences().portions }}</label>
           <input
+            #portionsRef
             type="range"
             min="1"
             max="12"
             [value]="preferences().portions"
-            (input)="updatePreference('portions', +$any($event.target).value)"
+            (input)="updatePreference('portions', +portionsRef.value)"
           />
           <div class="range-labels"><span>1</span><span>12</span></div>
         </div>
