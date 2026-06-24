@@ -1,4 +1,5 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -16,6 +17,7 @@ import { SkeletonLoader } from '../../shared/components/skeleton-loader/skeleton
 })
 export class Home implements OnInit {
   private recipeService = inject(RecipeService);
+  private destroyRef = inject(DestroyRef);
 
   searchTerm = signal('');
   recipes = signal<RecipePreview[]>([]);
@@ -46,6 +48,7 @@ export class Home implements OnInit {
             ? this.recipeService.searchByName(term)
             : this.recipeService.searchByName('chicken');
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((results) => {
         this.recipes.set(results);

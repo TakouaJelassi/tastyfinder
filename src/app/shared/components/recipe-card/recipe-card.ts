@@ -1,4 +1,5 @@
-import { Component, input, output, inject, signal, OnInit } from '@angular/core';
+import { Component, input, output, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { RecipePreview } from '../../../core/models/recipe.interface';
 import { FirestoreService } from '../../../core/services/firestore';
@@ -18,15 +19,19 @@ export class RecipeCard implements OnInit {
   private router = inject(Router);
   private firestoreService = inject(FirestoreService);
   private authService = inject(AuthService);
+  private destroyRef = inject(DestroyRef);
 
   isFavorite = signal(false);
   onImageError = onImageError;
 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn) return;
-    this.firestoreService.isFavorite(this.recipe().id).subscribe((val) => {
-      this.isFavorite.set(val);
-    });
+    this.firestoreService
+      .isFavorite(this.recipe().id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((val) => {
+        this.isFavorite.set(val);
+      });
   }
 
   async toggleFavorite(event: Event): Promise<void> {

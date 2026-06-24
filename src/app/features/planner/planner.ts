@@ -1,4 +1,5 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { RecipeService } from '../../core/services/recipe';
 import { FirestoreService } from '../../core/services/firestore';
@@ -33,6 +34,7 @@ export class Planner implements OnInit {
   private recipeService = inject(RecipeService);
   private firestoreService = inject(FirestoreService);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   onImageError = onImageError;
 
@@ -59,10 +61,13 @@ export class Planner implements OnInit {
   totalMeals = computed(() => Object.values(this.plan()).reduce((sum, ids) => sum + ids.length, 0));
 
   ngOnInit(): void {
-    this.firestoreService.getMealPlan().subscribe((plan) => {
-      if (plan) this.plan.set({ ...EMPTY_PLAN, ...plan });
-      this.loading.set(false);
-    });
+    this.firestoreService
+      .getMealPlan()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((plan) => {
+        if (plan) this.plan.set({ ...EMPTY_PLAN, ...plan });
+        this.loading.set(false);
+      });
   }
 
   openPicker(day: WeekDay): void {

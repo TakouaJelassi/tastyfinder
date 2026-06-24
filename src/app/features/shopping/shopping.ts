@@ -1,4 +1,5 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../core/services/firestore';
 import { ShoppingItem } from '../../core/models/recipe.interface';
@@ -11,6 +12,7 @@ import { ShoppingItem } from '../../core/models/recipe.interface';
 })
 export class Shopping implements OnInit {
   private firestoreService = inject(FirestoreService);
+  private destroyRef = inject(DestroyRef);
 
   items = signal<ShoppingItem[]>([]);
   loading = signal(true);
@@ -21,10 +23,13 @@ export class Shopping implements OnInit {
   }
 
   private load(): void {
-    this.firestoreService.getShoppingList().subscribe((items) => {
-      this.items.set(items);
-      this.loading.set(false);
-    });
+    this.firestoreService
+      .getShoppingList()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((items) => {
+        this.items.set(items);
+        this.loading.set(false);
+      });
   }
 
   async addItem(): Promise<void> {

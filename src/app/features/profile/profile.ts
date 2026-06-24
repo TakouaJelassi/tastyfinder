@@ -1,4 +1,5 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -22,6 +23,7 @@ export class Profile implements OnInit {
   authService = inject(AuthService);
   private firestoreService = inject(FirestoreService);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   name = signal(this.authService.currentUser()?.displayName ?? '');
   avatarBase64 = signal(this.authService.currentUser()?.photoURL ?? '');
@@ -38,7 +40,10 @@ export class Profile implements OnInit {
   passwordSuccess = signal('');
 
   ngOnInit(): void {
-    this.firestoreService.getUserProfile().subscribe((profile) => {
+    this.firestoreService
+      .getUserProfile()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((profile) => {
       if (profile?.displayName) this.name.set(profile.displayName);
       if (profile?.avatarBase64) {
         this.avatarBase64.set(profile.avatarBase64);

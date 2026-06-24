@@ -1,5 +1,6 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
-import { forkJoin, of } from 'rxjs';
+import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { forkJoin } from 'rxjs';
 import { RecipeService } from '../../core/services/recipe';
 import { FirestoreService } from '../../core/services/firestore';
 import { RecipePreview } from '../../core/models/recipe.interface';
@@ -14,12 +15,16 @@ import { RecipeCard } from '../../shared/components/recipe-card/recipe-card';
 export class Favorites implements OnInit {
   private recipeService = inject(RecipeService);
   private firestoreService = inject(FirestoreService);
+  private destroyRef = inject(DestroyRef);
 
   recipes = signal<RecipePreview[]>([]);
   loading = signal(true);
 
   ngOnInit(): void {
-    this.firestoreService.getFavoriteIds().subscribe((ids) => {
+    this.firestoreService
+      .getFavoriteIds()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((ids) => {
       if (ids.length === 0) {
         this.recipes.set([]);
         this.loading.set(false);
