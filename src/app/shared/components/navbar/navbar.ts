@@ -44,8 +44,7 @@ export class Navbar {
   }
 
   get userInitial(): string {
-    const name =
-      this.authService.currentUser()?.displayName ?? this.authService.currentUser()?.email ?? '?';
+    const name = this.authService.displayName || this.authService.displayEmail || '?';
     return name.charAt(0).toUpperCase();
   }
 }

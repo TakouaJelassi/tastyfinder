@@ -55,6 +55,11 @@ export class AuthPage {
     }
   }
 
+  startDemo(): void {
+    this.authService.startDemoSession();
+    this.router.navigate(['/library']);
+  }
+
   private translateError(e: unknown): string {
     const code = (e as { code?: string })?.code ?? '';
     const map: Record<string, string> = {

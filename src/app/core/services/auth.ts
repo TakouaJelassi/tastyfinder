@@ -22,6 +22,7 @@ export class AuthService {
   currentUser = signal<User | null>(null);
   loading = signal(true);
   avatarBase64 = signal<string>('');
+  demoMode = signal(false);
 
   /** Wird aufgelöst, sobald Firebase den ersten Auth-Status geliefert hat. */
   readonly ready: Promise<void>;
@@ -31,6 +32,8 @@ export class AuthService {
     this.ready = new Promise<void>((resolve) => (this.resolveReady = resolve));
 
     if (isPlatformBrowser(this.platformId)) {
+      this.demoMode.set(localStorage.getItem('tf_demo_session') === 'active');
+
       onAuthStateChanged(this.auth, (user) => {
         this.currentUser.set(user);
         this.loading.set(false);
@@ -62,11 +65,31 @@ export class AuthService {
   }
 
   get uid(): string | null {
+    if (this.demoMode()) return 'demo';
     return this.currentUser()?.uid ?? null;
   }
 
   get isLoggedIn(): boolean {
-    return !!this.currentUser();
+    return this.demoMode() || !!this.currentUser();
+  }
+
+  get isDemo(): boolean {
+    return this.demoMode();
+  }
+
+  get displayName(): string {
+    return this.demoMode() ? 'Demo Workspace' : (this.currentUser()?.displayName ?? 'Benutzer');
+  }
+
+  get displayEmail(): string {
+    return this.demoMode() ? 'demo@tastyfinder.app' : (this.currentUser()?.email ?? '');
+  }
+
+  startDemoSession(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('tf_demo_session', 'active');
+    }
+    this.demoMode.set(true);
   }
 
   async register(email: string, password: string, name: string): Promise<void> {
@@ -85,6 +108,13 @@ export class AuthService {
   }
 
   async logout(): Promise<void> {
+    if (this.demoMode()) {
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.removeItem('tf_demo_session');
+      }
+      this.demoMode.set(false);
+      return;
+    }
     await signOut(this.auth);
   }
 }

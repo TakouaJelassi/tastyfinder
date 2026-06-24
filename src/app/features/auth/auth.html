@@ -10,9 +10,20 @@
     </h1>
     <p class="auth-sub">
       {{
-        mode() === 'login' ? 'Melde dich an, um fortzufahren.' : 'Erstelle ein kostenloses Konto.'
+        mode() === 'login'
+          ? 'Melde dich an oder öffne den Demo-Workspace.'
+          : 'Erstelle ein kostenloses Konto.'
       }}
     </p>
+
+    @if (mode() === 'login') {
+      <button type="button" class="btn-demo" (click)="startDemo()" [disabled]="loading()">
+        Demo-Workspace öffnen
+        <span>Bibliothek, Favoriten, Einkaufsliste und Wochenplan testen</span>
+      </button>
+
+      <div class="divider"><span>oder anmelden</span></div>
+    }
 
     <button class="btn-google" (click)="loginWithGoogle()" [disabled]="loading()">
       <svg viewBox="0 0 24 24" width="20" height="20">

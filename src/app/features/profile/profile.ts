@@ -44,12 +44,16 @@ export class Profile implements OnInit {
       .getUserProfile()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((profile) => {
-      if (profile?.displayName) this.name.set(profile.displayName);
-      if (profile?.avatarBase64) {
-        this.avatarBase64.set(profile.avatarBase64);
-        this.authService.avatarBase64.set(profile.avatarBase64);
-      }
-    });
+        if (profile?.displayName) this.name.set(profile.displayName);
+        if (profile?.avatarBase64) {
+          this.avatarBase64.set(profile.avatarBase64);
+          this.authService.avatarBase64.set(profile.avatarBase64);
+        }
+      });
+  }
+
+  get isDemo(): boolean {
+    return this.authService.isDemo;
   }
 
   onFileSelected(event: Event): void {
@@ -96,18 +100,19 @@ export class Profile implements OnInit {
 
   async saveProfile(): Promise<void> {
     const user = this.auth.currentUser;
-    if (!user) return;
     this.saving.set(true);
     this.successMsg.set('');
     this.errorMsg.set('');
 
     try {
-      await updateProfile(user, { displayName: this.name() });
+      if (!this.isDemo && user) {
+        await updateProfile(user, { displayName: this.name() });
+        this.authService.currentUser.set({ ...user, displayName: this.name() } as typeof user);
+      }
       await this.firestoreService.saveUserProfile({
         displayName: this.name(),
         avatarBase64: this.avatarBase64(),
       });
-      this.authService.currentUser.set({ ...user, displayName: this.name() } as typeof user);
       this.authService.avatarBase64.set(this.avatarBase64());
       this.successMsg.set('Profil erfolgreich gespeichert!');
     } catch {
