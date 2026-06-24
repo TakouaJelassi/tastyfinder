@@ -21,6 +21,8 @@
   </div>
 
   <div class="chat-container">
+    <app-api-key-banner></app-api-key-banner>
+
     <div class="message-list" #messageList>
       @for (msg of messages(); track $index) {
         <div

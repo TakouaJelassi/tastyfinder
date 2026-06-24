@@ -3,7 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { AiService } from '../../core/services/ai';
 import { N8nService } from '../../core/services/n8n';
 import { FirestoreService } from '../../core/services/firestore';
+import { GeneratedRecipeParser } from '../../core/services/generated-recipe-parser';
+import { PromptBuilder } from '../../core/services/prompt-builder';
 import { GeneratedRecipe, RecipePreferences } from '../../core/models/generated-recipe.interface';
+import { ApiKeyBanner } from '../../shared/components/api-key-banner/api-key-banner';
 
 interface IngredientInput {
   name: string;
@@ -13,7 +16,7 @@ interface IngredientInput {
 
 @Component({
   selector: 'app-generate',
-  imports: [FormsModule],
+  imports: [FormsModule, ApiKeyBanner],
   templateUrl: './generate.html',
   styleUrl: './generate.scss',
 })
@@ -21,6 +24,8 @@ export class Generate {
   private aiService = inject(AiService);
   private n8nService = inject(N8nService);
   private firestoreService = inject(FirestoreService);
+  private recipeParser = inject(GeneratedRecipeParser);
+  private promptBuilder = inject(PromptBuilder);
 
   ingredients = signal<IngredientInput[]>([{ name: '', amount: '', unit: 'g' }]);
   preferences = signal<RecipePreferences>({
@@ -78,7 +83,7 @@ export class Generate {
       return;
     }
     if (!this.aiService.hasApiKey()) {
-      this.error.set('Bitte zuerst einen Groq API Key oben eingeben.');
+      this.error.set('Bitte aktiviere AI in der Konfiguration auf dieser Seite.');
       return;
     }
 
@@ -92,37 +97,7 @@ export class Generate {
       .join(', ');
 
     const prefs = this.preferences();
-    const prompt = `Du bist ein Profi-Koch. Generiere genau 3 unterschiedliche Rezeptvorschläge basierend auf diesen Zutaten: ${ingredientList}.
-
-Präferenzen:
-- Portionen: ${prefs.portions}
-- Zeit: ${prefs.time === 'quick' ? 'bis 20 Min' : prefs.time === 'medium' ? '20-45 Min' : '45+ Min'}
-- Küche: ${prefs.cuisine}
-- Ernährung: ${prefs.diet}
-- Kochhelfer: ${prefs.helpers}
-
-Regeln:
-- Jedes Rezept nutzt mindestens 70% der angegebenen Zutaten
-- Maximal 3 fehlende Zutaten pro Rezept
-- Bei mehreren Helfern: parallele Schritte kennzeichnen
-- Anleitung ist chronologisch und anfängerfreundlich
-
-Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
-[
-  {
-    "title": "Rezeptname",
-    "ingredients": ["Zutat 1", "Zutat 2"],
-    "missingIngredients": ["fehlende Zutat"],
-    "steps": [
-      { "step": 1, "description": "Schritt Beschreibung", "parallel": false, "assignedTo": 1 }
-    ],
-    "duration": "30 Min",
-    "difficulty": "Einfach",
-    "cuisine": "Italienisch",
-    "diet": "Vegetarisch",
-    "portions": 2
-  }
-]`;
+    const prompt = this.promptBuilder.buildRecipeListPrompt(ingredientList, prefs);
 
     try {
       const prefsText = `Portionen: ${prefs.portions}, Zeit: ${prefs.time}, Küche: ${prefs.cuisine}, Ernährung: ${prefs.diet}`;
@@ -133,17 +108,18 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
         raw = await this.aiService.generateRaw(prompt);
       }
       if (!raw || raw.trim() === '') {
-        this.error.set('Kein API Key aktiv oder ungültig. Bitte Groq API Key oben eingeben.');
+        this.error.set('Kein AI-Ergebnis erhalten. Bitte pruefe deinen Groq API Key.');
         this.loading.set(false);
         return;
       }
-      const cleaned = raw.replace(/```json|```/g, '').trim();
-      const recipes: GeneratedRecipe[] = JSON.parse(cleaned);
+      const recipes = this.recipeParser.parseRecipeList(raw);
       this.generatedRecipes.set(recipes);
       this.loading.set(false);
       this.saveAll(recipes);
     } catch (e) {
-      this.error.set('Fehler beim Generieren. Bitte nochmal versuchen.');
+      this.error.set(
+        'Die AI-Antwort konnte nicht sicher gelesen werden. Bitte nochmal generieren.',
+      );
       console.error(e);
       this.loading.set(false);
     }

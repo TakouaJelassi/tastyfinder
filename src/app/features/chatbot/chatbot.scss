@@ -58,6 +58,11 @@
   overflow: hidden;
 }
 
+app-api-key-banner {
+  display: block;
+  padding-top: 16px;
+}
+
 .message-list {
   flex: 1;
   overflow-y: auto;

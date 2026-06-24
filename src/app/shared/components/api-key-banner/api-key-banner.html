@@ -1,36 +1,37 @@
-@if (!allKeysSet) {
-  <div class="banner">
-    <div class="banner-left">
-      <span class="banner-icon">🔑</span>
-      <div class="banner-info">
-        <span class="banner-title">AI-Demo erfordert einen Groq API Key</span>
-        <span class="banner-sub">
-          Kostenlos unter
-          <a href="https://console.groq.com/keys" target="_blank" rel="noopener"
-            >console.groq.com</a
-          >
-          — dauert 30 Sekunden
-        </span>
-      </div>
+<section class="ai-settings" [class.active]="hasKey()">
+  <div class="settings-copy">
+    <span class="eyebrow">AI configuration</span>
+    @if (hasKey()) {
+      <strong>AI ist aktiv</strong>
+      <span>Groq ist fuer Generator und Chat konfiguriert.</span>
+    } @else {
+      <strong>AI bei Bedarf aktivieren</strong>
+      <span>
+        Fuer eigene Rezeptideen brauchst du einen Groq API Key. Die normale Rezeptsuche funktioniert
+        weiter ohne Key.
+      </span>
+    }
+  </div>
+
+  @if (hasKey()) {
+    <div class="settings-actions">
+      @if (saved()) {
+        <span class="saved-msg">Gespeichert</span>
+      }
+      <button class="btn-secondary" type="button" (click)="removeAll()">Key entfernen</button>
     </div>
-    <div class="banner-right">
+  } @else {
+    <div class="settings-actions">
       <input
         type="password"
         placeholder="gsk_..."
+        aria-label="Groq API Key"
         [ngModel]="keyInput()"
         (ngModelChange)="keyInput.set($event)"
         (keyup.enter)="save()"
       />
-      <button class="btn-save" (click)="save()">Aktivieren</button>
+      <button class="btn-primary" type="button" (click)="save()">Aktivieren</button>
+      <a href="https://console.groq.com/keys" target="_blank" rel="noopener">Key erstellen</a>
     </div>
-  </div>
-} @else {
-  <div class="banner success">
-    <span class="banner-icon">✅</span>
-    <span class="banner-text">AI aktiv (Groq)</span>
-    @if (saved()) {
-      <span class="saved-msg">Keys gespeichert!</span>
-    }
-    <button class="btn-remove" (click)="removeAll()">Keys entfernen</button>
-  </div>
-}
+  }
+</section>

@@ -4,10 +4,13 @@ import { Router } from '@angular/router';
 import { AiService } from '../../core/services/ai';
 import { RecipeService } from '../../core/services/recipe';
 import { FirestoreService } from '../../core/services/firestore';
+import { GeneratedRecipeParser } from '../../core/services/generated-recipe-parser';
+import { PromptBuilder } from '../../core/services/prompt-builder';
 import { ChatMessage } from '../../core/models/chat.interface';
 import { RecipePreview } from '../../core/models/recipe.interface';
 import { GeneratedRecipe } from '../../core/models/generated-recipe.interface';
 import { onImageError } from '../../shared/image-fallback';
+import { ApiKeyBanner } from '../../shared/components/api-key-banner/api-key-banner';
 
 interface ChatTurn extends ChatMessage {
   recipes?: RecipePreview[];
@@ -16,7 +19,7 @@ interface ChatTurn extends ChatMessage {
 
 @Component({
   selector: 'app-chatbot',
-  imports: [FormsModule],
+  imports: [FormsModule, ApiKeyBanner],
   templateUrl: './chatbot.html',
   styleUrl: './chatbot.scss',
 })
@@ -26,6 +29,8 @@ export class Chatbot implements AfterViewChecked {
   private aiService = inject(AiService);
   private recipeService = inject(RecipeService);
   private firestoreService = inject(FirestoreService);
+  private recipeParser = inject(GeneratedRecipeParser);
+  private promptBuilder = inject(PromptBuilder);
   private router = inject(Router);
 
   userInput = signal('');
@@ -87,7 +92,7 @@ export class Chatbot implements AfterViewChecked {
       } else {
         this.addMessage(
           'bot',
-          'Dazu habe ich kein Rezept in der Sammlung. Mit einem Groq API Key (oben) erstelle ich dir gerne ein neues Rezept.',
+          'Dazu habe ich kein Rezept in der Sammlung. Mit aktivierter AI erstelle ich dir gerne ein neues Rezept.',
         );
       }
     } catch {
@@ -107,25 +112,10 @@ export class Chatbot implements AfterViewChecked {
   }
 
   private async generateRecipe(query: string): Promise<GeneratedRecipe | null> {
-    const prompt = `Du bist ein Profi-Koch. Erstelle EIN Rezept passend zu dieser Anfrage: "${query}".
-Antworte NUR mit einem validen JSON-Objekt ohne Markdown, genau in diesem Format:
-{
-  "title": "Rezeptname",
-  "ingredients": ["Zutat 1", "Zutat 2"],
-  "missingIngredients": [],
-  "steps": [{ "step": 1, "description": "Schritt", "parallel": false, "assignedTo": 1 }],
-  "duration": "30 Min",
-  "difficulty": "Einfach",
-  "cuisine": "Italienisch",
-  "diet": "none",
-  "portions": 2
-}`;
+    const prompt = this.promptBuilder.buildChatRecipePrompt(query);
     try {
       const raw = await this.aiService.generateRaw(prompt);
-      const cleaned = raw.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(cleaned) as GeneratedRecipe;
-      if (!parsed?.title || !Array.isArray(parsed.ingredients)) return null;
-      return parsed;
+      return this.recipeParser.parseRecipe(raw);
     } catch {
       return null;
     }

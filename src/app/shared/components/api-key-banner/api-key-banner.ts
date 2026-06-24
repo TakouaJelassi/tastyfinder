@@ -15,10 +15,6 @@ export class ApiKeyBanner {
   saved = signal(false);
   hasKey = signal(this.aiService.hasApiKey());
 
-  get allKeysSet(): boolean {
-    return this.hasKey();
-  }
-
   save(): void {
     const key = this.keyInput().trim();
     if (!key) return;
