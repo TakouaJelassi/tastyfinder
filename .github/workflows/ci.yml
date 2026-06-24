@@ -23,6 +23,11 @@ jobs:
       - name: Install
         run: npm ci --legacy-peer-deps
 
+      - name: Prepare environment files
+        run: |
+          cp src/environments/environment.example.ts src/environments/environment.ts
+          cp src/environments/environment.example.ts src/environments/environment.prod.ts
+
       - name: Typecheck app
         run: npx tsc --noEmit -p tsconfig.app.json
 
