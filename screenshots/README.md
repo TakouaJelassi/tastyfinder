@@ -4,11 +4,14 @@ Place app screenshots here with these exact filenames so they show up in the mai
 
 | Filename | Page |
 |---|---|
-| `home.png` | Home / recipe search |
+| `home.png` | Home |
+| `search.png` | Recipe search |
 | `detail.png` | Recipe detail |
-| `chat.png` | AI chat assistant |
-| `generate.png` | AI recipe generator |
+| `planner.png` | Meal planner |
 | `shopping.png` | Shopping list |
+| `generate.png` | AI recipe generator |
+| `chat.png` | AI chat assistant |
+| `mobile.png` | Mobile layout |
 | `profile.png` | User profile |
 
 **Tips for clean screenshots:**

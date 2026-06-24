@@ -1,5 +1,6 @@
 import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { RecipeService } from '../../core/services/recipe';
 import { FirestoreService } from '../../core/services/firestore';
@@ -8,7 +9,7 @@ import { RecipeCard } from '../../shared/components/recipe-card/recipe-card';
 
 @Component({
   selector: 'app-favorites',
-  imports: [RecipeCard],
+  imports: [RecipeCard, RouterLink],
   templateUrl: './favorites.html',
   styleUrl: './favorites.scss',
 })

@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.0
+          cache: npm
+
+      - name: Install
+        run: npm ci --legacy-peer-deps
+
+      - name: Typecheck app
+        run: npx tsc --noEmit -p tsconfig.app.json
+
+      - name: Typecheck specs
+        run: npx tsc --noEmit -p tsconfig.spec.json
+
+      - name: Unit tests
+        run: npx vitest run src/app/core/services/generated-recipe-parser.spec.ts src/app/core/services/recipe.spec.ts src/app/core/services/prompt-builder.spec.ts src/app/core/utils/shopping-items.spec.ts
+
+      - name: Build
+        run: npm run build

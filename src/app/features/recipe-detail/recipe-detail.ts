@@ -30,6 +30,7 @@ export class RecipeDetail implements OnInit {
   aiSummary = signal('');
   aiLoading = signal(false);
   addedToList = signal(false);
+  favorite = signal(false);
 
   get isLoggedIn(): boolean {
     return this.authService.isLoggedIn;
@@ -43,11 +44,29 @@ export class RecipeDetail implements OnInit {
     setTimeout(() => this.addedToList.set(false), 2500);
   }
 
+  async toggleFavorite(): Promise<void> {
+    const recipe = this.recipe();
+    if (!recipe || !this.isLoggedIn) return;
+
+    if (this.favorite()) {
+      await this.firestoreService.removeFavorite(recipe.id);
+      this.favorite.set(false);
+    } else {
+      await this.firestoreService.addFavorite(recipe.id);
+      this.favorite.set(true);
+    }
+  }
+
   ngOnInit(): void {
     this.recipeService.getById(this.id()).subscribe((recipe) => {
       this.recipe.set(recipe);
       this.loading.set(false);
-      if (recipe) this.loadAiSummary(recipe);
+      if (recipe) {
+        this.loadAiSummary(recipe);
+        this.firestoreService.isFavorite(recipe.id).subscribe((isFavorite) => {
+          this.favorite.set(isFavorite);
+        });
+      }
     });
   }
 
@@ -58,6 +77,23 @@ export class RecipeDetail implements OnInit {
   getYoutubeUrl(url: string): SafeResourceUrl {
     const id = url?.split('v=')?.[1] ?? '';
     return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${id}`);
+  }
+
+  get difficulty(): string {
+    const minutes = this.recipe()?.readyInMinutes ?? 0;
+    if (minutes <= 25) return 'Easy';
+    if (minutes <= 50) return 'Medium';
+    return 'Advanced';
+  }
+
+  get instructionSteps(): string[] {
+    const instructions = this.recipe()?.instructions ?? '';
+    return instructions
+      .replace(/<[^>]+>/g, ' ')
+      .split(/(?:\.\s+|\n+)/)
+      .map((step) => step.trim())
+      .filter(Boolean)
+      .map((step) => (step.endsWith('.') ? step : `${step}.`));
   }
 
   private async loadAiSummary(recipe: Recipe): Promise<void> {

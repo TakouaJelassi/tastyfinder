@@ -51,6 +51,45 @@
   }
 }
 
+.empty-planner {
+  max-width: 620px;
+  margin: 0 auto 1.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+
+  h2 {
+    margin: 0 0 0.4rem;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  p {
+    max-width: 440px;
+    margin: 0 auto 1rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  a {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+}
+
 .week-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));

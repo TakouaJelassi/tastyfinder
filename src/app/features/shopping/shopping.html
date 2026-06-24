@@ -22,7 +22,11 @@
       <div class="empty">
         <span class="empty-icon">🛒</span>
         <h2>Deine Einkaufsliste ist leer</h2>
-        <p>Füge Artikel manuell hinzu oder öffne ein Rezept und tippe auf „Zur Einkaufsliste".</p>
+        <p>Füge Artikel manuell hinzu oder übernimm Zutaten direkt aus Rezepten und Wochenplänen.</p>
+        <div class="empty-actions">
+          <a routerLink="/home">Rezepte öffnen</a>
+          <a routerLink="/planner">Woche planen</a>
+        </div>
       </div>
     } @else {
       <ul class="list">

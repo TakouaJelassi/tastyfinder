@@ -1,6 +1,6 @@
 import { Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RecipeService } from '../../core/services/recipe';
 import { FirestoreService } from '../../core/services/firestore';
 import { RecipePreview, MealPlan, WeekDay } from '../../core/models/recipe.interface';
@@ -26,7 +26,7 @@ const DAY_LABELS: { key: WeekDay; label: string }[] = [
 
 @Component({
   selector: 'app-planner',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './planner.html',
   styleUrl: './planner.scss',
 })

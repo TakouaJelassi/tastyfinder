@@ -1,12 +1,13 @@
 import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { FirestoreService } from '../../core/services/firestore';
 import { ShoppingItem } from '../../core/models/recipe.interface';
 
 @Component({
   selector: 'app-shopping',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './shopping.html',
   styleUrl: './shopping.scss',
 })

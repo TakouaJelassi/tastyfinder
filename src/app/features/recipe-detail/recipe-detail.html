@@ -27,6 +27,16 @@
             <span class="badge badge-area">{{ r.cuisine }}</span>
           </div>
           <h1>{{ r.title }}</h1>
+          <div class="hero-meta">
+            <span>{{ r.readyInMinutes || 30 }} Min</span>
+            <span>{{ r.servings || 2 }} servings</span>
+            <span>{{ difficulty }}</span>
+          </div>
+          @if (isLoggedIn) {
+            <button class="favorite-hero-btn" (click)="toggleFavorite()">
+              {{ favorite() ? 'Saved to favorites' : 'Save favorite' }}
+            </button>
+          }
         </div>
       </div>
     </div>
@@ -114,7 +124,19 @@
             </svg>
             Zubereitung
           </h2>
-          <p class="instructions">{{ r.instructions }}</p>
+          <ol class="instruction-steps">
+            @for (step of instructionSteps; track $index) {
+              <li>
+                <span class="step-number">{{ $index + 1 }}</span>
+                <p>{{ step }}</p>
+              </li>
+            } @empty {
+              <li>
+                <span class="step-number">1</span>
+                <p>No instructions available yet.</p>
+              </li>
+            }
+          </ol>
         </div>
       </div>
 

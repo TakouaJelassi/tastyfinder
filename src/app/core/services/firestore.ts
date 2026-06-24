@@ -19,6 +19,7 @@ import { Observable, from, of } from 'rxjs';
 import { AuthService } from './auth';
 import { GeneratedRecipe } from '../models/generated-recipe.interface';
 import { ShoppingItem, MealPlan } from '../models/recipe.interface';
+import { uniqueNewShoppingNames } from '../utils/shopping-items';
 
 const DEMO_LIBRARY_KEY = 'tf_demo_library';
 const DEMO_FAVORITES_KEY = 'tf_demo_favorites';
@@ -242,11 +243,11 @@ export class FirestoreService {
     if (!uid || names.length === 0) return;
     if (this.isDemo) {
       const items = this.readDemo<ShoppingItem[]>(DEMO_SHOPPING_KEY, DEMO_SHOPPING_ITEMS);
-      const existingNames = new Set(items.map((item) => item.name.toLowerCase().trim()));
-      for (const name of names) {
-        const clean = name.trim();
-        if (!clean || existingNames.has(clean.toLowerCase())) continue;
-        existingNames.add(clean.toLowerCase());
+      const newNames = uniqueNewShoppingNames(
+        items.map((item) => item.name),
+        names,
+      );
+      for (const clean of newNames) {
         items.push({
           id: `demo-shopping-${Date.now()}-${items.length}`,
           name: clean,
@@ -259,15 +260,13 @@ export class FirestoreService {
     const col = collection(this.firestore, `users/${uid}/shopping`);
 
     const existing = await getDocs(col);
-    const existingNames = new Set(
-      existing.docs.map((d) => (d.data()['name'] as string)?.toLowerCase().trim()),
+    const newNames = uniqueNewShoppingNames(
+      existing.docs.map((d) => (d.data()['name'] as string) ?? ''),
+      names,
     );
 
     const batch = writeBatch(this.firestore);
-    for (const name of names) {
-      const clean = name.trim();
-      if (!clean || existingNames.has(clean.toLowerCase())) continue;
-      existingNames.add(clean.toLowerCase());
+    for (const clean of newNames) {
       batch.set(doc(col), { name: clean, checked: false, createdAt: Timestamp.now() });
     }
     await batch.commit();

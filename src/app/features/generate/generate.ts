@@ -5,6 +5,7 @@ import { N8nService } from '../../core/services/n8n';
 import { FirestoreService } from '../../core/services/firestore';
 import { GeneratedRecipeParser } from '../../core/services/generated-recipe-parser';
 import { PromptBuilder } from '../../core/services/prompt-builder';
+import { ErrorMapper } from '../../core/errors/error-mapper';
 import { GeneratedRecipe, RecipePreferences } from '../../core/models/generated-recipe.interface';
 import { ApiKeyBanner } from '../../shared/components/api-key-banner/api-key-banner';
 
@@ -26,6 +27,7 @@ export class Generate {
   private firestoreService = inject(FirestoreService);
   private recipeParser = inject(GeneratedRecipeParser);
   private promptBuilder = inject(PromptBuilder);
+  private errorMapper = inject(ErrorMapper);
 
   ingredients = signal<IngredientInput[]>([{ name: '', amount: '', unit: 'g' }]);
   preferences = signal<RecipePreferences>({
@@ -117,9 +119,7 @@ export class Generate {
       this.loading.set(false);
       this.saveAll(recipes);
     } catch (e) {
-      this.error.set(
-        'Die AI-Antwort konnte nicht sicher gelesen werden. Bitte nochmal generieren.',
-      );
+      this.error.set(this.errorMapper.fromUnknown(e).message);
       console.error(e);
       this.loading.set(false);
     }

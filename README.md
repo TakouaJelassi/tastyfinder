@@ -13,13 +13,17 @@ favorites and shopping list.
 The screenshots below showcase the main product flows: discovery, recipe detail,
 AI assistance, generation, shopping list management and profile settings.
 
-| Home | Recipe Detail | AI Chat |
-| :--: | :-----------: | :-----: |
-| ![Home](screenshots/home.png) | ![Detail](screenshots/detail.png) | ![Chat](screenshots/chat.png) |
+| Home | Search | Recipe Detail |
+| :--: | :----: | :-----------: |
+| ![Home](screenshots/home.png) | ![Search](screenshots/search.png) | ![Detail](screenshots/detail.png) |
 
-| AI Generator | Shopping List | Profile |
-| :----------: | :-----------: | :-----: |
-| ![Generate](screenshots/generate.png) | ![Shopping](screenshots/shopping.png) | ![Profile](screenshots/profile.png) |
+| Meal Planner | Shopping List | AI Generator |
+| :----------: | :-----------: | :----------: |
+| ![Planner](screenshots/planner.png) | ![Shopping](screenshots/shopping.png) | ![Generate](screenshots/generate.png) |
+
+| AI Chat | Mobile | Profile |
+| :-----: | :----: | :-----: |
+| ![Chat](screenshots/chat.png) | ![Mobile](screenshots/mobile.png) | ![Profile](screenshots/profile.png) |
 
 ---
 
@@ -27,12 +31,14 @@ AI assistance, generation, shopping list management and profile settings.
 
 - **Recipe Search** — search by name, ingredient or cuisine
 - **AI Recipe Generator** — turn your ingredients into tailored recipes with
-  **Groq AI** (Llama 3.3 70B)
+  **Groq AI** (Llama 3.3 70B) and validated AI responses
 - **AI Chat Assistant** — finds matching recipes and generates new ones on the fly
 - **Authentication** — Email/Password and Google Sign-In via Firebase Auth
 - **Personal Library** — generated recipes saved per user in Firestore
 - **Favorites** — save and revisit recipes (per user)
 - **Shopping List** — add ingredients from any recipe, check items off, clear done
+- **Meal Planner** — plan a cooking week and send all ingredients to shopping
+- **Demo Workspace** — local browser-only demo data for portfolio reviews
 - **Profile** — edit name, upload an avatar, change password
 - **Responsive Design** — clean mobile and desktop layouts
 - **SSR** — Angular Server-Side Rendering for a fast initial load
@@ -62,9 +68,10 @@ TastyFinder uses **Groq AI** (Llama 3.3 70B) for two things:
 2. **Chat assistant** — generates a fresh recipe when nothing matches the
    local collection.
 
-For the demo, users enter their own Groq API key, stored only in the browser's
-`localStorage`. In production this should run through a secure backend or an n8n
-webhook so the key never reaches the client.
+For the demo, users enter their own Groq API key from the generator or chat
+configuration panel. The key is stored only in the browser's `localStorage`.
+In production this should run through a secure backend or an n8n webhook so the
+key never reaches the client.
 
 ```text
 Dev:         Angular → Angular Proxy → n8n Webhook → Groq
@@ -84,6 +91,7 @@ Firebase powers authentication, data and hosting.
   users/{uid}/recipes     # AI-generated recipes (library)
   users/{uid}/favorites   # favorited recipe ids
   users/{uid}/shopping    # shopping list items
+  users/{uid}/mealplan    # weekly meal plan
   users/{uid}/profile     # display name + avatar
   ```
 
@@ -152,7 +160,8 @@ export const environment = {
 npm start          # http://localhost:4200
 ```
 
-Enter your **Groq API Key** (`gsk_...`) in the banner to enable AI features.
+Open **Generate** or **AI Chat** and enter your **Groq API Key** (`gsk_...`) in
+the AI configuration panel to enable AI features.
 
 ### Optional: n8n (local AI automation)
 
@@ -170,6 +179,7 @@ src/app/
 │   ├── data/            # Local recipe dataset
 │   ├── guards/          # Auth route guard
 │   ├── models/          # TypeScript interfaces
+│   ├── errors/          # AppError + ErrorMapper
 │   └── services/        # Auth, Recipe, Firestore, AI (Groq), n8n
 ├── features/
 │   ├── home/            # Search + category filter
@@ -182,7 +192,7 @@ src/app/
 │   ├── auth/            # Login / Register
 │   └── recipe-detail/   # Recipe detail view
 └── shared/
-    └── components/      # Navbar, RecipeCard, Skeleton, ApiKeyBanner
+    └── components/      # Navbar, RecipeCard, Skeleton, AI settings, demo notice
 ```
 
 ---
@@ -195,21 +205,28 @@ src/app/
   data boundaries
 - AI recipe generation and conversational search powered by Groq, with an
   optional n8n workflow for local automation
+- Central generated recipe parser with JSON extraction, validation and typed
+  parse errors
+- Contextual AI key configuration instead of a global setup banner
+- Demo workspace notice with local browser persistence for recruiter review
 - Firestore-backed personal library, favorites, shopping list, profile and meal
   planning flows
 - Responsive SCSS design system with reusable shared components for navigation,
   recipe cards, skeleton loading and API-key management
+- GitHub Actions CI for install, type checks, focused unit tests and production
+  build
 - Firebase Hosting deployment with Angular SSR support
+
+See [docs/CASE_STUDY.md](docs/CASE_STUDY.md) for a concise portfolio case study.
 
 ---
 
 ## 🗺 Product Roadmap
 
-- Demo workspace with seeded data for recruiters and product reviewers
 - Secure backend or n8n production proxy so the Groq key never reaches the browser
 - Dietary filters (vegetarian, vegan, gluten-free)
 - Recipe ratings and notes
-- More resilient AI response validation and recovery
+- Split the current Firestore facade into focused stores as the product grows
 
 ---
 

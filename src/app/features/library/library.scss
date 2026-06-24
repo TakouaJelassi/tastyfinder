@@ -59,6 +59,26 @@
   }
 }
 
+.empty-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 18px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+
+  &:hover {
+    background: var(--primary-dark);
+    text-decoration: none !important;
+  }
+}
+
 .recipe-list {
   display: flex;
   flex-direction: column;
