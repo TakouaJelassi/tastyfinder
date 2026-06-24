@@ -7,12 +7,12 @@
           <path d="M2 17l10 5 10-5" />
           <path d="M2 12l10 5 10-5" />
         </svg>
-        Entdecke tausende Rezepte
+        Kuratierte Rezepte, mit Sorgfalt ausgewählt
       </div>
-      <h1>Kochen mit<br /><span class="hero-highlight">Leidenschaft</span></h1>
+      <h1>Kochen mit <span class="hero-highlight">Leidenschaft</span></h1>
       <p>
-        Von schnellen Alltagsrezepten bis hin zu aufwendigen Gourmetgerichten — finde dein nächstes
-        Lieblingsrezept.
+        Von schnellen Alltagsgerichten bis zur aufwendigen Küche — entdecke dein
+        nächstes Lieblingsrezept.
       </p>
 
       <div class="search-bar">
@@ -30,19 +30,39 @@
         </svg>
         <input
           type="text"
-          placeholder="Rezept suchen... z.B. Pasta, Chicken, Salad"
+          placeholder="Rezept suchen... z.B. Pasta, Chicken, Salat"
           [ngModel]="searchTerm()"
           (ngModelChange)="onSearch($event)"
           aria-label="Rezept suchen"
         />
       </div>
     </div>
-    <div class="hero-decoration">
-      <div class="hero-blob"></div>
-    </div>
   </header>
 
   <main class="main-content">
+    <!-- Bento-Entdeckungsband: asymmetrisches Grid -->
+    @if (showBento() && featured(); as feat) {
+      <section class="bento">
+        <a class="bento-feature" [routerLink]="['/recipe', feat.id]">
+          <img [src]="feat.image" [alt]="feat.title" loading="lazy" />
+          <div class="bento-feature-overlay">
+            <span class="bento-label">Rezept des Tages</span>
+            <h3>{{ feat.title }}</h3>
+            <span class="bento-cta">Rezept ansehen →</span>
+          </div>
+        </a>
+
+        <div class="bento-tiles">
+          @for (cat of quickCategories(); track cat.id) {
+            <button class="bento-tile" (click)="onCategorySelect(cat.name)">
+              <span class="bento-tile-kicker">Küche</span>
+              <span class="bento-tile-name">{{ cat.name }}</span>
+            </button>
+          }
+        </div>
+      </section>
+    }
+
     <section class="categories-section">
       <div class="section-header">
         <h2>Kategorien</h2>

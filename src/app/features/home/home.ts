@@ -1,5 +1,6 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { RecipeService } from '../../core/services/recipe';
@@ -9,7 +10,7 @@ import { SkeletonLoader } from '../../shared/components/skeleton-loader/skeleton
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule, RecipeCard, SkeletonLoader],
+  imports: [FormsModule, RouterLink, RecipeCard, SkeletonLoader],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -21,6 +22,13 @@ export class Home implements OnInit {
   categories = signal<Category[]>([]);
   selectedCategory = signal('');
   loading = signal(true);
+
+  /** "Rezept des Tages" — dominante Bento-Kachel (erstes geladenes Rezept). */
+  featured = computed(() => this.recipes()[0] ?? null);
+  /** Kleine Bento-Kacheln: erste vier Küchen als Schnellfilter. */
+  quickCategories = computed(() => this.categories().slice(0, 4));
+  /** Bento nur in der Entdecken-Ansicht zeigen (nicht beim Suchen/Filtern). */
+  showBento = computed(() => !this.searchTerm() && !this.selectedCategory());
 
   private search$ = new Subject<string>();
 
