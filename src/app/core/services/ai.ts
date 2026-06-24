@@ -1,14 +1,28 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { AiResponse } from '../models/chat.interface';
 
 const STORAGE_KEY = 'tf_groq_key';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const MODEL = 'llama-3.3-70b-versatile';
 
+interface GroqChatResponse {
+  choices?: Array<{
+    message?: {
+      content?: string;
+    };
+  }>;
+  error?: {
+    message?: string;
+  };
+}
+
 @Injectable({ providedIn: 'root' })
 export class AiService {
   private platformId = inject(PLATFORM_ID);
+  private http = inject(HttpClient);
 
   private get apiKey(): string {
     if (!isPlatformBrowser(this.platformId)) return '';
@@ -70,23 +84,26 @@ export class AiService {
     }
 
     try {
-      const response = await fetch(GROQ_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.apiKey}`,
-        },
-        body: JSON.stringify({
-          model: MODEL,
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.7,
-        }),
-      });
+      const data = await firstValueFrom(
+        this.http.post<GroqChatResponse>(
+          GROQ_URL,
+          {
+            model: MODEL,
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.7,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${this.apiKey}`,
+            },
+          },
+        ),
+      );
 
-      const data = await response.json();
       if (data?.error) {
         console.error('Groq error:', data.error.message);
-        return { text: '', error: data.error.message };
+        return { text: '', error: data.error.message ?? 'Groq konnte nicht antworten.' };
       }
       const text = data?.choices?.[0]?.message?.content?.trim() ?? '';
       return { text };

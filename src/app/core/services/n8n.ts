@@ -1,5 +1,7 @@
 import { Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 const N8N_WEBHOOK_URL = '/n8n/webhook/generate-recipe';
@@ -7,9 +9,18 @@ const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const STORAGE_KEY = 'tf_groq_key';
 const MODEL = 'llama-3.3-70b-versatile';
 
+interface GroqChatResponse {
+  choices?: Array<{
+    message?: {
+      content?: string;
+    };
+  }>;
+}
+
 @Injectable({ providedIn: 'root' })
 export class N8nService {
   private platformId = inject(PLATFORM_ID);
+  private http = inject(HttpClient);
 
   async generateRecipe(ingredients: string, preferences: string): Promise<string> {
     if (environment.production) {
@@ -19,15 +30,9 @@ export class N8nService {
   }
 
   private async generateViaN8n(ingredients: string, preferences: string): Promise<string> {
-    const response = await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ingredients, preferences }),
-    });
-
-    if (!response.ok) throw new Error(`n8n Fehler: ${response.status}`);
-
-    const data = await response.json();
+    const data = await firstValueFrom(
+      this.http.post<unknown>(N8N_WEBHOOK_URL, { ingredients, preferences }),
+    );
     return JSON.stringify(Array.isArray(data) ? data : [data]);
   }
 
@@ -58,22 +63,23 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
   }
 ]`;
 
-    const response = await fetch(GROQ_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7,
-      }),
-    });
+    const data = await firstValueFrom(
+      this.http.post<GroqChatResponse>(
+        GROQ_URL,
+        {
+          model: MODEL,
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.7,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+        },
+      ),
+    );
 
-    if (!response.ok) throw new Error(`Groq Fehler: ${response.status}`);
-
-    const data = await response.json();
     return data?.choices?.[0]?.message?.content ?? '[]';
   }
 }
