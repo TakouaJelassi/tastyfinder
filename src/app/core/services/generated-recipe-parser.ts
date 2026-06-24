@@ -72,7 +72,10 @@ export class GeneratedRecipeParser {
 
     const missing = this.validate(value, index);
     if (missing.length) {
-      throw new GeneratedRecipeParseError(`Recipe ${index + 1} is missing required fields.`, missing);
+      throw new GeneratedRecipeParseError(
+        `Recipe ${index + 1} is missing required fields.`,
+        missing,
+      );
     }
 
     return {
@@ -93,16 +96,21 @@ export class GeneratedRecipeParser {
     const errors: string[] = [];
 
     if (!this.hasText(value['title'])) errors.push(`${prefix}.title must be a non-empty string`);
-    if (!this.isStringArray(value['ingredients'])) errors.push(`${prefix}.ingredients must be a string array`);
+    if (!this.isStringArray(value['ingredients']))
+      errors.push(`${prefix}.ingredients must be a string array`);
     if (!Array.isArray(value['missingIngredients'])) {
       errors.push(`${prefix}.missingIngredients must be an array`);
     }
     if (!Array.isArray(value['steps'])) errors.push(`${prefix}.steps must be an array`);
-    if (!this.hasText(value['duration'])) errors.push(`${prefix}.duration must be a non-empty string`);
-    if (!this.hasText(value['difficulty'])) errors.push(`${prefix}.difficulty must be a non-empty string`);
-    if (!this.hasText(value['cuisine'])) errors.push(`${prefix}.cuisine must be a non-empty string`);
+    if (!this.hasText(value['duration']))
+      errors.push(`${prefix}.duration must be a non-empty string`);
+    if (!this.hasText(value['difficulty']))
+      errors.push(`${prefix}.difficulty must be a non-empty string`);
+    if (!this.hasText(value['cuisine']))
+      errors.push(`${prefix}.cuisine must be a non-empty string`);
     if (!this.hasText(value['diet'])) errors.push(`${prefix}.diet must be a non-empty string`);
-    if (!Number.isFinite(Number(value['portions']))) errors.push(`${prefix}.portions must be a number`);
+    if (!Number.isFinite(Number(value['portions'])))
+      errors.push(`${prefix}.portions must be a number`);
 
     return errors;
   }
@@ -116,7 +124,9 @@ export class GeneratedRecipeParser {
         step: Number.isFinite(Number(step['step'])) ? Number(step['step']) : index + 1,
         description: this.hasText(step['description']) ? String(step['description']).trim() : '',
         parallel: Boolean(step['parallel']),
-        assignedTo: Number.isFinite(Number(step['assignedTo'])) ? Number(step['assignedTo']) : undefined,
+        assignedTo: Number.isFinite(Number(step['assignedTo']))
+          ? Number(step['assignedTo'])
+          : undefined,
       }))
       .filter((step) => step.description);
   }

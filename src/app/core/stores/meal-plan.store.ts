@@ -4,18 +4,18 @@ import { Observable, from, of } from 'rxjs';
 import { AuthService } from '../services/auth';
 import { DemoDataStore } from './demo-data.store';
 import { MealPlan } from '../models/recipe.interface';
+import { normalizeMealPlan } from '../utils/meal-plan';
 
 const DEMO_KEY = 'tf_demo_meal_plan';
 
-const DEMO_PLAN: MealPlan = {
+const DEMO_PLAN: MealPlan = normalizeMealPlan({
   mon: ['1'],
   tue: ['4'],
   wed: ['8'],
   thu: ['14'],
   fri: ['22'],
-  sat: [],
   sun: ['18'],
-};
+});
 
 /** Wochenplan pro Nutzer. */
 @Injectable({ providedIn: 'root' })

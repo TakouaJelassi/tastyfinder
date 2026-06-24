@@ -35,7 +35,7 @@ jobs:
         run: npx tsc --noEmit -p tsconfig.spec.json
 
       - name: Unit tests
-        run: npx vitest run src/app/core/services/generated-recipe-parser.spec.ts src/app/core/services/recipe.spec.ts src/app/core/services/prompt-builder.spec.ts src/app/core/utils/shopping-items.spec.ts
+        run: npx vitest run
 
       - name: Build
         run: npm run build

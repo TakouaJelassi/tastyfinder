@@ -21,7 +21,9 @@ describe('GeneratedRecipeParser', () => {
   });
 
   it('parses recipe arrays from fenced AI responses', () => {
-    const recipes = parser.parseRecipeList(`Here you go:\n\`\`\`json\n[${JSON.stringify(validRecipe)}]\n\`\`\``);
+    const recipes = parser.parseRecipeList(
+      `Here you go:\n\`\`\`json\n[${JSON.stringify(validRecipe)}]\n\`\`\``,
+    );
 
     expect(recipes).toHaveLength(1);
     expect(recipes[0].title).toBe('Tomato Pasta');

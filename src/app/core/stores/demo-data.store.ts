@@ -1,6 +1,7 @@
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../services/auth';
+import { parseStoredValue } from '../utils/demo-storage';
 
 /**
  * Gemeinsame Grundlage für den Demo-Modus: liest/schreibt Demo-Daten im
@@ -17,23 +18,13 @@ export class DemoDataStore {
   }
 
   read<T>(key: string, fallback: T): T {
-    if (!isPlatformBrowser(this.platformId)) return this.clone(fallback);
-    const raw = localStorage.getItem(key);
-    if (!raw) return this.clone(fallback);
-    try {
-      return JSON.parse(raw) as T;
-    } catch {
-      return this.clone(fallback);
-    }
+    if (!isPlatformBrowser(this.platformId)) return parseStoredValue(null, fallback);
+    return parseStoredValue(localStorage.getItem(key), fallback);
   }
 
   write<T>(key: string, value: T): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(key, JSON.stringify(value));
     }
-  }
-
-  private clone<T>(value: T): T {
-    return JSON.parse(JSON.stringify(value)) as T;
   }
 }

@@ -5,6 +5,7 @@ import { RecipeService } from '../../core/services/recipe';
 import { MealPlanStore } from '../../core/stores/meal-plan.store';
 import { ShoppingStore } from '../../core/stores/shopping.store';
 import { RecipePreview, MealPlan, WeekDay } from '../../core/models/recipe.interface';
+import { normalizeMealPlan, countPlannedMeals } from '../../core/utils/meal-plan';
 import { onImageError } from '../../shared/image-fallback';
 
 interface DayColumn {
@@ -12,8 +13,6 @@ interface DayColumn {
   label: string;
   recipes: RecipePreview[];
 }
-
-const EMPTY_PLAN: MealPlan = { mon: [], tue: [], wed: [], thu: [], fri: [], sat: [], sun: [] };
 
 const DAY_LABELS: { key: WeekDay; label: string }[] = [
   { key: 'mon', label: 'Montag' },
@@ -40,7 +39,7 @@ export class Planner implements OnInit {
 
   onImageError = onImageError;
 
-  private plan = signal<MealPlan>({ ...EMPTY_PLAN });
+  private plan = signal<MealPlan>(normalizeMealPlan());
   loading = signal(true);
   saving = signal(false);
   pickerDay = signal<WeekDay | null>(null);
@@ -60,14 +59,14 @@ export class Planner implements OnInit {
     })),
   );
 
-  totalMeals = computed(() => Object.values(this.plan()).reduce((sum, ids) => sum + ids.length, 0));
+  totalMeals = computed(() => countPlannedMeals(this.plan()));
 
   ngOnInit(): void {
     this.mealPlanStore
       .get()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((plan) => {
-        if (plan) this.plan.set({ ...EMPTY_PLAN, ...plan });
+        if (plan) this.plan.set(normalizeMealPlan(plan));
         this.loading.set(false);
       });
   }
