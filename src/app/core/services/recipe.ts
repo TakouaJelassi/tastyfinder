@@ -22,6 +22,21 @@ export class RecipeService {
     return of(results);
   }
 
+  search(query: string): Observable<RecipePreview[]> {
+    const terms = this.tokenize(query);
+    if (terms.length === 0) return of(this.listAll());
+
+    const results = RECIPES.map((recipe) => ({
+      recipe,
+      score: this.scoreRecipe(recipe, terms),
+    }))
+      .filter((result) => result.score > 0)
+      .sort((a, b) => b.score - a.score || a.recipe.title.localeCompare(b.recipe.title))
+      .map(({ recipe }) => this.toPreview(recipe));
+
+    return of(results);
+  }
+
   searchByIngredient(ingredient: string): Observable<RecipePreview[]> {
     const term = ingredient.toLowerCase().trim();
     const results = RECIPES.filter((r) =>
@@ -115,5 +130,33 @@ export class RecipeService {
       .map((x) => this.toPreview(x.r));
 
     return of(scored);
+  }
+
+  private tokenize(query: string): string[] {
+    return query
+      .toLowerCase()
+      .replace(/[^a-z0-9äöüß\s-]/gi, ' ')
+      .split(/\s+/)
+      .map((term) => term.trim())
+      .filter((term) => term.length > 1);
+  }
+
+  private scoreRecipe(recipe: Recipe, terms: string[]): number {
+    const searchable = {
+      title: recipe.title.toLowerCase(),
+      cuisine: recipe.cuisine.toLowerCase(),
+      category: recipe.category.toLowerCase(),
+      tags: recipe.tags.toLowerCase(),
+      ingredients: recipe.ingredients.join(' ').toLowerCase(),
+    };
+
+    return terms.reduce((score, term) => {
+      if (searchable.title.includes(term)) return score + 5;
+      if (searchable.ingredients.includes(term)) return score + 4;
+      if (searchable.cuisine.includes(term)) return score + 3;
+      if (searchable.category.includes(term)) return score + 2;
+      if (searchable.tags.includes(term)) return score + 1;
+      return score;
+    }, 0);
   }
 }

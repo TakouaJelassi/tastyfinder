@@ -8,10 +8,10 @@ favorites and shopping list.
 
 ---
 
-## 📸 Screenshots
+## 📸 Product Screenshots
 
-> Add your screenshots to the [`screenshots/`](screenshots/) folder
-> (filenames below) and they will appear here automatically.
+The screenshots below showcase the main product flows: discovery, recipe detail,
+AI assistance, generation, shopping list management and profile settings.
 
 | Home | Recipe Detail | AI Chat |
 | :--: | :-----------: | :-----: |
@@ -187,25 +187,29 @@ src/app/
 
 ---
 
-## 💡 What I Learned
+## 🧩 Engineering Highlights
 
-- Building a full Angular 22 app with **Standalone Components** and **Signals**
-  (no NgRx)
-- **Firebase Auth** (email + Google) with an SSR-safe route guard
-- Modeling **per-user data** in Firestore with security rules
-- Integrating an **LLM (Groq)** for generation and conversational search
-- **n8n** workflow automation bridged to Angular via a dev proxy
-- Deploying **Angular SSR** to Firebase Hosting and managing multiple sites
-- Designing a resilient app that works even without external API quotas
+- Modern Angular architecture with **Standalone Components**, **Signals** and
+  lazy-loaded feature routes
+- Firebase Authentication with an SSR-safe route guard and per-user Firestore
+  data boundaries
+- AI recipe generation and conversational search powered by Groq, with an
+  optional n8n workflow for local automation
+- Firestore-backed personal library, favorites, shopping list, profile and meal
+  planning flows
+- Responsive SCSS design system with reusable shared components for navigation,
+  recipe cards, skeleton loading and API-key management
+- Firebase Hosting deployment with Angular SSR support
 
 ---
 
-## 🔭 Future Improvements
+## 🗺 Product Roadmap
 
-- Weekly meal planner with n8n automation
+- Demo workspace with seeded data for recruiters and product reviewers
+- Secure backend or n8n production proxy so the Groq key never reaches the browser
 - Dietary filters (vegetarian, vegan, gluten-free)
-- Secure backend proxy so the Groq key never touches the browser
 - Recipe ratings and notes
+- More resilient AI response validation and recovery
 
 ---
 

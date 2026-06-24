@@ -8,6 +8,7 @@ import { RecipeService } from '../../core/services/recipe';
 import { RecipePreview, Category } from '../../core/models/recipe.interface';
 import { RecipeCard } from '../../shared/components/recipe-card/recipe-card';
 import { SkeletonLoader } from '../../shared/components/skeleton-loader/skeleton-loader';
+import { onImageError } from '../../shared/image-fallback';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,7 @@ export class Home implements OnInit {
   categories = signal<Category[]>([]);
   selectedCategory = signal('');
   loading = signal(true);
+  onImageError = onImageError;
 
   /** "Rezept des Tages" — dominante Bento-Kachel (erstes geladenes Rezept). */
   featured = computed(() => this.recipes()[0] ?? null);
@@ -42,15 +44,13 @@ export class Home implements OnInit {
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
-        switchMap((term) => {
+        switchMap((term: string) => {
           this.loading.set(true);
-          return term
-            ? this.recipeService.searchByName(term)
-            : this.recipeService.searchByName('chicken');
+          return term ? this.recipeService.search(term) : this.recipeService.search('');
         }),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe((results) => {
+      .subscribe((results: RecipePreview[]) => {
         this.recipes.set(results);
         this.loading.set(false);
       });
@@ -58,20 +58,21 @@ export class Home implements OnInit {
 
   onSearch(term: string): void {
     this.searchTerm.set(term);
+    this.selectedCategory.set('');
     this.search$.next(term);
   }
 
   onCategorySelect(category: string): void {
     this.selectedCategory.set(category);
     this.loading.set(true);
-    this.recipeService.getByCategory(category).subscribe((results) => {
+    this.recipeService.getByCategory(category).subscribe((results: RecipePreview[]) => {
       this.recipes.set(results);
       this.loading.set(false);
     });
   }
 
   private loadInitial(): void {
-    this.recipeService.searchByName('chicken').subscribe((results) => {
+    this.recipeService.search('').subscribe((results: RecipePreview[]) => {
       this.recipes.set(results);
       this.loading.set(false);
     });

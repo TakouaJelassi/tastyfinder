@@ -44,7 +44,7 @@
     @if (showBento() && featured(); as feat) {
       <section class="bento">
         <a class="bento-feature" [routerLink]="['/recipe', feat.id]">
-          <img [src]="feat.image" [alt]="feat.title" loading="lazy" />
+          <img [src]="feat.image" [alt]="feat.title" loading="lazy" (error)="onImageError($event)" />
           <div class="bento-feature-overlay">
             <span class="bento-label">Rezept des Tages</span>
             <h3>{{ feat.title }}</h3>
