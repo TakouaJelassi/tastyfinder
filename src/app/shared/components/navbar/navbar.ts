@@ -1,6 +1,7 @@
 import { Component, inject, signal, HostListener } from '@angular/core';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
+import { ThemeService } from '../../../core/services/theme';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +11,7 @@ import { AuthService } from '../../../core/services/auth';
 })
 export class Navbar {
   authService = inject(AuthService);
+  themeService = inject(ThemeService);
   private router = inject(Router);
 
   menuOpen = signal(false);
