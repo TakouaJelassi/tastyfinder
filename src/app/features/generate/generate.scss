@@ -194,7 +194,7 @@
       background: var(--primary);
       border-color: var(--primary);
       color: white;
-      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+      box-shadow: 0 2px 8px rgba(194, 103, 74, 0.3);
     }
   }
 }
@@ -231,7 +231,7 @@
   &:hover:not(:disabled) {
     background: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
+    box-shadow: 0 6px 20px rgba(194, 103, 74, 0.35);
   }
   &:disabled {
     opacity: 0.55;
