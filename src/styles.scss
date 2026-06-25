@@ -25,22 +25,42 @@
   --bg: #fdfbf7;
   --surface: #ffffff;
   --surface-2: #f7f2ea;
+  --surface-3: #fff8ef;
 
   /* Schrift: warmes Anthrazit statt purem Schwarz */
   --text: #2a2622;
   --text-muted: #8b8378;
   --border: #ebe4d9;
+  --border-strong: #ddd1c3;
+  --success: #2f7d4f;
+  --success-light: #eef8f1;
+  --warning: #b86f21;
+  --warning-light: #fff7e8;
+  --danger: #c2413d;
+  --danger-light: #fff1f0;
 
   --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-ui: 'Plus Jakarta Sans', system-ui, sans-serif;
 
   --radius: 16px;
   --radius-sm: 10px;
+  --radius-md: 14px;
   --radius-lg: 22px;
+  --radius-pill: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
   /* Warm getönte Schatten (nicht kühles Schwarz) */
   --shadow-sm: 0 1px 3px rgba(60, 45, 30, 0.05), 0 1px 2px rgba(60, 45, 30, 0.04);
   --shadow: 0 6px 22px rgba(60, 45, 30, 0.09);
   --shadow-lg: 0 18px 48px rgba(60, 45, 30, 0.14);
+  --shadow-focus: 0 0 0 4px rgba(194, 103, 74, 0.14);
   --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -55,14 +75,23 @@
   --bg: #1a1a1a;
   --surface: #232220;
   --surface-2: #2b2925;
+  --surface-3: #302820;
 
   --text: #f0ebe3;
   --text-muted: #a39b90;
   --border: #36322e;
+  --border-strong: #514a43;
+  --success: #71b889;
+  --success-light: #1e2c22;
+  --warning: #dda85f;
+  --warning-light: #352817;
+  --danger: #e17872;
+  --danger-light: #351f1d;
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
   --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.6);
+  --shadow-focus: 0 0 0 4px rgba(210, 121, 90, 0.22);
 }
 
 body {
@@ -72,7 +101,9 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Große Titel in ausdrucksstarker Serif — wirkt sofort "Design-Agentur" */
@@ -100,8 +131,8 @@ button {
 
 :focus-visible {
   outline: 2px solid var(--primary);
-  outline-offset: 2px;
-  border-radius: 4px;
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
 }
 
 ::selection {
@@ -115,6 +146,55 @@ button {
   padding: 0 24px;
 }
 
+.surface-card {
+  background: linear-gradient(
+    180deg,
+    var(--surface) 0%,
+    color-mix(in srgb, var(--surface-2) 46%, var(--surface)) 100%
+  );
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.section-eyebrow {
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ui-input {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
+
+  &:focus,
+  &:focus-visible {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-focus);
+    outline: none;
+  }
+}
+
+.ui-empty {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-2) 58%, var(--surface)) 0%,
+    var(--surface) 100%
+  );
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -122,7 +202,7 @@ button {
   background: var(--primary);
   color: white;
   padding: 12px 24px;
-  border-radius: 50px;
+  border-radius: var(--radius-pill);
   font-size: 15px;
   font-weight: 600;
   font-family: inherit;
@@ -157,7 +237,7 @@ button {
   background: var(--surface);
   color: var(--text);
   padding: 12px 24px;
-  border-radius: 50px;
+  border-radius: var(--radius-pill);
   font-size: 15px;
   font-weight: 600;
   font-family: inherit;
@@ -169,5 +249,11 @@ button {
     border-color: var(--primary);
     color: var(--primary);
     background: var(--primary-light);
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 18px;
   }
 }

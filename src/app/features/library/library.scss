@@ -31,8 +31,12 @@
 
 .empty-state {
   text-align: center;
-  padding: 80px 24px;
+  padding: 72px 24px;
   color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  box-shadow: var(--shadow-sm);
 
   .empty-icon {
     font-size: 3rem;
@@ -86,11 +90,20 @@
 }
 
 .recipe-item {
-  background: var(--surface);
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   overflow: hidden;
-  transition: box-shadow var(--transition);
+  transition:
+    box-shadow var(--transition),
+    border-color var(--transition),
+    transform var(--transition);
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--primary) 22%, var(--border));
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+  }
 
   &.expanded {
     box-shadow: var(--shadow);
@@ -107,7 +120,7 @@
   transition: background var(--transition);
 
   &:hover {
-    background: var(--bg);
+    background: var(--primary-light);
   }
 
   h3 {
@@ -140,9 +153,9 @@
 }
 
 .diet-badge {
-  background: #f0fdf4 !important;
-  color: #16a34a !important;
-  border-color: #bbf7d0 !important;
+  background: var(--success-light) !important;
+  color: var(--success) !important;
+  border-color: color-mix(in srgb, var(--success) 28%, var(--border)) !important;
 }
 
 .chevron {
@@ -198,21 +211,21 @@
   }
 
   &.missing {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
+    background: var(--warning-light);
+    border: 1px solid color-mix(in srgb, var(--warning) 32%, var(--border));
     border-radius: var(--radius-sm);
     padding: 14px 16px;
     h4 {
-      color: #d97706;
+      color: var(--warning);
     }
   }
 }
 
 .parallel-badge {
   font-size: 11px;
-  background: #eff6ff;
-  color: #2563eb;
-  border-radius: 4px;
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: 999px;
   padding: 2px 7px;
   margin-left: 6px;
   font-weight: 600;

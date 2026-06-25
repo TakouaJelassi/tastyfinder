@@ -1,14 +1,15 @@
 .planner-page {
   min-height: 100vh;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at top right, rgba(126, 139, 110, 0.13), transparent 32rem), var(--bg);
 }
 
 .planner-header {
   text-align: center;
-  padding: 2.5rem 1.5rem 1.5rem;
+  padding: 3rem 1.5rem 1.75rem;
 
   h1 {
-    font-size: 1.8rem;
+    font-size: clamp(1.8rem, 4vw, 2.35rem);
     font-weight: 800;
     color: var(--text);
     margin: 0 0 0.35rem;
@@ -34,19 +35,24 @@
   background: var(--primary);
   color: #fff;
   border: none;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-pill);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.18s;
+  transition:
+    background 0.18s,
+    box-shadow 0.18s,
+    transform 0.18s;
 
   &:hover:not(:disabled) {
     background: var(--primary-dark);
+    box-shadow: 0 6px 18px rgba(194, 103, 74, 0.28);
+    transform: translateY(-1px);
   }
 
   &:disabled {
-    background: #15803d;
+    background: var(--success);
     cursor: default;
   }
 }
@@ -54,11 +60,12 @@
 .empty-planner {
   max-width: 620px;
   margin: 0 auto 1.75rem;
-  padding: 1.25rem;
+  padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: var(--surface);
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
   text-align: center;
+  box-shadow: var(--shadow-sm);
 
   h2 {
     margin: 0 0 0.4rem;
@@ -93,16 +100,27 @@
 .week-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .day-card {
-  background: var(--surface);
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color 0.18s,
+    box-shadow 0.18s,
+    transform 0.18s;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--primary) 24%, var(--border));
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
 }
 
 .day-head {
@@ -140,9 +158,10 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  background: var(--bg);
-  border-radius: var(--radius-sm);
-  padding: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 6px;
 
   img {
     width: 40px;
@@ -173,8 +192,8 @@
     flex-shrink: 0;
 
     &:hover {
-      color: #ef4444;
-      background: #fef2f2;
+      color: var(--danger);
+      background: var(--danger-light);
     }
   }
 }
@@ -213,7 +232,8 @@
 .picker-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(42, 38, 34, 0.55);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -222,7 +242,7 @@
 }
 
 .picker {
-  background: var(--surface);
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 480px;
@@ -230,6 +250,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
 }
 
 .picker-head {
@@ -281,7 +303,7 @@
   transition: background 0.15s;
 
   &:hover {
-    background: var(--bg);
+    background: var(--primary-light);
   }
 
   img {
