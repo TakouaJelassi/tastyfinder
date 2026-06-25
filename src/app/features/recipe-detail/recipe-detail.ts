@@ -7,6 +7,7 @@ import { AiService } from '../../core/services/ai';
 import { ShoppingStore } from '../../core/stores/shopping.store';
 import { FavoriteStore } from '../../core/stores/favorite.store';
 import { AuthService } from '../../core/services/auth';
+import { NotificationService } from '../../core/services/notification';
 import { Recipe } from '../../core/models/recipe.interface';
 
 @Component({
@@ -23,6 +24,7 @@ export class RecipeDetail implements OnInit {
   private shoppingStore = inject(ShoppingStore);
   private favoriteStore = inject(FavoriteStore);
   private authService = inject(AuthService);
+  private notification = inject(NotificationService);
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
   private platformId = inject(PLATFORM_ID);
@@ -43,6 +45,7 @@ export class RecipeDetail implements OnInit {
     if (!recipe || !this.isLoggedIn) return;
     await this.shoppingStore.add(recipe.ingredients);
     this.addedToList.set(true);
+    this.notification.success('Zutaten zur Einkaufsliste hinzugefügt');
     setTimeout(() => this.addedToList.set(false), 2500);
   }
 
@@ -53,9 +56,11 @@ export class RecipeDetail implements OnInit {
     if (this.favorite()) {
       await this.favoriteStore.remove(recipe.id);
       this.favorite.set(false);
+      this.notification.info('Aus Favoriten entfernt');
     } else {
       await this.favoriteStore.add(recipe.id);
       this.favorite.set(true);
+      this.notification.success('Zu Favoriten hinzugefügt');
     }
   }
 

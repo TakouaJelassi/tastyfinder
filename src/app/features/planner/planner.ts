@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { RecipeService } from '../../core/services/recipe';
 import { MealPlanStore } from '../../core/stores/meal-plan.store';
 import { ShoppingStore } from '../../core/stores/shopping.store';
+import { NotificationService } from '../../core/services/notification';
 import { RecipePreview, MealPlan, WeekDay } from '../../core/models/recipe.interface';
 import { normalizeMealPlan, countPlannedMeals } from '../../core/utils/meal-plan';
 import { onImageError } from '../../shared/image-fallback';
@@ -34,6 +35,7 @@ export class Planner implements OnInit {
   private recipeService = inject(RecipeService);
   private mealPlanStore = inject(MealPlanStore);
   private shoppingStore = inject(ShoppingStore);
+  private notification = inject(NotificationService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
@@ -102,6 +104,7 @@ export class Planner implements OnInit {
     const ingredients = this.recipeService.findByIds(ids).flatMap((r) => r.ingredients);
     await this.shoppingStore.add(ingredients);
     this.addedToShopping.set(true);
+    this.notification.success('Zutaten der Woche zur Einkaufsliste hinzugefügt');
     setTimeout(() => this.addedToShopping.set(false), 2500);
   }
 

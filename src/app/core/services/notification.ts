@@ -21,4 +21,8 @@ export class NotificationService {
   error(text: string): void {
     this.show({ type: 'error', text });
   }
+
+  info(text: string): void {
+    this.show({ type: 'info', text });
+  }
 }

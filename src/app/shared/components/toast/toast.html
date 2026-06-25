@@ -1,0 +1,25 @@
+@if (message(); as m) {
+  <div
+    class="toast"
+    [class.success]="m.type === 'success'"
+    [class.error]="m.type === 'error'"
+    [class.info]="m.type === 'info'"
+    role="status"
+    aria-live="polite"
+  >
+    <span class="toast-icon">
+      @switch (m.type) {
+        @case ('success') {
+          ✓
+        }
+        @case ('error') {
+          ✕
+        }
+        @default {
+          ℹ
+        }
+      }
+    </span>
+    <span class="toast-text">{{ m.text }}</span>
+  </div>
+}

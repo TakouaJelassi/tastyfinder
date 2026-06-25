@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ShoppingStore } from '../../core/stores/shopping.store';
+import { NotificationService } from '../../core/services/notification';
 import { ShoppingItem } from '../../core/models/recipe.interface';
 
 @Component({
@@ -13,6 +14,7 @@ import { ShoppingItem } from '../../core/models/recipe.interface';
 })
 export class Shopping implements OnInit {
   private shoppingStore = inject(ShoppingStore);
+  private notification = inject(NotificationService);
   private destroyRef = inject(DestroyRef);
 
   items = signal<ShoppingItem[]>([]);
@@ -38,6 +40,7 @@ export class Shopping implements OnInit {
     if (!name) return;
     this.newItem.set('');
     await this.shoppingStore.add([name]);
+    this.notification.success(`„${name}" hinzugefügt`);
     this.load();
   }
 
@@ -55,6 +58,7 @@ export class Shopping implements OnInit {
   async clearChecked(): Promise<void> {
     this.items.update((list) => list.filter((i) => !i.checked));
     await this.shoppingStore.clearChecked();
+    this.notification.success('Erledigte Artikel entfernt');
   }
 
   get checkedCount(): number {
