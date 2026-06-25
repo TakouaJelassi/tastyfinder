@@ -28,13 +28,70 @@
           </div>
           <h1>{{ r.title }}</h1>
           <div class="hero-meta">
-            <span>{{ r.readyInMinutes || 30 }} Min</span>
-            <span>{{ r.servings || 2 }} servings</span>
-            <span>{{ difficulty }}</span>
+            <span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              {{ r.readyInMinutes || 30 }} Min
+            </span>
+            <span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              {{ r.servings || 2 }} Portionen
+            </span>
+            <span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M22 12A10 10 0 1 1 12 2" />
+                <polyline points="12 12 16 8" />
+              </svg>
+              {{ difficulty }}
+            </span>
           </div>
           @if (isLoggedIn) {
-            <button class="favorite-hero-btn" (click)="toggleFavorite()">
-              {{ favorite() ? 'Saved to favorites' : 'Save favorite' }}
+            <button
+              class="favorite-hero-btn"
+              [class.active]="favorite()"
+              (click)="toggleFavorite()"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                [attr.fill]="favorite() ? 'currentColor' : 'none'"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                />
+              </svg>
+              {{ favorite() ? 'In Favoriten' : 'Zu Favoriten' }}
             </button>
           }
         </div>
@@ -133,7 +190,7 @@
             } @empty {
               <li>
                 <span class="step-number">1</span>
-                <p>No instructions available yet.</p>
+                <p>Noch keine Zubereitungsschritte verfügbar.</p>
               </li>
             }
           </ol>

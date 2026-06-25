@@ -88,9 +88,9 @@ export class RecipeDetail implements OnInit {
 
   get difficulty(): string {
     const minutes = this.recipe()?.readyInMinutes ?? 0;
-    if (minutes <= 25) return 'Easy';
-    if (minutes <= 50) return 'Medium';
-    return 'Advanced';
+    if (minutes <= 25) return 'Einfach';
+    if (minutes <= 50) return 'Mittel';
+    return 'Anspruchsvoll';
   }
 
   get instructionSteps(): string[] {

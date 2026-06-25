@@ -59,6 +59,10 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 28px;
+
+  @media (max-width: 768px) {
+    padding: 18px;
+  }
 }
 
 .back-btn {
@@ -110,6 +114,7 @@
   span {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
     min-height: 32px;
     padding: 6px 12px;
     border-radius: 999px;
@@ -119,11 +124,19 @@
     font-size: 13px;
     font-weight: 800;
     backdrop-filter: blur(8px);
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
   }
 }
 
 .favorite-hero-btn {
   align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   min-height: 42px;
   padding: 10px 18px;
   border-radius: 999px;
@@ -138,9 +151,19 @@
     background var(--transition),
     transform var(--transition);
 
+  svg {
+    width: 17px;
+    height: 17px;
+  }
+
   &:hover {
     background: #f7efe8;
     transform: translateY(-1px);
+  }
+
+  &.active {
+    background: var(--primary);
+    color: #fff;
   }
 }
 
@@ -170,6 +193,10 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 48px 24px 80px;
+
+  @media (max-width: 768px) {
+    padding: 28px 16px 56px;
+  }
 }
 
 .ai-card {
@@ -181,6 +208,11 @@
   border-radius: var(--radius-lg);
   padding: 20px 24px;
   margin-bottom: 48px;
+
+  @media (max-width: 768px) {
+    padding: 16px 18px;
+    margin-bottom: 32px;
+  }
 
   &.loading {
     opacity: 0.6;
