@@ -11,7 +11,17 @@ const CUISINE_CATEGORIES: Category[] = Array.from(
 @Injectable({ providedIn: 'root' })
 export class RecipeService {
   private toPreview(r: Recipe): RecipePreview {
-    return { id: r.id, title: r.title, image: r.image };
+    return {
+      id: r.id,
+      title: r.title,
+      image: r.image,
+      category: r.category,
+      cuisine: r.cuisine,
+      tags: r.tags,
+      diets: r.diets,
+      readyInMinutes: r.readyInMinutes,
+      servings: r.servings,
+    };
   }
 
   searchByName(name: string): Observable<RecipePreview[]> {

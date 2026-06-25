@@ -127,22 +127,6 @@
   }
 }
 
-.hero-decoration {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.hero-blob {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(194, 103, 74, 0.22) 0%, transparent 70%);
-  border-radius: 50%;
-  top: -200px;
-  right: -100px;
-}
-
 .search-bar {
   display: flex;
   align-items: center;
@@ -222,6 +206,16 @@
   }
 }
 
+.section-kicker {
+  display: inline-flex;
+  margin-bottom: 6px;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
 .recipe-count {
   font-size: 13px;
   font-weight: 600;
@@ -251,7 +245,9 @@
   overflow: hidden;
   min-height: 340px;
   box-shadow: var(--shadow);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
 
   img {
     position: absolute;
@@ -280,7 +276,12 @@
   justify-content: flex-end;
   gap: 8px;
   padding: 28px;
-  background: linear-gradient(to top, rgba(28, 24, 20, 0.88) 0%, rgba(28, 24, 20, 0.25) 55%, transparent 100%);
+  background: linear-gradient(
+    to top,
+    rgba(28, 24, 20, 0.88) 0%,
+    rgba(28, 24, 20, 0.25) 55%,
+    transparent 100%
+  );
   color: #fff;
 
   h3 {
@@ -338,8 +339,12 @@
   font-family: inherit;
   transition: all var(--transition);
 
-  &:nth-child(2) { background: var(--surface-2); }
-  &:nth-child(3) { background: var(--accent-light); }
+  &:nth-child(2) {
+    background: var(--surface-2);
+  }
+  &:nth-child(3) {
+    background: var(--accent-light);
+  }
 
   &:hover {
     border-color: var(--primary);
@@ -366,6 +371,94 @@
 
 .categories-section {
   margin-bottom: 48px;
+}
+
+.cuisine-showcase {
+  margin: 0 0 56px;
+}
+
+.cuisine-bands {
+  display: grid;
+  gap: 14px;
+}
+
+.cuisine-band {
+  position: relative;
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: 74px 1fr auto;
+  align-items: center;
+  gap: 18px;
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(90deg, rgba(246, 236, 229, 0.9), rgba(255, 255, 255, 0.9)), var(--surface);
+  color: var(--text);
+  padding: 14px 22px;
+  text-align: left;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
+
+  &:hover {
+    border-color: rgba(194, 103, 74, 0.45);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+}
+
+.cuisine-mark {
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 30% 32%, var(--primary) 0 7px, transparent 8px),
+    radial-gradient(circle at 68% 64%, var(--accent) 0 9px, transparent 10px), var(--accent-light);
+  transform: rotate(-5deg);
+}
+
+.cuisine-name {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  text-transform: capitalize;
+}
+
+.cuisine-garnish {
+  position: relative;
+  z-index: 1;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  padding: 8px 12px;
+  text-transform: uppercase;
+}
+
+@media (max-width: 720px) {
+  .cuisine-band {
+    grid-template-columns: 50px 1fr;
+    min-height: 76px;
+    padding: 13px 16px;
+  }
+
+  .cuisine-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+  }
+
+  .cuisine-garnish {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: -8px;
+  }
 }
 
 .categories {

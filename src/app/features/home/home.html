@@ -67,6 +67,27 @@
       </section>
     }
 
+    @if (showBento()) {
+      <section class="cuisine-showcase" aria-labelledby="cuisine-showcase-title">
+        <div class="section-header">
+          <div>
+            <span class="section-kicker">Cook by mood</span>
+            <h2 id="cuisine-showcase-title">Choose a cuisine</h2>
+          </div>
+        </div>
+
+        <div class="cuisine-bands">
+          @for (cat of cuisineShowcase(); track cat.id) {
+            <button class="cuisine-band" (click)="onCategorySelect(cat.name)">
+              <span class="cuisine-mark" aria-hidden="true"></span>
+              <span class="cuisine-name">{{ cat.name }} cuisine</span>
+              <span class="cuisine-garnish">{{ cat.garnish }}</span>
+            </button>
+          }
+        </div>
+      </section>
+    }
+
     <section class="categories-section">
       <div class="section-header">
         <h2>Kategorien</h2>

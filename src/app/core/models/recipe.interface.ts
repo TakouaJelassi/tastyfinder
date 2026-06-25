@@ -2,6 +2,12 @@ export interface RecipePreview {
   id: string;
   title: string;
   image: string;
+  category?: string;
+  cuisine?: string;
+  tags?: string;
+  diets?: string[];
+  readyInMinutes?: number;
+  servings?: number;
 }
 
 export interface Recipe {

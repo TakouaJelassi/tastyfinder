@@ -1,5 +1,5 @@
 .card {
-  background: var(--surface);
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
@@ -10,6 +10,7 @@
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 
   &:hover {
     transform: translateY(-6px);
@@ -49,6 +50,23 @@
   background: linear-gradient(to top, rgba(0, 0, 0, 0.2) 0%, transparent 60%);
   opacity: 0;
   transition: opacity var(--transition);
+}
+
+.card-kicker {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  max-width: calc(100% - 72px);
+  border-radius: 999px;
+  background: rgba(253, 251, 247, 0.92);
+  color: var(--primary-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  padding: 6px 11px;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 16px rgba(42, 38, 34, 0.12);
 }
 
 .fav-btn {
@@ -92,15 +110,16 @@
 }
 
 .card-body {
-  padding: 16px;
+  padding: 18px;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .card-title {
-  font-size: 15px;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--text);
   line-height: 1.45;
@@ -112,25 +131,56 @@
 
 .card-meta {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
-}
 
-.card-category,
-.card-area {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 50px;
-  background: var(--bg);
-  color: var(--text-muted);
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 700;
+  }
 
-  &:empty {
-    display: none;
+  app-icon {
+    color: var(--accent);
   }
 }
 
-.card-category {
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.card-tags span {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 50px;
+  background: rgba(126, 139, 110, 0.12);
+  color: var(--accent);
+  text-transform: capitalize;
+}
+
+.card-link {
+  margin-top: auto;
+  align-self: flex-start;
+  border-radius: 999px;
   background: var(--primary-light);
   color: var(--primary-dark);
+  font-size: 13px;
+  font-weight: 800;
+  padding: 9px 14px;
+  transition:
+    background var(--transition),
+    color var(--transition),
+    transform var(--transition);
+}
+
+.card:hover .card-link {
+  background: var(--primary);
+  color: #fff;
+  transform: translateY(-1px);
 }

@@ -52,4 +52,17 @@ export class RecipeCard implements OnInit {
   openDetail(): void {
     this.router.navigate(['/recipe', this.recipe().id]);
   }
+
+  get visibleTags(): string[] {
+    const recipe = this.recipe();
+    const tags = recipe.tags
+      ?.split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean)
+      .slice(0, 2);
+
+    return tags?.length
+      ? tags
+      : [recipe.category, recipe.cuisine].filter((tag): tag is string => Boolean(tag)).slice(0, 2);
+  }
 }

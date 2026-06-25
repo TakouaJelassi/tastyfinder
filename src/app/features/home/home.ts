@@ -34,6 +34,14 @@ export class Home implements OnInit {
   quickCategories = computed(() => this.categories().slice(0, 4));
   /** Bento nur in der Entdecken-Ansicht zeigen (nicht beim Suchen/Filtern). */
   showBento = computed(() => !this.searchTerm() && !this.selectedCategory());
+  cuisineShowcase = computed(() =>
+    this.categories()
+      .slice(0, 6)
+      .map((cat) => ({
+        ...cat,
+        garnish: this.cuisineGarnish(cat.name),
+      })),
+  );
 
   private search$ = new Subject<string>();
 
@@ -83,5 +91,21 @@ export class Home implements OnInit {
     this.recipeService.getCategories().subscribe((cats) => {
       this.categories.set(cats);
     });
+  }
+
+  private cuisineGarnish(name: string): string {
+    const normalized = name.toLowerCase();
+    const map: Record<string, string> = {
+      italian: 'tomato basil pasta',
+      indian: 'curry spice rice',
+      mexican: 'lime chili corn',
+      asian: 'noodles ginger soy',
+      american: 'grill pickles corn',
+      mediterranean: 'olive lemon herbs',
+      japanese: 'rice nori miso',
+      german: 'potato herbs bread',
+    };
+
+    return map[normalized] ?? 'fresh herbs pantry';
   }
 }
