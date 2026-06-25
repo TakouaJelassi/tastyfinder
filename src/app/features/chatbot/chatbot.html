@@ -44,9 +44,9 @@
                 <div class="generated-head">
                   <h3>{{ g.title }}</h3>
                   <div class="generated-meta">
-                    <span>⏱ {{ g.duration }}</span>
-                    <span>📊 {{ g.difficulty }}</span>
-                    <span>👤 {{ g.portions }} Port.</span>
+                    <span><app-icon name="clock" [size]="13" /> {{ g.duration }}</span>
+                    <span><app-icon name="gauge" [size]="13" /> {{ g.difficulty }}</span>
+                    <span><app-icon name="users" [size]="13" /> {{ g.portions }} Port.</span>
                   </div>
                 </div>
 
@@ -65,7 +65,8 @@
                 </ol>
 
                 <button class="btn-add-shopping" (click)="addGeneratedToShopping(g)">
-                  🛒 Zutaten zur Einkaufsliste
+                  <app-icon name="cart" [size]="16" />
+                  Zutaten zur Einkaufsliste
                 </button>
               </div>
             }

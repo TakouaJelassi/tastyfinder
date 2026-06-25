@@ -15,10 +15,16 @@ export type IconName =
   | 'logout'
   | 'menu'
   | 'close'
+  | 'check'
   | 'back'
   | 'clock'
   | 'users'
   | 'gauge'
+  | 'sparkles'
+  | 'zap'
+  | 'utensils'
+  | 'chevronUp'
+  | 'chevronDown'
   | 'ingredients'
   | 'instructions'
   | 'video'
@@ -46,11 +52,19 @@ export const ICONS: Record<IconName, string> = {
     '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
   menu: '<line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>',
   close: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  check: '<polyline points="20 6 9 17 4 12"/>',
   back: '<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>',
   clock: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
   users:
     '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
   gauge: '<path d="M22 12A10 10 0 1 1 12 2"/><polyline points="12 12 16 8"/>',
+  sparkles:
+    '<path d="m12 3-1.9 5.1L5 10l5.1 1.9L12 17l1.9-5.1L19 10l-5.1-1.9L12 3z"/><path d="m5 3-.8 2.2L2 6l2.2.8L5 9l.8-2.2L8 6l-2.2-.8L5 3z"/><path d="m19 15-.8 2.2L16 18l2.2.8L19 21l.8-2.2L22 18l-2.2-.8L19 15z"/>',
+  zap: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  utensils:
+    '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
+  chevronUp: '<polyline points="18 15 12 9 6 15"/>',
+  chevronDown: '<polyline points="6 9 12 15 18 9"/>',
   ingredients:
     '<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>',
   instructions:

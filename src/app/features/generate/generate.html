@@ -40,7 +40,9 @@
             }
           </select>
           @if (ingredients().length > 1) {
-            <button class="btn-remove" (click)="removeIngredient($index)">✕</button>
+            <button class="btn-remove" (click)="removeIngredient($index)" aria-label="Zutat entfernen">
+              <app-icon name="close" [size]="14" />
+            </button>
           }
         </div>
       }
@@ -141,7 +143,8 @@
       @if (loading()) {
         <span class="spinner"></span> KI generiert...
       } @else {
-        ✨ 3 Rezepte generieren
+        <app-icon name="sparkles" [size]="18" />
+        3 Rezepte generieren
       }
     </button>
   </div>
@@ -151,7 +154,10 @@
     <div class="results">
       <h2>Deine Rezepte</h2>
       @if (saved()) {
-        <p class="saved-hint">✅ Alle Rezepte in der Bibliothek gespeichert.</p>
+        <p class="saved-hint">
+          <app-icon name="check" [size]="16" />
+          Alle Rezepte in der Bibliothek gespeichert.
+        </p>
       }
       <div class="recipe-cards">
         @for (recipe of generatedRecipes(); track recipe.title) {
@@ -159,9 +165,9 @@
             <div class="card-header">
               <h3>{{ recipe.title }}</h3>
               <div class="card-meta">
-                <span>⏱ {{ recipe.duration }}</span>
-                <span>👤 {{ recipe.portions }} Port.</span>
-                <span>📊 {{ recipe.difficulty }}</span>
+                <span><app-icon name="clock" [size]="13" /> {{ recipe.duration }}</span>
+                <span><app-icon name="users" [size]="13" /> {{ recipe.portions }} Port.</span>
+                <span><app-icon name="gauge" [size]="13" /> {{ recipe.difficulty }}</span>
               </div>
             </div>
 
@@ -193,7 +199,10 @@
                     <li [class.parallel]="step.parallel">
                       {{ step.description }}
                       @if (step.parallel) {
-                        <span class="parallel-badge">⚡ parallel</span>
+                        <span class="parallel-badge">
+                          <app-icon name="zap" [size]="11" />
+                          parallel
+                        </span>
                       }
                     </li>
                   }

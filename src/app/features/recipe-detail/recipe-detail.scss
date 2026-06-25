@@ -395,6 +395,10 @@ h2 {
 }
 
 .btn-shopping {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   margin-top: 1.25rem;
   width: 100%;
   padding: 0.8rem 1rem;

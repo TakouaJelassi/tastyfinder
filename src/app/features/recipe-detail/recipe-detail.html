@@ -74,9 +74,11 @@
           @if (isLoggedIn && r.ingredients.length) {
             <button class="btn-shopping" (click)="addToShoppingList()" [disabled]="addedToList()">
               @if (addedToList()) {
-                ✓ Zur Einkaufsliste hinzugefügt
+                <app-icon name="check" [size]="16" />
+                Zur Einkaufsliste hinzugefügt
               } @else {
-                🛒 Zutaten zur Einkaufsliste
+                <app-icon name="cart" [size]="16" />
+                Zutaten zur Einkaufsliste
               }
             </button>
           }

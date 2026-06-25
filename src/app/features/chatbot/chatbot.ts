@@ -40,7 +40,7 @@ export class Chatbot implements AfterViewChecked {
   messages = signal<ChatTurn[]>([
     {
       sender: 'bot',
-      text: '👋 Hallo! Ich helfe dir, das passende Rezept zu finden. Schreib mir, welche Zutaten du hast oder worauf du Lust hast.',
+      text: 'Hallo! Ich helfe dir, das passende Rezept zu finden. Schreib mir, welche Zutaten du hast oder worauf du Lust hast.',
       timestamp: new Date(),
     },
   ]);
@@ -109,7 +109,7 @@ export class Chatbot implements AfterViewChecked {
 
   async addGeneratedToShopping(recipe: GeneratedRecipe): Promise<void> {
     await this.shoppingStore.add(recipe.ingredients);
-    this.addMessage('bot', `✓ Zutaten für „${recipe.title}" wurden zur Einkaufsliste hinzugefügt.`);
+    this.addMessage('bot', `Zutaten für „${recipe.title}" wurden zur Einkaufsliste hinzugefügt.`);
   }
 
   private async generateRecipe(query: string): Promise<GeneratedRecipe | null> {

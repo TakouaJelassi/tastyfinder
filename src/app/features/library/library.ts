@@ -3,10 +3,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { UserRecipeStore } from '../../core/stores/user-recipe.store';
 import { GeneratedRecipe } from '../../core/models/generated-recipe.interface';
+import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-library',
-  imports: [RouterLink],
+  imports: [RouterLink, Icon],
   templateUrl: './library.html',
   styleUrl: './library.scss',
 })

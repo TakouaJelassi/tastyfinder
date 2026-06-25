@@ -8,6 +8,7 @@ import { NotificationService } from '../../core/services/notification';
 import { RecipePreview, MealPlan, WeekDay } from '../../core/models/recipe.interface';
 import { normalizeMealPlan, countPlannedMeals } from '../../core/utils/meal-plan';
 import { onImageError } from '../../shared/image-fallback';
+import { Icon } from '../../shared/components/icon/icon';
 
 interface DayColumn {
   key: WeekDay;
@@ -27,7 +28,7 @@ const DAY_LABELS: { key: WeekDay; label: string }[] = [
 
 @Component({
   selector: 'app-planner',
-  imports: [RouterLink],
+  imports: [RouterLink, Icon],
   templateUrl: './planner.html',
   styleUrl: './planner.scss',
 })

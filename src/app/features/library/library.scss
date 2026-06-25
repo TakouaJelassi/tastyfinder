@@ -156,6 +156,9 @@
   font-weight: 600;
 
   span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     background: var(--bg);
     padding: 3px 10px;
     border-radius: 50px;
@@ -233,6 +236,9 @@
 }
 
 .parallel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 11px;
   background: var(--accent-light);
   color: var(--accent);

@@ -22,16 +22,18 @@
             <div class="recipe-info">
               <h3>{{ recipe.title }}</h3>
               <div class="meta">
-                <span>⏱ {{ recipe.duration }}</span>
-                <span>👤 {{ recipe.portions }} Port.</span>
-                <span>📊 {{ recipe.difficulty }}</span>
-                <span>🍴 {{ recipe.cuisine }}</span>
+                <span><app-icon name="clock" [size]="13" /> {{ recipe.duration }}</span>
+                <span><app-icon name="users" [size]="13" /> {{ recipe.portions }} Port.</span>
+                <span><app-icon name="gauge" [size]="13" /> {{ recipe.difficulty }}</span>
+                <span><app-icon name="utensils" [size]="13" /> {{ recipe.cuisine }}</span>
                 @if (recipe.diet && recipe.diet !== 'none') {
                   <span class="diet-badge">{{ recipe.diet }}</span>
                 }
               </div>
             </div>
-            <span class="chevron">{{ expandedId() === recipe.id ? '▲' : '▼' }}</span>
+            <span class="chevron">
+              <app-icon [name]="expandedId() === recipe.id ? 'chevronUp' : 'chevronDown'" [size]="15" />
+            </span>
           </div>
 
           @if (expandedId() === recipe.id) {
@@ -64,7 +66,10 @@
                       <li>
                         {{ step.description }}
                         @if (step.parallel) {
-                          <span class="parallel-badge">⚡ parallel</span>
+                          <span class="parallel-badge">
+                            <app-icon name="zap" [size]="11" />
+                            parallel
+                          </span>
                         }
                       </li>
                     }

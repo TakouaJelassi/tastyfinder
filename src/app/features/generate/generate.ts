@@ -8,6 +8,7 @@ import { PromptBuilder } from '../../core/services/prompt-builder';
 import { ErrorMapper } from '../../core/errors/error-mapper';
 import { GeneratedRecipe, RecipePreferences } from '../../core/models/generated-recipe.interface';
 import { ApiKeyBanner } from '../../shared/components/api-key-banner/api-key-banner';
+import { Icon } from '../../shared/components/icon/icon';
 
 interface IngredientInput {
   name: string;
@@ -17,7 +18,7 @@ interface IngredientInput {
 
 @Component({
   selector: 'app-generate',
-  imports: [FormsModule, ApiKeyBanner],
+  imports: [FormsModule, ApiKeyBanner, Icon],
   templateUrl: './generate.html',
   styleUrl: './generate.scss',
 })

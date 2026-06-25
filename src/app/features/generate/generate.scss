@@ -337,6 +337,9 @@ app-api-key-banner {
     flex-wrap: wrap;
 
     span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       background: rgba(255, 255, 255, 0.2);
       padding: 3px 10px;
       border-radius: 50px;
@@ -382,6 +385,9 @@ app-api-key-banner {
 }
 
 .parallel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: 11px;
   background: var(--accent-light);
   color: var(--accent);

@@ -4,11 +4,11 @@ An **AI-powered recipe discovery platform**: browse recipes, generate custom
 ones with AI, chat with a cooking assistant, and manage your personal cookbook,
 favorites and shopping list.
 
-### 🔗 Live Demo → [tastyfinder.web.app](https://tastyfinder.web.app)
+### Live Demo → [tastyfinder.web.app](https://tastyfinder.web.app)
 
 ---
 
-## 📸 Product Screenshots
+## Product Screenshots
 
 The screenshots below showcase the main product flows: discovery, recipe detail,
 AI assistance, generation, shopping list management and profile settings.
@@ -27,7 +27,7 @@ AI assistance, generation, shopping list management and profile settings.
 
 ---
 
-## ✨ Features
+## Features
 
 - **Recipe Search** — search by name, ingredient or cuisine
 - **AI Recipe Generator** — turn your ingredients into tailored recipes with
@@ -45,7 +45,7 @@ AI assistance, generation, shopping list management and profile settings.
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Layer      | Technology                                         |
 | ---------- | -------------------------------------------------- |
@@ -59,7 +59,7 @@ AI assistance, generation, shopping list management and profile settings.
 
 ---
 
-## 🤖 Groq AI
+## Groq AI
 
 TastyFinder uses **Groq AI** (Llama 3.3 70B) for two things:
 
@@ -82,7 +82,7 @@ Fallback:   Angular → Groq API (user-supplied key)
 
 ---
 
-## 🔥 Firebase
+## Firebase
 
 Firebase powers authentication, data and hosting.
 
@@ -103,7 +103,7 @@ Firebase powers authentication, data and hosting.
 
 ---
 
-## 🔗 n8n Workflow
+## n8n Workflow
 
 In local development, AI calls can be routed through an **n8n** workflow instead
 of calling Groq directly from the browser — demonstrating real-world workflow
@@ -119,7 +119,7 @@ In production the app falls back to calling Groq directly.
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -179,7 +179,7 @@ N8N_SECURE_COOKIE=false npx n8n   # http://localhost:5678
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 src/app/
@@ -205,7 +205,7 @@ src/app/
 
 ---
 
-## 🧩 Engineering Highlights
+## Engineering Highlights
 
 - Modern Angular architecture with **Standalone Components**, **Signals** and
   lazy-loaded feature routes
@@ -229,7 +229,7 @@ See [docs/CASE_STUDY.md](docs/CASE_STUDY.md) for a concise portfolio case study.
 
 ---
 
-## 🗺 Product Roadmap
+## Product Roadmap
 
 - Deploy the server-side Groq proxy on the production hosting target
 - Dietary filters (vegetarian, vegan, gluten-free)
@@ -238,6 +238,6 @@ See [docs/CASE_STUDY.md](docs/CASE_STUDY.md) for a concise portfolio case study.
 
 ---
 
-## 📄 License
+## License
 
 MIT

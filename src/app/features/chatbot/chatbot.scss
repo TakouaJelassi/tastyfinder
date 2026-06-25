@@ -335,6 +335,12 @@ app-api-key-banner {
     font-size: 12px;
     color: var(--text-muted);
     margin-bottom: 12px;
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
   }
 
   h4 {
@@ -361,6 +367,10 @@ app-api-key-banner {
 }
 
 .btn-add-shopping {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   margin-top: 14px;
   width: 100%;
   padding: 10px;
