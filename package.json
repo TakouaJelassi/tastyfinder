@@ -7,7 +7,7 @@
     "build": "ng build",
     "postbuild": "node -e \"require('fs').copyFileSync('dist/tastyfinder/browser/index.csr.html', 'dist/tastyfinder/browser/index.html')\"",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "vitest run",
     "serve:ssr:tastyfinder": "node dist/tastyfinder/server/server.mjs"
   },
   "private": true,

@@ -55,7 +55,7 @@ be split into focused stores without changing feature behavior:
 - Local demo storage with a global demo workspace notice.
 - GitHub Actions CI for install, type checks, focused unit tests and build.
 
-## Learnings
+## Engineering Takeaways
 
 Small architecture boundaries matter most where product risk is highest:
 AI parsing, auth, persistence and user-facing error states. Keeping those paths
