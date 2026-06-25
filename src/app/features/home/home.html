@@ -79,7 +79,7 @@
         <div class="cuisine-bands">
           @for (cat of cuisineShowcase(); track cat.id) {
             <button class="cuisine-band" (click)="onCategorySelect(cat.name)">
-              <span class="cuisine-mark" aria-hidden="true"></span>
+              <span class="food-mark cuisine-mark" aria-hidden="true"></span>
               <span class="cuisine-name">{{ cat.name }} cuisine</span>
               <span class="cuisine-garnish">{{ cat.garnish }}</span>
             </button>

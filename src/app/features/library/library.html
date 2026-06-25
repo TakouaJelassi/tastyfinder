@@ -1,6 +1,7 @@
 <div class="library-page">
   <div class="page-header">
-    <h1>📚 Bibliothek</h1>
+    <span class="food-mark food-mark--book" aria-hidden="true"></span>
+    <h1>Bibliothek</h1>
     <p>Deine generierten Rezepte — gespeichert und jederzeit verfügbar.</p>
   </div>
 
@@ -8,7 +9,7 @@
     <div class="loading">Rezepte werden geladen...</div>
   } @else if (recipes().length === 0) {
     <div class="empty-state">
-      <span class="empty-icon">🍽</span>
+      <span class="food-mark food-mark--book" aria-hidden="true"></span>
       <h2>Noch keine Rezepte</h2>
       <p>Starte mit vorhandenen Zutaten und speichere deine ersten eigenen Rezeptideen.</p>
       <a class="empty-cta" routerLink="/generate">Erstes Rezept generieren</a>

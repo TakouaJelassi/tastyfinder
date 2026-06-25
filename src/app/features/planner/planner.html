@@ -1,6 +1,7 @@
 <div class="planner-page">
   <div class="planner-header">
-    <h1>📅 Wochenplan</h1>
+    <span class="food-mark food-mark--calendar" aria-hidden="true"></span>
+    <h1>Wochenplan</h1>
     <p>{{ totalMeals() }} Gerichte geplant</p>
   </div>
 
@@ -22,6 +23,7 @@
         </button>
       } @else {
         <div class="empty-planner">
+          <span class="food-mark food-mark--calendar" aria-hidden="true"></span>
           <h2>Plane deine erste Kochwoche</h2>
           <p>
             Lege pro Tag Rezepte ab und uebernimm alle Zutaten spaeter gesammelt in die

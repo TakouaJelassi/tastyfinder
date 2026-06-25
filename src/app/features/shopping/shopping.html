@@ -1,6 +1,7 @@
 <div class="shopping-page">
   <div class="shopping-header">
-    <h1>🛒 Einkaufsliste</h1>
+    <span class="food-mark food-mark--basket" aria-hidden="true"></span>
+    <h1>Einkaufsliste</h1>
     <p>{{ items().length }} Artikel — {{ checkedCount }} erledigt</p>
   </div>
 
@@ -20,7 +21,7 @@
       <div class="loading-wrap"><div class="spinner"></div></div>
     } @else if (items().length === 0) {
       <div class="empty">
-        <span class="empty-icon">🛒</span>
+        <span class="food-mark food-mark--basket" aria-hidden="true"></span>
         <h2>Deine Einkaufsliste ist leer</h2>
         <p>
           Füge Artikel manuell hinzu oder übernimm Zutaten direkt aus Rezepten und Wochenplänen.

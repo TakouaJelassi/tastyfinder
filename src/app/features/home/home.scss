@@ -386,7 +386,7 @@
   position: relative;
   min-height: 82px;
   display: grid;
-  grid-template-columns: 74px 1fr auto;
+  grid-template-columns: 72px 1fr auto;
   align-items: center;
   gap: 18px;
   overflow: hidden;
@@ -394,7 +394,8 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(90deg, rgba(246, 236, 229, 0.9), rgba(255, 255, 255, 0.9)), var(--surface);
+    linear-gradient(90deg, rgba(246, 236, 229, 0.92), rgba(255, 255, 255, 0.84)),
+    radial-gradient(circle at 96% 50%, rgba(126, 139, 110, 0.13), transparent 18rem), var(--surface);
   color: var(--text);
   padding: 14px 22px;
   text-align: left;
@@ -411,13 +412,8 @@
 }
 
 .cuisine-mark {
-  width: 54px;
-  height: 54px;
-  border-radius: 18px;
-  background:
-    radial-gradient(circle at 30% 32%, var(--primary) 0 7px, transparent 8px),
-    radial-gradient(circle at 68% 64%, var(--accent) 0 9px, transparent 10px), var(--accent-light);
-  transform: rotate(-5deg);
+  width: 56px;
+  height: 56px;
 }
 
 .cuisine-name {
