@@ -5,10 +5,11 @@ import { RecipePreview } from '../../../core/models/recipe.interface';
 import { FavoriteStore } from '../../../core/stores/favorite.store';
 import { AuthService } from '../../../core/services/auth';
 import { onImageError } from '../../image-fallback';
+import { Icon } from '../icon/icon';
 
 @Component({
   selector: 'app-recipe-card',
-  imports: [],
+  imports: [Icon],
   templateUrl: './recipe-card.html',
   styleUrl: './recipe-card.scss',
 })

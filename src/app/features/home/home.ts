@@ -8,11 +8,12 @@ import { RecipeService } from '../../core/services/recipe';
 import { RecipePreview, Category } from '../../core/models/recipe.interface';
 import { RecipeCard } from '../../shared/components/recipe-card/recipe-card';
 import { SkeletonLoader } from '../../shared/components/skeleton-loader/skeleton-loader';
+import { Icon } from '../../shared/components/icon/icon';
 import { onImageError } from '../../shared/image-fallback';
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule, RouterLink, RecipeCard, SkeletonLoader],
+  imports: [FormsModule, RouterLink, RecipeCard, SkeletonLoader, Icon],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

@@ -11,10 +11,11 @@ import {
 import { Auth } from '@angular/fire/auth';
 import { AuthService } from '../../core/services/auth';
 import { ProfileStore } from '../../core/stores/profile.store';
+import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-profile',
-  imports: [FormsModule],
+  imports: [FormsModule, Icon],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })

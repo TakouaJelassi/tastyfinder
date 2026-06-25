@@ -9,10 +9,11 @@ import { FavoriteStore } from '../../core/stores/favorite.store';
 import { AuthService } from '../../core/services/auth';
 import { NotificationService } from '../../core/services/notification';
 import { Recipe } from '../../core/models/recipe.interface';
+import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-recipe-detail',
-  imports: [],
+  imports: [Icon],
   templateUrl: './recipe-detail.html',
   styleUrl: './recipe-detail.scss',
 })

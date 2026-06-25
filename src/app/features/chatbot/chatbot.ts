@@ -11,6 +11,7 @@ import { RecipePreview } from '../../core/models/recipe.interface';
 import { GeneratedRecipe } from '../../core/models/generated-recipe.interface';
 import { onImageError } from '../../shared/image-fallback';
 import { ApiKeyBanner } from '../../shared/components/api-key-banner/api-key-banner';
+import { Icon } from '../../shared/components/icon/icon';
 
 interface ChatTurn extends ChatMessage {
   recipes?: RecipePreview[];
@@ -19,7 +20,7 @@ interface ChatTurn extends ChatMessage {
 
 @Component({
   selector: 'app-chatbot',
-  imports: [FormsModule, ApiKeyBanner],
+  imports: [FormsModule, ApiKeyBanner, Icon],
   templateUrl: './chatbot.html',
   styleUrl: './chatbot.scss',
 })

@@ -5,10 +5,11 @@ import { RouterLink } from '@angular/router';
 import { ShoppingStore } from '../../core/stores/shopping.store';
 import { NotificationService } from '../../core/services/notification';
 import { ShoppingItem } from '../../core/models/recipe.interface';
+import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-shopping',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, Icon],
   templateUrl: './shopping.html',
   styleUrl: './shopping.scss',
 })

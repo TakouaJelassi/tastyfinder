@@ -2,32 +2,17 @@
   <header class="hero">
     <div class="hero-content">
       <div class="hero-badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2L2 7l10 5 10-5-10-5z" />
-          <path d="M2 17l10 5 10-5" />
-          <path d="M2 12l10 5 10-5" />
-        </svg>
+        <app-icon name="generate" [size]="14" style="color: var(--primary)" />
         Kuratierte Rezepte, mit Sorgfalt ausgewählt
       </div>
       <h1>Kochen mit <span class="hero-highlight">Leidenschaft</span></h1>
       <p>
-        Von schnellen Alltagsgerichten bis zur aufwendigen Küche — entdecke dein
-        nächstes Lieblingsrezept.
+        Von schnellen Alltagsgerichten bis zur aufwendigen Küche — entdecke dein nächstes
+        Lieblingsrezept.
       </p>
 
       <div class="search-bar">
-        <svg
-          class="search-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="11" cy="11" r="8" />
-          <path d="m21 21-4.35-4.35" />
-        </svg>
+        <app-icon name="search" [size]="20" class="search-icon" style="color: var(--text-muted)" />
         <input
           type="text"
           placeholder="Rezept suchen... z.B. Pasta, Chicken, Salat"
@@ -58,7 +43,12 @@
     @if (showBento() && featured(); as feat) {
       <section class="bento">
         <a class="bento-feature" [routerLink]="['/recipe', feat.id]">
-          <img [src]="feat.image" [alt]="feat.title" loading="lazy" (error)="onImageError($event)" />
+          <img
+            [src]="feat.image"
+            [alt]="feat.title"
+            loading="lazy"
+            (error)="onImageError($event)"
+          />
           <div class="bento-feature-overlay">
             <span class="bento-label">Rezept des Tages</span>
             <h3>{{ feat.title }}</h3>
@@ -116,10 +106,12 @@
             <app-recipe-card [recipe]="recipe" />
           } @empty {
             <div class="empty-state">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-              </svg>
+              <app-icon
+                name="search"
+                [size]="48"
+                [strokeWidth]="1.5"
+                style="opacity: 0.4; margin-bottom: 16px"
+              />
               <h3>Keine Rezepte gefunden</h3>
               <p>Versuche einen anderen Suchbegriff oder wähle eine andere Kategorie.</p>
             </div>

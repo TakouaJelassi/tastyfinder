@@ -2,16 +2,7 @@
   <div class="chat-header">
     <div class="chat-header-inner">
       <div class="chat-avatar">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-        </svg>
+        <app-icon name="chat" [size]="22" style="color: #fff" />
       </div>
       <div>
         <h1>AI Rezept-Assistent</h1>
@@ -32,9 +23,7 @@
         >
           @if (msg.sender === 'bot') {
             <div class="avatar bot-avatar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
+              <app-icon name="chat" [size]="15" style="color: #fff" />
             </div>
           }
           <div class="message-content">
@@ -87,9 +76,7 @@
       @if (thinking()) {
         <div class="message bot">
           <div class="avatar bot-avatar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
+            <app-icon name="chat" [size]="15" style="color: #fff" />
           </div>
           <div class="bubble typing"><span></span><span></span><span></span></div>
         </div>
@@ -114,17 +101,7 @@
         aria-label="Nachricht eingeben"
       ></textarea>
       <button (click)="send()" [disabled]="thinking() || !userInput().trim()" aria-label="Senden">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <line x1="22" y1="2" x2="11" y2="13" />
-          <polygon points="22 2 15 22 11 13 2 9 22 2" />
-        </svg>
+        <app-icon name="send" [size]="18" />
       </button>
     </div>
   </div>

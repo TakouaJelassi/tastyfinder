@@ -8,17 +8,7 @@
     <div class="detail-hero" [style.backgroundImage]="'url(' + r.image + ')'">
       <div class="hero-overlay">
         <button class="back-btn" (click)="goBack()">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M19 12H5" />
-            <path d="m12 19-7-7 7-7" />
-          </svg>
+          <app-icon name="back" [size]="16" [strokeWidth]="2.5" />
           Zurück
         </button>
         <div class="hero-info">
@@ -28,50 +18,9 @@
           </div>
           <h1>{{ r.title }}</h1>
           <div class="hero-meta">
-            <span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-              {{ r.readyInMinutes || 30 }} Min
-            </span>
-            <span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-              {{ r.servings || 2 }} Portionen
-            </span>
-            <span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M22 12A10 10 0 1 1 12 2" />
-                <polyline points="12 12 16 8" />
-              </svg>
-              {{ difficulty }}
-            </span>
+            <span><app-icon name="clock" [size]="15" /> {{ r.readyInMinutes || 30 }} Min</span>
+            <span><app-icon name="users" [size]="15" /> {{ r.servings || 2 }} Portionen</span>
+            <span><app-icon name="gauge" [size]="15" /> {{ difficulty }}</span>
           </div>
           @if (isLoggedIn) {
             <button
@@ -79,18 +28,7 @@
               [class.active]="favorite()"
               (click)="toggleFavorite()"
             >
-              <svg
-                viewBox="0 0 24 24"
-                [attr.fill]="favorite() ? 'currentColor' : 'none'"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                />
-              </svg>
+              <app-icon name="heart" [size]="17" [filled]="favorite()" />
               {{ favorite() ? 'In Favoriten' : 'Zu Favoriten' }}
             </button>
           }
@@ -102,22 +40,14 @@
       @if (aiLoading()) {
         <div class="ai-card loading">
           <div class="ai-icon-wrap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
+            <app-icon name="generate" [size]="18" style="color: #fff" />
           </div>
           <p>AI analysiert das Rezept...</p>
         </div>
       } @else if (aiSummary()) {
         <div class="ai-card">
           <div class="ai-icon-wrap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
+            <app-icon name="generate" [size]="18" style="color: #fff" />
           </div>
           <div>
             <p class="ai-label">AI Zusammenfassung</p>
@@ -129,18 +59,7 @@
       <div class="two-col">
         <div class="ingredients-section">
           <h2>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
-              <path d="M7 2v20" />
-              <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
-            </svg>
+            <app-icon name="ingredients" [size]="20" style="color: var(--primary)" />
             Zutaten
           </h2>
           <ul class="ingredients-list">
@@ -165,20 +84,7 @@
 
         <div class="instructions-section">
           <h2>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-              <polyline points="14 2 14 8 20 8" />
-              <line x1="16" y1="13" x2="8" y2="13" />
-              <line x1="16" y1="17" x2="8" y2="17" />
-              <polyline points="10 9 9 9 8 9" />
-            </svg>
+            <app-icon name="instructions" [size]="20" style="color: var(--primary)" />
             Zubereitung
           </h2>
           <ol class="instruction-steps">
@@ -200,17 +106,7 @@
       @if (r.video) {
         <div class="video-section">
           <h2>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polygon points="23 7 16 12 23 17 23 7" />
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-            </svg>
+            <app-icon name="video" [size]="20" style="color: var(--primary)" />
             Video
           </h2>
           <div class="video-wrap">
@@ -227,10 +123,7 @@
   </div>
 } @else {
   <div class="loading-wrap">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.35-4.35" />
-    </svg>
+    <app-icon name="search" [size]="48" [strokeWidth]="1.5" />
     <h3>Rezept nicht gefunden</h3>
     <button class="btn-primary" (click)="goBack()">Zurück zur Übersicht</button>
   </div>

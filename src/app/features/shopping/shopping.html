@@ -22,7 +22,9 @@
       <div class="empty">
         <span class="empty-icon">🛒</span>
         <h2>Deine Einkaufsliste ist leer</h2>
-        <p>Füge Artikel manuell hinzu oder übernimm Zutaten direkt aus Rezepten und Wochenplänen.</p>
+        <p>
+          Füge Artikel manuell hinzu oder übernimm Zutaten direkt aus Rezepten und Wochenplänen.
+        </p>
         <div class="empty-actions">
           <a routerLink="/home">Rezepte öffnen</a>
           <a routerLink="/planner">Woche planen</a>
@@ -38,19 +40,7 @@
               <span class="item-name">{{ item.name }}</span>
             </label>
             <button class="btn-remove" (click)="remove(item)" aria-label="Entfernen">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                width="16"
-                height="16"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              <app-icon name="close" [size]="16" />
             </button>
           </li>
         }
