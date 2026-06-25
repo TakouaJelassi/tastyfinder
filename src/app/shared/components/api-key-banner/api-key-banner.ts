@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AiService } from '../../../core/services/ai';
 
@@ -8,12 +8,17 @@ import { AiService } from '../../../core/services/ai';
   templateUrl: './api-key-banner.html',
   styleUrl: './api-key-banner.scss',
 })
-export class ApiKeyBanner {
+export class ApiKeyBanner implements OnInit {
   private aiService = inject(AiService);
 
   keyInput = signal('');
   saved = signal(false);
   hasKey = signal(this.aiService.hasApiKey());
+  serverConfigured = signal(false);
+
+  async ngOnInit(): Promise<void> {
+    this.serverConfigured.set(await this.aiService.hasServerProxy());
+  }
 
   save(): void {
     const key = this.keyInput().trim();

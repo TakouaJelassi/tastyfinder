@@ -75,7 +75,7 @@ export class Chatbot implements AfterViewChecked {
       if (recipes.length > 0) {
         const reply = await this.buildReply(text, recipes);
         this.addMessage('bot', reply, recipes.slice(0, 6));
-      } else if (this.aiService.hasApiKey()) {
+      } else if (await this.aiService.hasAiAccess()) {
         const generated = await this.generateRecipe(text);
         if (generated) {
           this.addMessage(
@@ -139,7 +139,7 @@ export class Chatbot implements AfterViewChecked {
       .map((r) => r.title)
       .join(', ');
 
-    if (this.aiService.hasApiKey()) {
+    if (await this.aiService.hasAiAccess()) {
       try {
         const prompt = `Du bist ein freundlicher Koch-Assistent. Der Nutzer schrieb: "${query}". Ich schlage diese Rezepte vor: ${names}. Antworte in EINEM kurzen, freundlichen deutschen Satz, der zu den Vorschlägen hinführt. Keine Aufzählung, kein Markdown.`;
         const aiText = await this.aiService.generateRaw(prompt);

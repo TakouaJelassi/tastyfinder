@@ -13,16 +13,16 @@ favorites and shopping list.
 The screenshots below showcase the main product flows: discovery, recipe detail,
 AI assistance, generation, shopping list management and profile settings.
 
-| Home | Search | Recipe Detail |
-| :--: | :----: | :-----------: |
+|             Home              |              Search               |           Recipe Detail           |
+| :---------------------------: | :-------------------------------: | :-------------------------------: |
 | ![Home](screenshots/home.png) | ![Search](screenshots/search.png) | ![Detail](screenshots/detail.png) |
 
-| Meal Planner | Shopping List | AI Generator |
-| :----------: | :-----------: | :----------: |
+|            Meal Planner             |             Shopping List             |             AI Generator              |
+| :---------------------------------: | :-----------------------------------: | :-----------------------------------: |
 | ![Planner](screenshots/planner.png) | ![Shopping](screenshots/shopping.png) | ![Generate](screenshots/generate.png) |
 
-| AI Chat | Mobile | Profile |
-| :-----: | :----: | :-----: |
+|            AI Chat            |              Mobile               |               Profile               |
+| :---------------------------: | :-------------------------------: | :---------------------------------: |
 | ![Chat](screenshots/chat.png) | ![Mobile](screenshots/mobile.png) | ![Profile](screenshots/profile.png) |
 
 ---
@@ -47,15 +47,15 @@ AI assistance, generation, shopping list management and profile settings.
 
 ## 🛠 Tech Stack
 
-| Layer      | Technology                                       |
-| ---------- | ------------------------------------------------ |
+| Layer      | Technology                                         |
+| ---------- | -------------------------------------------------- |
 | Frontend   | Angular 22 (Standalone, Signals), TypeScript, SCSS |
-| AI         | **Groq** — Llama 3.3 70B Versatile               |
-| Auth       | Firebase Authentication                          |
-| Database   | Cloud Firestore (per-user collections)           |
-| Automation | **n8n** (local workflow, optional)               |
-| Hosting    | Firebase Hosting + Angular SSR                    |
-| State      | Angular Signals + RxJS                           |
+| AI         | **Groq** — Llama 3.3 70B Versatile                 |
+| Auth       | Firebase Authentication                            |
+| Database   | Cloud Firestore (per-user collections)             |
+| Automation | **n8n** (local workflow, optional)                 |
+| Hosting    | Firebase Hosting + Angular SSR                     |
+| State      | Angular Signals + RxJS                             |
 
 ---
 
@@ -68,14 +68,16 @@ TastyFinder uses **Groq AI** (Llama 3.3 70B) for two things:
 2. **Chat assistant** — generates a fresh recipe when nothing matches the
    local collection.
 
-For the demo, users enter their own Groq API key from the generator or chat
-configuration panel. The key is stored only in the browser's `localStorage`.
-In production this should run through a secure backend or an n8n webhook so the
-key never reaches the client.
+In production, Groq requests can run through the server-side `/api/groq/chat`
+proxy by setting `GROQ_API_KEY` in the Node/SSR runtime environment. If the
+proxy is not configured, users can still enter their own Groq API key from the
+generator or chat configuration panel. User-supplied keys are stored only in the
+browser's `localStorage`.
 
 ```text
 Dev:         Angular → Angular Proxy → n8n Webhook → Groq
-Production:   Angular → Groq API (user-supplied key)
+Production: Angular → /api/groq/chat → Groq
+Fallback:   Angular → Groq API (user-supplied key)
 ```
 
 ---
@@ -154,6 +156,12 @@ export const environment = {
 };
 ```
 
+For server-side AI proxy deployments, configure the backend runtime:
+
+```bash
+GROQ_API_KEY=gsk_...
+```
+
 ### Run
 
 ```bash
@@ -223,7 +231,7 @@ See [docs/CASE_STUDY.md](docs/CASE_STUDY.md) for a concise portfolio case study.
 
 ## 🗺 Product Roadmap
 
-- Secure backend or n8n production proxy so the Groq key never reaches the browser
+- Deploy the server-side Groq proxy on the production hosting target
 - Dietary filters (vegetarian, vegan, gluten-free)
 - Recipe ratings and notes
 - Split the current Firestore facade into focused stores as the product grows

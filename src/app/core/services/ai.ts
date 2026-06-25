@@ -6,6 +6,8 @@ import { AiResponse } from '../models/chat.interface';
 
 const STORAGE_KEY = 'tf_groq_key';
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const PROXY_STATUS_URL = '/api/groq/status';
+const PROXY_CHAT_URL = '/api/groq/chat';
 const MODEL = 'llama-3.3-70b-versatile';
 
 interface GroqChatResponse {
@@ -19,10 +21,20 @@ interface GroqChatResponse {
   };
 }
 
+interface GroqProxyStatus {
+  configured?: boolean;
+}
+
+interface GroqProxyResponse {
+  text?: string;
+  error?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AiService {
   private platformId = inject(PLATFORM_ID);
   private http = inject(HttpClient);
+  private proxyAvailable: boolean | null = null;
 
   private get apiKey(): string {
     if (!isPlatformBrowser(this.platformId)) return '';
@@ -43,6 +55,27 @@ export class AiService {
 
   hasApiKey(): boolean {
     return !!this.apiKey;
+  }
+
+  async hasAiAccess(): Promise<boolean> {
+    return (await this.hasServerProxy()) || this.hasApiKey();
+  }
+
+  async hasServerProxy(): Promise<boolean> {
+    if (this.proxyAvailable !== null) return this.proxyAvailable;
+
+    try {
+      const status = await firstValueFrom(
+        this.http.get<GroqProxyStatus>(PROXY_STATUS_URL, {
+          headers: { Accept: 'application/json' },
+        }),
+      );
+      this.proxyAvailable = status.configured === true;
+    } catch {
+      this.proxyAvailable = false;
+    }
+
+    return this.proxyAvailable;
   }
 
   async extractEnglishIngredients(userInput: string): Promise<string> {
@@ -79,6 +112,9 @@ export class AiService {
   }
 
   private async callGroq(prompt: string): Promise<AiResponse> {
+    const proxyResponse = await this.callServerProxy(prompt);
+    if (proxyResponse.text || proxyResponse.error !== 'proxy-unavailable') return proxyResponse;
+
     if (!this.apiKey) {
       return { text: '', error: 'Kein API Key gesetzt.' };
     }
@@ -109,6 +145,26 @@ export class AiService {
       return { text };
     } catch {
       return { text: '', error: 'Fehler bei der AI-Anfrage.' };
+    }
+  }
+
+  private async callServerProxy(prompt: string): Promise<AiResponse & { error?: string }> {
+    if (!(await this.hasServerProxy())) return { text: '', error: 'proxy-unavailable' };
+
+    try {
+      const response = await firstValueFrom(
+        this.http.post<GroqProxyResponse>(
+          PROXY_CHAT_URL,
+          { prompt },
+          { headers: { 'Content-Type': 'application/json' } },
+        ),
+      );
+
+      if (response.error) return { text: '', error: response.error };
+      return { text: response.text?.trim() ?? '' };
+    } catch {
+      this.proxyAvailable = false;
+      return { text: '', error: 'proxy-unavailable' };
     }
   }
 }

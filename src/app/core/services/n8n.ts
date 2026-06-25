@@ -1,25 +1,18 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 const N8N_WEBHOOK_URL = '/n8n/webhook/generate-recipe';
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const STORAGE_KEY = 'tf_groq_key';
-const MODEL = 'llama-3.3-70b-versatile';
+const PROXY_CHAT_URL = '/api/groq/chat';
 
-interface GroqChatResponse {
-  choices?: Array<{
-    message?: {
-      content?: string;
-    };
-  }>;
+interface GroqProxyResponse {
+  text?: string;
+  error?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class N8nService {
-  private platformId = inject(PLATFORM_ID);
   private http = inject(HttpClient);
 
   async generateRecipe(ingredients: string, preferences: string): Promise<string> {
@@ -37,12 +30,6 @@ export class N8nService {
   }
 
   private async generateViaGroq(ingredients: string, preferences: string): Promise<string> {
-    const apiKey = isPlatformBrowser(this.platformId)
-      ? (localStorage.getItem(STORAGE_KEY) ?? '')
-      : '';
-
-    if (!apiKey) throw new Error('Kein API Key gesetzt.');
-
     const prompt = `Du bist ein Profi-Koch. Generiere genau 3 unterschiedliche Rezeptvorschläge \
 basierend auf diesen Zutaten: ${ingredients}.
 
@@ -64,22 +51,14 @@ Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
 ]`;
 
     const data = await firstValueFrom(
-      this.http.post<GroqChatResponse>(
-        GROQ_URL,
-        {
-          model: MODEL,
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.7,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${apiKey}`,
-          },
-        },
+      this.http.post<GroqProxyResponse>(
+        PROXY_CHAT_URL,
+        { prompt },
+        { headers: { 'Content-Type': 'application/json' } },
       ),
     );
 
-    return data?.choices?.[0]?.message?.content ?? '[]';
+    if (data.error) throw new Error(data.error);
+    return data.text ?? '[]';
   }
 }

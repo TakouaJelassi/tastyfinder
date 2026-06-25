@@ -1,7 +1,10 @@
-<section class="ai-settings" [class.active]="hasKey()">
+<section class="ai-settings" [class.active]="hasKey() || serverConfigured()">
   <div class="settings-copy">
     <span class="eyebrow">AI configuration</span>
-    @if (hasKey()) {
+    @if (serverConfigured()) {
+      <strong>AI ist serverseitig aktiv</strong>
+      <span>Groq-Anfragen laufen ueber den sicheren Backend-Proxy.</span>
+    } @else if (hasKey()) {
       <strong>AI ist aktiv</strong>
       <span>Groq ist fuer Generator und Chat konfiguriert.</span>
     } @else {
@@ -13,7 +16,11 @@
     }
   </div>
 
-  @if (hasKey()) {
+  @if (serverConfigured()) {
+    <div class="settings-actions">
+      <span class="saved-msg">Backend aktiv</span>
+    </div>
+  } @else if (hasKey()) {
     <div class="settings-actions">
       @if (saved()) {
         <span class="saved-msg">Gespeichert</span>

@@ -84,7 +84,7 @@ export class Generate {
       this.error.set('Bitte mindestens eine Zutat eingeben.');
       return;
     }
-    if (!this.aiService.hasApiKey()) {
+    if (!(await this.aiService.hasAiAccess())) {
       this.error.set('Bitte aktiviere AI in der Konfiguration auf dieser Seite.');
       return;
     }
