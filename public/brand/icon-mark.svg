@@ -1,22 +1,11 @@
 <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">TastyFinder icon mark</title>
-  <desc id="desc">A warm recipe app icon with a plate, herbs, and a utensil.</desc>
-  <rect width="96" height="96" rx="28" fill="#FDFBF7"/>
-  <rect x="8" y="8" width="80" height="80" rx="24" fill="url(#surface)" stroke="#EBE4D9" stroke-width="2"/>
-  <circle cx="43" cy="45" r="21" fill="#FFF8EF" stroke="#A5512F" stroke-width="4"/>
-  <circle cx="43" cy="45" r="11" fill="#F6ECE5"/>
-  <path d="M61 30C70 30 76 36 76 45C76 54 70 60 61 60C64 53 64 37 61 30Z" fill="#EBEEE4" stroke="#7E8B6E" stroke-width="3" stroke-linejoin="round"/>
-  <path d="M24 66C34 62 45 62 56 66" stroke="#7E8B6E" stroke-width="4" stroke-linecap="round"/>
-  <path d="M62 67L77 52" stroke="#7E8B6E" stroke-width="5" stroke-linecap="round"/>
-  <path d="M69 58L80 69" stroke="#C2674A" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="28" cy="27" r="5" fill="#C2674A"/>
-  <circle cx="66" cy="24" r="4" fill="#7E8B6E"/>
-  <path d="M24 77C27 72 31 70 37 70C34 75 30 78 24 77Z" fill="#7E8B6E"/>
-  <path d="M40 77C43 72 47 70 53 70C50 75 46 78 40 77Z" fill="#C2674A"/>
-  <defs>
-    <linearGradient id="surface" x1="16" y1="12" x2="82" y2="88" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFF8EF"/>
-      <stop offset="1" stop-color="#EBEEE4"/>
-    </linearGradient>
-  </defs>
+  <desc id="desc">A warm recipe app icon with a plate and a fork.</desc>
+  <rect x="4" y="4" width="88" height="88" rx="26" fill="#F6ECE5" stroke="#EBE4D9" stroke-width="2"/>
+  <circle cx="48" cy="46" r="23" fill="#FFF8EF" stroke="#C2674A" stroke-width="4"/>
+  <g stroke="#7E8B6E" stroke-width="4" stroke-linecap="round">
+    <line x1="44" y1="34" x2="44" y2="46"/>
+    <line x1="52" y1="34" x2="52" y2="46"/>
+    <line x1="48" y1="46" x2="48" y2="60"/>
+  </g>
 </svg>
