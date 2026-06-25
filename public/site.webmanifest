@@ -1,0 +1,17 @@
+{
+  "name": "TastyFinder",
+  "short_name": "TastyFinder",
+  "description": "Discover, generate, save, and plan recipes in a warm modern cooking workspace.",
+  "start_url": "/home",
+  "display": "standalone",
+  "background_color": "#fdfbf7",
+  "theme_color": "#c2674a",
+  "icons": [
+    {
+      "src": "/brand/icon-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

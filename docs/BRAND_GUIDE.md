@@ -13,6 +13,14 @@ TastyFinder is a warm, modern recipe product for discovering, generating, saving
 
 The wordmark should use the product name `TastyFinder`.
 
+Implemented assets:
+
+- Full logo: `public/brand/logo.svg`
+- Icon mark: `public/brand/icon-mark.svg`
+- Browser favicon: `public/favicon.svg`
+- Web app manifest: `public/site.webmanifest`
+- Illustration set: `public/illustrations/`
+
 Recommended logo structure:
 
 - `Tasty` in the heading typeface or a soft serif treatment
@@ -44,43 +52,62 @@ Usage rules:
 - Avoid random emoji as permanent UI icons.
 - Keep icon color tied to the design tokens, not one-off hardcoded colors.
 
+## Illustration Style
+
+TastyFinder uses simple custom SVG illustrations for branded product moments.
+
+Implemented illustrations:
+
+- Hero kitchen board: `public/illustrations/hero-kitchen.svg`
+- Cuisine cards: `cuisine-italian.svg`, `cuisine-indian.svg`, `cuisine-japanese.svg`, `cuisine-mexican.svg`
+- Empty search state: `public/illustrations/empty-search.svg`
+- AI recipe generator: `public/illustrations/ai-chef.svg`
+
+Illustration rules:
+
+- Use warm cream surfaces, terracotta accents, and sage green support shapes.
+- Keep shapes rounded, simple, and readable at small sizes.
+- Prefer SVG for UI illustrations so assets stay crisp and lightweight.
+- Use illustrations for hero areas, cuisine selection, AI/product moments, and empty states.
+- Do not mix in unrelated stock-style illustrations.
+
 ## Color Palette
 
 Core colors are defined in `src/styles.scss`.
 
 Primary palette:
 
-| Role | Token | Hex | Usage |
-| --- | --- | --- | --- |
-| Primary | `--primary` | `#c2674a` | Main CTAs, highlights, active states |
-| Primary dark | `--primary-dark` | `#a5512f` | Hover states, stronger text accents |
-| Primary light | `--primary-light` | `#f6ece5` | Soft backgrounds, chips, subtle CTAs |
-| Accent | `--accent` | `#7e8b6e` | Secondary badges, food marks, calm highlights |
-| Accent light | `--accent-light` | `#ebeee4` | Secondary soft surfaces |
+| Role          | Token             | Hex       | Usage                                         |
+| ------------- | ----------------- | --------- | --------------------------------------------- |
+| Primary       | `--primary`       | `#c2674a` | Main CTAs, highlights, active states          |
+| Primary dark  | `--primary-dark`  | `#a5512f` | Hover states, stronger text accents           |
+| Primary light | `--primary-light` | `#f6ece5` | Soft backgrounds, chips, subtle CTAs          |
+| Accent        | `--accent`        | `#7e8b6e` | Secondary badges, food marks, calm highlights |
+| Accent light  | `--accent-light`  | `#ebeee4` | Secondary soft surfaces                       |
 
 Neutral palette:
 
-| Role | Token | Hex | Usage |
-| --- | --- | --- | --- |
-| App background | `--bg` | `#fdfbf7` | Page background |
-| Surface | `--surface` | `#ffffff` | Cards, panels, forms |
-| Soft surface | `--surface-2` | `#f7f2ea` | Gradients, nested surfaces |
-| Warm surface | `--surface-3` | `#fff8ef` | Branded highlight areas |
-| Text | `--text` | `#2a2622` | Main text |
-| Muted text | `--text-muted` | `#8b8378` | Captions, helper copy |
-| Border | `--border` | `#ebe4d9` | Default borders |
-| Strong border | `--border-strong` | `#ddd1c3` | Emphasis borders |
+| Role           | Token             | Hex       | Usage                      |
+| -------------- | ----------------- | --------- | -------------------------- |
+| App background | `--bg`            | `#fdfbf7` | Page background            |
+| Surface        | `--surface`       | `#ffffff` | Cards, panels, forms       |
+| Soft surface   | `--surface-2`     | `#f7f2ea` | Gradients, nested surfaces |
+| Warm surface   | `--surface-3`     | `#fff8ef` | Branded highlight areas    |
+| Text           | `--text`          | `#2a2622` | Main text                  |
+| Muted text     | `--text-muted`    | `#8b8378` | Captions, helper copy      |
+| Border         | `--border`        | `#ebe4d9` | Default borders            |
+| Strong border  | `--border-strong` | `#ddd1c3` | Emphasis borders           |
 
 Status colors:
 
-| Role | Token | Hex |
-| --- | --- | --- |
-| Success | `--success` | `#2f7d4f` |
+| Role          | Token             | Hex       |
+| ------------- | ----------------- | --------- |
+| Success       | `--success`       | `#2f7d4f` |
 | Success light | `--success-light` | `#eef8f1` |
-| Warning | `--warning` | `#b86f21` |
+| Warning       | `--warning`       | `#b86f21` |
 | Warning light | `--warning-light` | `#fff7e8` |
-| Danger | `--danger` | `#c2413d` |
-| Danger light | `--danger-light` | `#fff1f0` |
+| Danger        | `--danger`        | `#c2413d` |
+| Danger light  | `--danger-light`  | `#fff1f0` |
 
 Color rules:
 
@@ -106,26 +133,26 @@ Usage:
 
 Recommended scale:
 
-| Role | Size |
-| --- | --- |
-| Hero title | `clamp(2.6rem, 5.5vw, 4rem)` |
-| Page title | `clamp(1.8rem, 4vw, 2.4rem)` |
-| Section title | `1.35rem - 1.5rem` |
-| Card title | `1.1rem - 1.25rem` |
-| Body | `15px - 16px` |
-| Metadata | `12px - 13px` |
+| Role          | Size                         |
+| ------------- | ---------------------------- |
+| Hero title    | `clamp(2.6rem, 5.5vw, 4rem)` |
+| Page title    | `clamp(1.8rem, 4vw, 2.4rem)` |
+| Section title | `1.35rem - 1.5rem`           |
+| Card title    | `1.1rem - 1.25rem`           |
+| Body          | `15px - 16px`                |
+| Metadata      | `12px - 13px`                |
 
 ## Radius
 
 Use rounded shapes consistently, but avoid making everything overly soft.
 
-| Token | Value | Usage |
-| --- | --- | --- |
-| `--radius-sm` | `10px` | Small inputs, compact controls |
-| `--radius-md` | `14px` | Standard controls and list items |
-| `--radius` | `16px` | Default cards and panels |
-| `--radius-lg` | `22px` | Feature cards, page panels, modals |
-| `--radius-pill` | `999px` | Buttons, chips, badges |
+| Token           | Value   | Usage                              |
+| --------------- | ------- | ---------------------------------- |
+| `--radius-sm`   | `10px`  | Small inputs, compact controls     |
+| `--radius-md`   | `14px`  | Standard controls and list items   |
+| `--radius`      | `16px`  | Default cards and panels           |
+| `--radius-lg`   | `22px`  | Feature cards, page panels, modals |
+| `--radius-pill` | `999px` | Buttons, chips, badges             |
 
 Rules:
 
@@ -137,12 +164,12 @@ Rules:
 
 Use shadows softly. The app should feel warm and premium, not heavy.
 
-| Token | Usage |
-| --- | --- |
-| `--shadow-sm` | Default card depth |
-| `--shadow` | Interactive hover depth |
-| `--shadow-lg` | Hero cards, modals, elevated surfaces |
-| `--shadow-focus` | Accessible focus ring support |
+| Token            | Usage                                 |
+| ---------------- | ------------------------------------- |
+| `--shadow-sm`    | Default card depth                    |
+| `--shadow`       | Interactive hover depth               |
+| `--shadow-lg`    | Hero cards, modals, elevated surfaces |
+| `--shadow-focus` | Accessible focus ring support         |
 
 Rules:
 

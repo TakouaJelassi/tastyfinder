@@ -36,6 +36,9 @@
         <span><strong>1 click</strong> shopping lists</span>
       </div>
     </div>
+    <div class="hero-art" aria-hidden="true">
+      <img class="brand-illustration" src="illustrations/hero-kitchen.svg" alt="" />
+    </div>
   </header>
 
   <main class="main-content">
@@ -79,7 +82,12 @@
         <div class="cuisine-bands">
           @for (cat of cuisineShowcase(); track cat.id) {
             <button class="cuisine-band" (click)="onCategorySelect(cat.name)">
-              <span class="food-mark cuisine-mark" aria-hidden="true"></span>
+              <img
+                class="cuisine-illustration"
+                [src]="cat.illustration"
+                alt=""
+                aria-hidden="true"
+              />
               <span class="cuisine-name">{{ cat.name }} cuisine</span>
               <span class="cuisine-garnish">{{ cat.garnish }}</span>
             </button>
@@ -127,12 +135,7 @@
             <app-recipe-card [recipe]="recipe" />
           } @empty {
             <div class="empty-state">
-              <app-icon
-                name="search"
-                [size]="48"
-                [strokeWidth]="1.5"
-                style="opacity: 0.4; margin-bottom: 16px"
-              />
+              <img src="illustrations/empty-search.svg" alt="" aria-hidden="true" />
               <h3>Keine Rezepte gefunden</h3>
               <p>Versuche einen anderen Suchbegriff oder wähle eine andere Kategorie.</p>
             </div>

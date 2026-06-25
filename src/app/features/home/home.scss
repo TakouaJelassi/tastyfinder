@@ -1,21 +1,34 @@
 .hero {
   background: linear-gradient(150deg, #2a2622 0%, #3a342d 55%, #2a2622 100%);
   color: #f3ece1;
-  padding: 72px 24px 84px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 0.75fr);
+  align-items: center;
+  gap: 28px;
+  padding: 72px max(24px, calc((100vw - 1200px) / 2)) 84px;
   position: relative;
   overflow: hidden;
 
   @media (max-width: 640px) {
     padding: 44px 18px 52px;
   }
+
+  @media (max-width: 980px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .hero-content {
   max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
+  margin: 0;
+  text-align: left;
   position: relative;
   z-index: 1;
+
+  @media (max-width: 980px) {
+    margin: 0 auto;
+    text-align: center;
+  }
 }
 
 .hero-badge {
@@ -59,17 +72,26 @@
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 40px;
   max-width: 520px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
+
+  @media (max-width: 980px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .hero-actions {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 10px;
   margin: 24px auto 0;
   max-width: 760px;
+
+  @media (max-width: 980px) {
+    justify-content: center;
+  }
 
   a {
     min-height: 40px;
@@ -102,7 +124,12 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   max-width: 620px;
-  margin: 22px auto 0;
+  margin: 22px 0 0;
+
+  @media (max-width: 980px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   span {
     display: flex;
@@ -124,6 +151,24 @@
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
+  }
+}
+
+.hero-art {
+  position: relative;
+  z-index: 1;
+  justify-self: end;
+  width: min(100%, 520px);
+  border-radius: 34px;
+  box-shadow: var(--shadow-lg);
+
+  @media (max-width: 980px) {
+    justify-self: center;
+    width: min(100%, 430px);
+  }
+
+  @media (max-width: 640px) {
+    display: none;
   }
 }
 
@@ -339,13 +384,6 @@
   font-family: inherit;
   transition: all var(--transition);
 
-  &:nth-child(2) {
-    background: var(--surface-2);
-  }
-  &:nth-child(3) {
-    background: var(--accent-light);
-  }
-
   &:hover {
     border-color: var(--primary);
     transform: translateY(-2px);
@@ -386,18 +424,16 @@
   position: relative;
   min-height: 82px;
   display: grid;
-  grid-template-columns: 72px 1fr auto;
+  grid-template-columns: 132px 1fr auto;
   align-items: center;
   gap: 18px;
   overflow: hidden;
   width: 100%;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  background:
-    linear-gradient(90deg, rgba(246, 236, 229, 0.92), rgba(255, 255, 255, 0.84)),
-    radial-gradient(circle at 96% 50%, rgba(126, 139, 110, 0.13), transparent 18rem), var(--surface);
+  background: var(--surface);
   color: var(--text);
-  padding: 14px 22px;
+  padding: 12px 22px 12px 14px;
   text-align: left;
   transition:
     border-color var(--transition),
@@ -409,11 +445,6 @@
     box-shadow: var(--shadow);
     transform: translateY(-2px);
   }
-}
-
-.cuisine-mark {
-  width: 56px;
-  height: 56px;
 }
 
 .cuisine-name {
@@ -439,15 +470,9 @@
 
 @media (max-width: 720px) {
   .cuisine-band {
-    grid-template-columns: 50px 1fr;
+    grid-template-columns: 96px 1fr;
     min-height: 76px;
     padding: 13px 16px;
-  }
-
-  .cuisine-mark {
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
   }
 
   .cuisine-garnish {
@@ -502,11 +527,9 @@
   padding: 80px 24px;
   color: var(--text-muted);
 
-  svg {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 16px;
-    opacity: 0.4;
+  img {
+    width: min(240px, 80%);
+    margin-bottom: 18px;
   }
 
   h3 {

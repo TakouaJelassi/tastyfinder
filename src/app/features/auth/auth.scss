@@ -22,19 +22,13 @@
 .auth-logo {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
   justify-content: center;
   margin-bottom: 1.75rem;
 
-  .logo-icon {
-    font-size: 1.6rem;
-  }
-
-  .logo-text {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--primary);
-    letter-spacing: -0.3px;
+  img {
+    width: min(230px, 100%);
+    height: auto;
+    display: block;
   }
 }
 
