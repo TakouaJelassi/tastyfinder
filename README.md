@@ -10,8 +10,10 @@ favorites and shopping list.
 
 ## Product Screenshots
 
-The screenshots below showcase the main product flows: discovery, recipe detail,
-AI assistance, generation, shopping list management and profile settings.
+The screenshots below show the current polished product experience across
+recipe discovery, AI generation, saved recipes, planning, shopping and
+responsive mobile layouts. The UI supports light and dark themes; these
+screenshots use the premium dark theme.
 
 |             Home              |              Search               |           Recipe Detail           |
 | :---------------------------: | :-------------------------------: | :-------------------------------: |
@@ -40,7 +42,8 @@ AI assistance, generation, shopping list management and profile settings.
 - **Meal Planner** — plan a cooking week and send all ingredients to shopping
 - **Demo Workspace** — local browser-only demo data for portfolio reviews
 - **Profile** — edit name, upload an avatar, change password
-- **Responsive Design** — clean mobile and desktop layouts
+- **Responsive Design** — polished mobile, tablet and desktop layouts with
+  light/dark themes
 - **SSR** — Angular Server-Side Rendering for a fast initial load
 
 ---
