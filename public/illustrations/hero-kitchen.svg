@@ -14,8 +14,16 @@
   <rect x="112" y="252" width="174" height="14" rx="7" fill="#F7F2EA"/>
   <rect x="112" y="306" width="78" height="30" rx="15" fill="#C2674A"/>
   <rect x="204" y="306" width="78" height="30" rx="15" fill="#EBEEE4"/>
-  <circle cx="278" cy="163" r="34" fill="#FFF8EF" stroke="#A5512F" stroke-width="4"/>
-  <circle cx="278" cy="163" r="17" fill="#F6ECE5"/>
+  <g stroke="#B7A491" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M270 116 q-7 9 0 18 q7 9 0 18"/>
+    <path d="M286 114 q-7 9 0 18 q7 9 0 18"/>
+  </g>
+  <ellipse cx="278" cy="190" rx="34" ry="5" fill="#2A2622" opacity="0.08"/>
+  <path d="M244 162 Q244 190 278 193 Q312 190 312 162 Z" fill="#C2674A"/>
+  <ellipse cx="278" cy="162" rx="36" ry="9" fill="#FFF8EF" stroke="#C2674A" stroke-width="2.4"/>
+  <ellipse cx="265" cy="160" rx="9" ry="5" fill="#7E8B6E" transform="rotate(-18 265 160)"/>
+  <ellipse cx="291" cy="161" rx="9" ry="5" fill="#97A487" transform="rotate(20 291 161)"/>
+  <circle cx="279" cy="158" r="4.4" fill="#C2674A"/>
   <path d="M250 375C269 358 302 358 321 375" stroke="#7E8B6E" stroke-width="8" stroke-linecap="round"/>
   <path d="M264 392C281 381 303 381 320 392" stroke="#C2674A" stroke-width="6" stroke-linecap="round"/>
   <rect x="382" y="96" width="226" height="150" rx="28" fill="#EBEEE4" stroke="#DDE1D1" stroke-width="3"/>
