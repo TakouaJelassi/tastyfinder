@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/brand/logo.svg" alt="TastyFinder logo" width="220" />
+</p>
+
 # 🍽 TastyFinder
 
 An **AI-powered recipe discovery platform**: browse recipes, generate custom
