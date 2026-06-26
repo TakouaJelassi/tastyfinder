@@ -6,10 +6,11 @@ import { RecipeService } from '../../core/services/recipe';
 import { FavoriteStore } from '../../core/stores/favorite.store';
 import { RecipePreview } from '../../core/models/recipe.interface';
 import { RecipeCard } from '../../shared/components/recipe-card/recipe-card';
+import { Icon } from '../../shared/components/icon/icon';
 
 @Component({
   selector: 'app-favorites',
-  imports: [RecipeCard, RouterLink],
+  imports: [RecipeCard, RouterLink, Icon],
   templateUrl: './favorites.html',
   styleUrl: './favorites.scss',
 })

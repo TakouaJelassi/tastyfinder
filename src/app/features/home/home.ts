@@ -40,7 +40,6 @@ export class Home implements OnInit {
       .map((cat) => ({
         ...cat,
         garnish: this.cuisineGarnish(cat.name),
-        illustration: this.cuisineIllustration(cat.name),
       })),
   );
 
@@ -108,18 +107,5 @@ export class Home implements OnInit {
     };
 
     return map[normalized] ?? 'fresh herbs pantry';
-  }
-
-  private cuisineIllustration(name: string): string {
-    const normalized = name.toLowerCase();
-    const map: Record<string, string> = {
-      italian: 'cuisine-italian',
-      indian: 'cuisine-indian',
-      mexican: 'cuisine-mexican',
-      japanese: 'cuisine-japanese',
-      asian: 'cuisine-japanese',
-    };
-
-    return `illustrations/${map[normalized] ?? 'cuisine-italian'}.svg`;
   }
 }

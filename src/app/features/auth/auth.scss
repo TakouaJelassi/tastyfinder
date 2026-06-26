@@ -21,14 +21,30 @@
 
 .auth-logo {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.2rem;
   margin-bottom: 1.75rem;
 
-  img {
-    width: min(230px, 100%);
-    height: auto;
-    display: block;
+  small {
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+}
+
+.auth-logo-mark {
+  color: var(--text);
+  font-family: var(--font-heading);
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+
+  span {
+    color: var(--primary);
   }
 }
 
@@ -185,7 +201,7 @@
   width: 100%;
   padding: 0.8rem;
   background: var(--primary);
-  color: #fff;
+  color: var(--on-primary);
   border: none;
   border-radius: var(--radius-sm);
   font-size: 1rem;
@@ -217,7 +233,7 @@
   width: 18px;
   height: 18px;
   border: 2px solid rgba(255, 255, 255, 0.4);
-  border-top-color: #fff;
+  border-top-color: var(--on-primary);
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }

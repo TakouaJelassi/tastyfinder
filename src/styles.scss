@@ -14,30 +14,52 @@
 ---------------------------------------------------------------- */
 :root {
   /* Akzent: gedecktes Terrakotta-Safran */
-  --primary: #c2674a;
-  --primary-dark: #a5512f;
-  --primary-light: #f6ece5;
+  --primary: #f47d4f;
+  --primary-dark: #c2674a;
+  --primary-light: #fff0e7;
   /* Sekundär: beruhigendes Salbeigrün */
-  --accent: #7e8b6e;
-  --accent-light: #ebeee4;
+  --accent: #5f7d54;
+  --accent-light: #eef5ea;
 
   /* Flächen: warmes Creme statt kühlem Grau */
-  --bg: #fdfbf7;
-  --surface: #ffffff;
-  --surface-2: #f7f2ea;
-  --surface-3: #fff8ef;
+  --bg: #fbf5ea;
+  --surface: #fffaf2;
+  --surface-2: #f3eadc;
+  --surface-3: #eadbc8;
 
   /* Schrift: warmes Anthrazit statt purem Schwarz */
-  --text: #2a2622;
-  --text-muted: #8b8378;
-  --border: #ebe4d9;
-  --border-strong: #ddd1c3;
-  --success: #2f7d4f;
-  --success-light: #eef8f1;
-  --warning: #b86f21;
-  --warning-light: #fff7e8;
-  --danger: #c2413d;
-  --danger-light: #fff1f0;
+  --text: #241f19;
+  --text-muted: #66765a;
+  --border: rgba(65, 78, 52, 0.16);
+  --border-strong: rgba(194, 103, 74, 0.3);
+  --success: #3e7a4d;
+  --success-light: #edf7ed;
+  --warning: #b7791f;
+  --warning-light: #fff4df;
+  --danger: #c95750;
+  --danger-light: #fff0ed;
+  --on-primary: #08130b;
+  --title-cream: #fff7ec;
+  --brand-deep: #08130b;
+  --brand-deep-2: #102017;
+  --app-bg-a: #fff8ee;
+  --app-bg-b: #fbf5ea;
+  --app-bg-c: #f3eadc;
+  --nav-bg: rgba(255, 250, 242, 0.86);
+  --nav-border: rgba(65, 78, 52, 0.12);
+  --hero-bg-a: #fff8ee;
+  --hero-bg-b: #f5eadc;
+  --hero-bg-c: #fbf5ea;
+  --hero-text: #241f19;
+  --hero-muted: #66765a;
+  --premium-surface: #fffaf2;
+  --premium-surface-2: #f3eadc;
+  --premium-border: rgba(65, 78, 52, 0.14);
+  --premium-text: #241f19;
+  --premium-muted: #66765a;
+  --premium-panel: #fffaf2;
+  --premium-panel-2: #f3eadc;
+  --premium-panel-border: rgba(194, 103, 74, 0.24);
 
   --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-ui: 'Plus Jakarta Sans', system-ui, sans-serif;
@@ -57,46 +79,70 @@
   --space-10: 40px;
   --space-12: 48px;
   /* Warm getönte Schatten (nicht kühles Schwarz) */
-  --shadow-sm: 0 1px 3px rgba(60, 45, 30, 0.05), 0 1px 2px rgba(60, 45, 30, 0.04);
-  --shadow: 0 6px 22px rgba(60, 45, 30, 0.09);
-  --shadow-lg: 0 18px 48px rgba(60, 45, 30, 0.14);
-  --shadow-focus: 0 0 0 4px rgba(194, 103, 74, 0.14);
+  --shadow-sm: 0 2px 8px rgba(60, 45, 30, 0.07);
+  --shadow: 0 16px 38px rgba(60, 45, 30, 0.12);
+  --shadow-lg: 0 30px 80px rgba(60, 45, 30, 0.18);
+  --shadow-focus: 0 0 0 4px rgba(244, 125, 79, 0.2);
   --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Dark-Mode: tiefes mattes Anthrazit-Charcoal statt purem Schwarz */
 :root[data-theme='dark'] {
-  --primary: #d2795a;
-  --primary-dark: #b5613f;
-  --primary-light: #2f2620;
-  --accent: #97a487;
-  --accent-light: #272c22;
+  --primary: #f47d4f;
+  --primary-dark: #c2674a;
+  --primary-light: rgba(244, 125, 79, 0.14);
+  --accent: #91b681;
+  --accent-light: rgba(145, 182, 129, 0.13);
 
-  --bg: #1a1a1a;
-  --surface: #232220;
-  --surface-2: #2b2925;
-  --surface-3: #302820;
+  --bg: #09180d;
+  --surface: #111f15;
+  --surface-2: #17281b;
+  --surface-3: #1d3322;
 
-  --text: #f0ebe3;
-  --text-muted: #a39b90;
-  --border: #36322e;
-  --border-strong: #514a43;
-  --success: #71b889;
-  --success-light: #1e2c22;
-  --warning: #dda85f;
-  --warning-light: #352817;
-  --danger: #e17872;
-  --danger-light: #351f1d;
+  --text: #fff7ec;
+  --text-muted: #91b681;
+  --border: rgba(145, 182, 129, 0.16);
+  --border-strong: rgba(244, 125, 79, 0.28);
+  --success: #86c78d;
+  --success-light: rgba(134, 199, 141, 0.13);
+  --warning: #e4b05d;
+  --warning-light: rgba(228, 176, 93, 0.14);
+  --danger: #f07973;
+  --danger-light: rgba(240, 121, 115, 0.13);
+  --on-primary: #08130b;
+  --title-cream: #fff7ec;
+  --brand-deep: #08130b;
+  --brand-deep-2: #102017;
+  --app-bg-a: #08130b;
+  --app-bg-b: #09180d;
+  --app-bg-c: #071209;
+  --nav-bg: rgba(8, 19, 11, 0.9);
+  --nav-border: rgba(145, 182, 129, 0.14);
+  --hero-bg-a: #08130b;
+  --hero-bg-b: #102017;
+  --hero-bg-c: #071209;
+  --hero-text: #fff7ec;
+  --hero-muted: rgba(255, 255, 255, 0.7);
+  --premium-surface: #111f15;
+  --premium-surface-2: #17281b;
+  --premium-border: rgba(145, 182, 129, 0.16);
+  --premium-text: #fff7ec;
+  --premium-muted: #91b681;
+  --premium-panel: #111f15;
+  --premium-panel-2: #17281b;
+  --premium-panel-border: rgba(244, 125, 79, 0.24);
 
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.6);
-  --shadow-focus: 0 0 0 4px rgba(210, 121, 90, 0.22);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(255, 247, 236, 0.02) inset;
+  --shadow: 0 16px 38px rgba(0, 0, 0, 0.28);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.46);
+  --shadow-focus: 0 0 0 4px rgba(244, 125, 79, 0.2);
 }
 
 body {
   font-family: var(--font-ui);
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 50% -10rem, rgba(244, 125, 79, 0.1), transparent 34rem),
+    linear-gradient(180deg, var(--app-bg-a) 0%, var(--app-bg-b) 42%, var(--app-bg-c) 100%);
   color: var(--text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -150,7 +196,7 @@ button {
   background: linear-gradient(
     180deg,
     var(--surface) 0%,
-    color-mix(in srgb, var(--surface-2) 46%, var(--surface)) 100%
+    color-mix(in srgb, var(--surface-2) 62%, var(--surface)) 100%
   );
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -168,7 +214,7 @@ button {
 .ui-input {
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
-  background: var(--surface);
+  background: rgba(9, 24, 13, 0.66);
   color: var(--text);
   font: inherit;
   transition:
@@ -187,7 +233,7 @@ button {
 .ui-empty {
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--surface-2) 58%, var(--surface)) 0%,
+    color-mix(in srgb, var(--surface-2) 72%, var(--surface)) 0%,
     var(--surface) 100%
   );
   border: 1px solid var(--border);
@@ -195,31 +241,18 @@ button {
   box-shadow: var(--shadow-sm);
 }
 
-.food-mark {
-  display: inline-block;
-  width: 54px;
-  height: 54px;
+.page-mark {
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
-}
-
-.brand-illustration {
-  display: block;
-  width: 100%;
-  filter: drop-shadow(0 14px 24px rgba(60, 45, 30, 0.09));
-}
-
-.cuisine-illustration {
-  width: 120px;
-  height: 70px;
-  object-fit: contain;
-  filter: drop-shadow(0 10px 14px rgba(60, 45, 30, 0.08));
-}
-
-@media (max-width: 720px) {
-  .cuisine-illustration {
-    width: 88px;
-    height: 54px;
-  }
+  border: 1px solid rgba(244, 125, 79, 0.22);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(244, 125, 79, 0.16), rgba(145, 182, 129, 0.08));
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-primary {
@@ -227,7 +260,7 @@ button {
   align-items: center;
   gap: 8px;
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   padding: 12px 24px;
   border-radius: var(--radius-pill);
   font-size: 15px;
@@ -261,7 +294,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
   color: var(--text);
   padding: 12px 24px;
   border-radius: var(--radius-pill);

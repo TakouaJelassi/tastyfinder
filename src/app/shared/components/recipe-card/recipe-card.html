@@ -14,9 +14,15 @@
       (error)="onImageError($event)"
     />
     <div class="card-overlay"></div>
-    @if (recipe().cuisine || recipe().category) {
-      <span class="card-kicker">{{ recipe().cuisine || recipe().category }}</span>
-    }
+    <div class="card-badges">
+      @for (tag of visibleTags; track tag) {
+        <span>{{ tag }}</span>
+      }
+    </div>
+    <span class="rating-pill">
+      <app-icon name="sparkles" [size]="12" />
+      {{ rating }}
+    </span>
     <button
       class="fav-btn"
       (click)="toggleFavorite($event)"
@@ -27,6 +33,9 @@
     </button>
   </div>
   <div class="card-body">
+    @if (recipe().cuisine || recipe().category) {
+      <span class="card-kicker">{{ recipe().cuisine || recipe().category }}</span>
+    }
     <h3 class="card-title">{{ recipe().title }}</h3>
     <div class="card-meta">
       @if (recipe().readyInMinutes) {
@@ -42,11 +51,6 @@
         </span>
       }
     </div>
-    <div class="card-tags">
-      @for (tag of visibleTags; track tag) {
-        <span>{{ tag }}</span>
-      }
-    </div>
-    <span class="card-link">View recipe</span>
+    <span class="card-link">Rezept ansehen</span>
   </div>
 </article>

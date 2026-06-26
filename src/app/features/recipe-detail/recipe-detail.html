@@ -5,49 +5,75 @@
   </div>
 } @else if (recipe(); as r) {
   <div class="detail">
-    <div class="detail-hero" [style.backgroundImage]="'url(' + r.image + ')'">
-      <div class="hero-overlay">
-        <button class="back-btn" (click)="goBack()">
-          <app-icon name="back" [size]="16" [strokeWidth]="2.5" />
-          Zurück
-        </button>
-        <div class="hero-info">
-          <div class="badges">
-            <span class="badge">{{ r.category }}</span>
-            <span class="badge badge-area">{{ r.cuisine }}</span>
-          </div>
-          <h1>{{ r.title }}</h1>
-          <div class="hero-meta">
-            <span><app-icon name="clock" [size]="15" /> {{ r.readyInMinutes || 30 }} Min</span>
-            <span><app-icon name="users" [size]="15" /> {{ r.servings || 2 }} Portionen</span>
-            <span><app-icon name="gauge" [size]="15" /> {{ difficulty }}</span>
-          </div>
-          @if (isLoggedIn) {
+    <div class="detail-backdrop" [style.backgroundImage]="'url(' + r.image + ')'"></div>
+
+    <section class="recipe-panel">
+      <button class="back-btn" (click)="goBack()" aria-label="Zurueck">
+        <app-icon name="close" [size]="18" [strokeWidth]="2.5" />
+      </button>
+
+      <div class="detail-hero" [style.backgroundImage]="'url(' + r.image + ')'">
+        <div class="hero-overlay"></div>
+      </div>
+
+      <div class="hero-info">
+        <span class="recipe-kicker">{{ r.cuisine || r.category }}</span>
+        <h1>{{ r.title }}</h1>
+        <div class="hero-meta">
+          <span><app-icon name="clock" [size]="15" /> {{ r.readyInMinutes || 30 }} Min</span>
+          <span><app-icon name="users" [size]="15" /> {{ r.servings || 2 }} Portionen</span>
+          <span><app-icon name="gauge" [size]="15" /> {{ difficulty }}</span>
+        </div>
+
+        <div class="hero-tags">
+          <span>{{ r.category }}</span>
+          <span>{{ difficulty }}</span>
+          <span>{{ r.cuisine }}</span>
+        </div>
+
+        @if (isLoggedIn) {
+          <div class="hero-actions-row">
+            @if (r.ingredients.length) {
+              <button
+                class="primary-detail-btn"
+                (click)="addToShoppingList()"
+                [disabled]="addedToList()"
+              >
+                @if (addedToList()) {
+                  <app-icon name="check" [size]="16" />
+                  Hinzugefuegt
+                } @else {
+                  <app-icon name="cart" [size]="16" />
+                  Zutaten speichern
+                }
+              </button>
+            }
+
             <button
               class="favorite-hero-btn"
               [class.active]="favorite()"
               (click)="toggleFavorite()"
             >
               <app-icon name="heart" [size]="17" [filled]="favorite()" />
-              {{ favorite() ? 'In Favoriten' : 'Zu Favoriten' }}
+              {{ favorite() ? 'Gespeichert' : 'Save' }}
             </button>
-          }
-        </div>
+          </div>
+        }
       </div>
-    </div>
+    </section>
 
     <div class="detail-body">
       @if (aiLoading()) {
         <div class="ai-card loading">
           <div class="ai-icon-wrap">
-            <app-icon name="generate" [size]="18" style="color: #fff" />
+            <app-icon name="generate" [size]="18" style="color: var(--on-primary)" />
           </div>
           <p>AI analysiert das Rezept...</p>
         </div>
       } @else if (aiSummary()) {
         <div class="ai-card">
           <div class="ai-icon-wrap">
-            <app-icon name="generate" [size]="18" style="color: #fff" />
+            <app-icon name="generate" [size]="18" style="color: var(--on-primary)" />
           </div>
           <div>
             <p class="ai-label">AI Zusammenfassung</p>
@@ -70,18 +96,6 @@
               </li>
             }
           </ul>
-
-          @if (isLoggedIn && r.ingredients.length) {
-            <button class="btn-shopping" (click)="addToShoppingList()" [disabled]="addedToList()">
-              @if (addedToList()) {
-                <app-icon name="check" [size]="16" />
-                Zur Einkaufsliste hinzugefügt
-              } @else {
-                <app-icon name="cart" [size]="16" />
-                Zutaten zur Einkaufsliste
-              }
-            </button>
-          }
         </div>
 
         <div class="instructions-section">
@@ -98,7 +112,7 @@
             } @empty {
               <li>
                 <span class="step-number">1</span>
-                <p>Noch keine Zubereitungsschritte verfügbar.</p>
+                <p>Noch keine Zubereitungsschritte verfuegbar.</p>
               </li>
             }
           </ol>
@@ -127,6 +141,6 @@
   <div class="loading-wrap">
     <app-icon name="search" [size]="48" [strokeWidth]="1.5" />
     <h3>Rezept nicht gefunden</h3>
-    <button class="btn-primary" (click)="goBack()">Zurück zur Übersicht</button>
+    <button class="btn-primary" (click)="goBack()">Zurueck zur Uebersicht</button>
   </div>
 }

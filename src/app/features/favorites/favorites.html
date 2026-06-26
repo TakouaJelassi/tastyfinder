@@ -1,6 +1,8 @@
 <div class="favorites">
   <div class="favorites-header">
-    <img class="food-mark" src="brand/marks/heart.svg" alt="" aria-hidden="true" />
+    <span class="page-mark" aria-hidden="true">
+      <app-icon name="heart" [size]="26" />
+    </span>
     <h1>Meine Favoriten</h1>
     <p>{{ recipes().length }} gespeicherte Rezepte</p>
   </div>
@@ -12,7 +14,9 @@
       </div>
     } @else if (recipes().length === 0) {
       <div class="empty">
-        <img class="food-mark" src="brand/marks/heart.svg" alt="" aria-hidden="true" />
+        <span class="page-mark" aria-hidden="true">
+          <app-icon name="heart" [size]="26" />
+        </span>
         <h2>Noch keine Favoriten</h2>
         <p>Speichere die Rezepte, die du wieder kochen willst, und finde sie hier sofort wieder.</p>
         <a class="empty-cta" routerLink="/home">Rezepte entdecken</a>

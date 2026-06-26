@@ -2,13 +2,14 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - 68px);
+  background: var(--bg);
 }
 
 .chat-header {
   background:
-    radial-gradient(circle at top left, rgba(194, 103, 74, 0.2), transparent 28rem),
-    linear-gradient(135deg, #2a2622 0%, #3a342d 100%);
-  color: white;
+    radial-gradient(circle at top left, rgba(244, 125, 79, 0.18), transparent 28rem),
+    linear-gradient(135deg, var(--hero-bg-a) 0%, var(--hero-bg-b) 100%);
+  color: var(--text);
   padding: 20px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -28,7 +29,7 @@
 
   p {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted);
   }
 }
 
@@ -97,7 +98,7 @@ app-api-key-banner {
 
     .bubble {
       background: var(--primary);
-      color: white;
+      color: var(--on-primary);
       border-bottom-right-radius: 4px;
     }
   }
@@ -244,7 +245,7 @@ app-api-key-banner {
     width: 42px;
     height: 42px;
     background: var(--primary);
-    color: white;
+    color: var(--on-primary);
     border: none;
     border-radius: 12px;
     display: flex;
@@ -386,7 +387,7 @@ app-api-key-banner {
 
   &:hover {
     background: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
     transform: translateY(-1px);
   }
 }

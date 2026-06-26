@@ -19,7 +19,6 @@ Implemented assets:
 - Icon mark: `public/brand/icon-mark.svg`
 - Browser favicon: `public/favicon.svg`
 - Web app manifest: `public/site.webmanifest`
-- Illustration set: `public/illustrations/`
 
 Recommended logo structure:
 
@@ -33,43 +32,28 @@ Logo usage:
 - Use the compact icon mark for app icons, loading states, empty states, and small UI surfaces.
 - Keep enough whitespace around the logo. Minimum clear space: the height of the icon mark.
 
-## Icon Mark
+## Icon System
 
-The current icon direction is a small handmade-style food mark, implemented in CSS as `.food-mark`.
-
-Approved variants:
-
-- Default plate / utensil mark: general recipe discovery
-- Basket mark: shopping list
-- Calendar mark: meal planner
-- Book mark: saved generated recipes
-- Heart mark: favorites
+TastyFinder uses a simple line-icon system through the shared `app-icon` component.
 
 Usage rules:
 
-- Use food marks for page headers, empty states, and branded feature surfaces.
-- Use simple line icons for utility actions such as search, close, send, upload, and navigation.
-- Avoid random emoji as permanent UI icons.
+- Use the brand icon only for logo, favicon, app identity, and auth/navigation branding.
+- Use line icons for page headers, empty states, navigation, utility actions, and metadata.
 - Keep icon color tied to the design tokens, not one-off hardcoded colors.
+- Avoid random emoji as permanent UI icons.
+- Avoid pseudo-handmade SVG illustrations unless they are professionally designed and consistent.
 
-## Illustration Style
+## Image And Illustration Direction
 
-TastyFinder uses simple custom SVG illustrations for branded product moments.
+TastyFinder should rely on strong recipe photography and clean UI composition instead of weak decorative illustrations.
 
-Implemented illustrations:
+Rules:
 
-- Hero kitchen board: `public/illustrations/hero-kitchen.svg`
-- Cuisine cards: `cuisine-italian.svg`, `cuisine-indian.svg`, `cuisine-japanese.svg`, `cuisine-mexican.svg`
-- Empty search state: `public/illustrations/empty-search.svg`
-- AI recipe generator: `public/illustrations/ai-chef.svg`
-
-Illustration rules:
-
-- Use warm cream surfaces, terracotta accents, and sage green support shapes.
-- Keep shapes rounded, simple, and readable at small sizes.
-- Prefer SVG for UI illustrations so assets stay crisp and lightweight.
-- Use illustrations for hero areas, cuisine selection, AI/product moments, and empty states.
-- Do not mix in unrelated stock-style illustrations.
+- Use real recipe images for food discovery and recipe cards.
+- Use line icons for empty states and product features.
+- Do not use generated-looking clipart or mixed illustration styles.
+- Add custom illustration assets only if they are high quality, consistent, and reviewed as part of the design system.
 
 ## Color Palette
 
@@ -225,7 +209,7 @@ Recipe cards:
 
 Empty states:
 
-- Use a food mark
+- Use a simple line icon inside `.page-mark`
 - One clear heading
 - One helpful sentence
 - One primary next action when possible
@@ -236,7 +220,7 @@ Empty states:
 - Use `:focus-visible` and `--shadow-focus` for keyboard users.
 - Do not rely on color alone for status.
 - Keep semantic buttons, links, labels, and form fields.
-- Decorative food marks should use `aria-hidden="true"`.
+- Decorative page icons should use `aria-hidden="true"`.
 
 ## Do Not Use
 

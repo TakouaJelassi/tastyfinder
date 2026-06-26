@@ -1,6 +1,8 @@
 <div class="generate-page">
   <div class="page-header">
-    <img src="illustrations/ai-chef.svg" alt="" aria-hidden="true" />
+    <span class="page-mark" aria-hidden="true">
+      <app-icon name="sparkles" [size]="26" />
+    </span>
     <h1>Rezept generieren</h1>
     <p>Gib deine Zutaten ein und lass die KI 3 Rezepte für dich erstellen.</p>
   </div>
@@ -40,7 +42,11 @@
             }
           </select>
           @if (ingredients().length > 1) {
-            <button class="btn-remove" (click)="removeIngredient($index)" aria-label="Zutat entfernen">
+            <button
+              class="btn-remove"
+              (click)="removeIngredient($index)"
+              aria-label="Zutat entfernen"
+            >
               <app-icon name="close" [size]="14" />
             </button>
           }

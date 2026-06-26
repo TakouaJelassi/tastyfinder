@@ -1,6 +1,8 @@
 <div class="shopping-page">
   <div class="shopping-header">
-    <img class="food-mark" src="brand/marks/basket.svg" alt="" aria-hidden="true" />
+    <span class="page-mark" aria-hidden="true">
+      <app-icon name="cart" [size]="26" />
+    </span>
     <h1>Einkaufsliste</h1>
     <p>{{ items().length }} Artikel — {{ checkedCount }} erledigt</p>
   </div>
@@ -21,7 +23,9 @@
       <div class="loading-wrap"><div class="spinner"></div></div>
     } @else if (items().length === 0) {
       <div class="empty">
-        <img class="food-mark" src="brand/marks/basket.svg" alt="" aria-hidden="true" />
+        <span class="page-mark" aria-hidden="true">
+          <app-icon name="cart" [size]="26" />
+        </span>
         <h2>Deine Einkaufsliste ist leer</h2>
         <p>
           Füge Artikel manuell hinzu oder übernimm Zutaten direkt aus Rezepten und Wochenplänen.

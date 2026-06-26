@@ -2,7 +2,7 @@
   <div class="chat-header">
     <div class="chat-header-inner">
       <div class="chat-avatar">
-        <app-icon name="chat" [size]="22" style="color: #fff" />
+        <app-icon name="chat" [size]="22" style="color: var(--on-primary)" />
       </div>
       <div>
         <h1>AI Rezept-Assistent</h1>
@@ -23,7 +23,7 @@
         >
           @if (msg.sender === 'bot') {
             <div class="avatar bot-avatar">
-              <app-icon name="chat" [size]="15" style="color: #fff" />
+              <app-icon name="chat" [size]="15" style="color: var(--on-primary)" />
             </div>
           }
           <div class="message-content">
@@ -77,7 +77,7 @@
       @if (thinking()) {
         <div class="message bot">
           <div class="avatar bot-avatar">
-            <app-icon name="chat" [size]="15" style="color: #fff" />
+            <app-icon name="chat" [size]="15" style="color: var(--on-primary)" />
           </div>
           <div class="bubble typing"><span></span><span></span><span></span></div>
         </div>

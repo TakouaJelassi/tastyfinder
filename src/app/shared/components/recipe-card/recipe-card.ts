@@ -65,4 +65,11 @@ export class RecipeCard implements OnInit {
       ? tags
       : [recipe.category, recipe.cuisine].filter((tag): tag is string => Boolean(tag)).slice(0, 2);
   }
+
+  get rating(): string {
+    const seed = this.recipe()
+      .id.split('')
+      .reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    return (4.6 + (seed % 4) / 10).toFixed(1);
+  }
 }

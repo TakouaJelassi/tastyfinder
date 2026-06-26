@@ -3,16 +3,16 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 9px 18px;
-  background: linear-gradient(90deg, var(--success-light), var(--surface-3));
-  border-bottom: 1px solid color-mix(in srgb, var(--success) 24%, var(--border));
-  color: var(--success);
-  font-size: 13px;
-  font-weight: 700;
+  padding: 7px 18px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  border-bottom: 1px solid rgba(145, 182, 129, 0.14);
+  color: color-mix(in srgb, var(--accent) 82%, var(--text));
+  font-size: 12px;
+  font-weight: 650;
   text-align: center;
 
   a {
-    color: var(--primary-dark);
+    color: var(--primary);
     font-weight: 800;
     text-decoration: none;
     border-bottom: 1px solid currentColor;

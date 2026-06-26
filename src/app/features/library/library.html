@@ -1,6 +1,8 @@
 <div class="library-page">
   <div class="page-header">
-    <img class="food-mark" src="brand/marks/book.svg" alt="" aria-hidden="true" />
+    <span class="page-mark" aria-hidden="true">
+      <app-icon name="library" [size]="26" />
+    </span>
     <h1>Bibliothek</h1>
     <p>Deine generierten Rezepte — gespeichert und jederzeit verfügbar.</p>
   </div>
@@ -9,7 +11,9 @@
     <div class="loading">Rezepte werden geladen...</div>
   } @else if (recipes().length === 0) {
     <div class="empty-state">
-      <img class="food-mark" src="brand/marks/book.svg" alt="" aria-hidden="true" />
+      <span class="page-mark" aria-hidden="true">
+        <app-icon name="library" [size]="26" />
+      </span>
       <h2>Noch keine Rezepte</h2>
       <p>Starte mit vorhandenen Zutaten und speichere deine ersten eigenen Rezeptideen.</p>
       <a class="empty-cta" routerLink="/generate">Erstes Rezept generieren</a>
@@ -32,7 +36,10 @@
               </div>
             </div>
             <span class="chevron">
-              <app-icon [name]="expandedId() === recipe.id ? 'chevronUp' : 'chevronDown'" [size]="15" />
+              <app-icon
+                [name]="expandedId() === recipe.id ? 'chevronUp' : 'chevronDown'"
+                [size]="15"
+              />
             </span>
           </div>
 
