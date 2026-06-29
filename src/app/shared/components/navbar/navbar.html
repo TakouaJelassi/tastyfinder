@@ -8,27 +8,27 @@
     <div class="nav-links">
       <a routerLink="/home" routerLinkActive="active">
         <app-icon name="home" [size]="16" />
-        Rezepte
+        Recipes
       </a>
       <a routerLink="/generate" routerLinkActive="active">
         <app-icon name="generate" [size]="16" />
-        Generieren
+        Generate
       </a>
       <a routerLink="/library" routerLinkActive="active">
         <app-icon name="library" [size]="16" />
-        Bibliothek
+        Library
       </a>
       <a routerLink="/favorites" routerLinkActive="active">
         <app-icon name="heart" [size]="16" />
-        Favoriten
+        Favorites
       </a>
       <a routerLink="/shopping" routerLinkActive="active">
         <app-icon name="cart" [size]="16" />
-        Einkaufsliste
+        Shopping
       </a>
       <a routerLink="/planner" routerLinkActive="active">
         <app-icon name="calendar" [size]="16" />
-        Wochenplan
+        Meal Plan
       </a>
       <a routerLink="/chat" routerLinkActive="active">
         <app-icon name="chat" [size]="16" />
@@ -41,7 +41,7 @@
         class="theme-toggle"
         (click)="themeService.toggle()"
         [attr.aria-label]="
-          themeService.theme() === 'dark' ? 'Hellen Modus aktivieren' : 'Dunklen Modus aktivieren'
+          themeService.theme() === 'dark' ? 'Enable light mode' : 'Enable dark mode'
         "
       >
         @if (themeService.theme() === 'dark') {
@@ -55,7 +55,7 @@
         <div class="avatar-skeleton"></div>
       } @else if (authService.isLoggedIn) {
         <div class="user-menu-wrapper">
-          <button class="avatar-btn" (click)="toggleUserMenu()" [attr.aria-label]="'Benutzermenü'">
+          <button class="avatar-btn" (click)="toggleUserMenu()" aria-label="User menu">
             @if (authService.avatarBase64()) {
               <img [src]="authService.avatarBase64()" alt="Avatar" class="avatar-img" />
             } @else {
@@ -70,21 +70,21 @@
               </div>
               <a routerLink="/profile" class="dropdown-item" (click)="userMenuOpen.set(false)">
                 <app-icon name="user" [size]="16" />
-                Profil bearbeiten
+                Edit profile
               </a>
               <hr />
               <button class="dropdown-item logout" (click)="logout()">
                 <app-icon name="logout" [size]="16" />
-                Abmelden
+                Sign out
               </button>
             </div>
           }
         </div>
       } @else {
-        <a routerLink="/login" class="btn-login">Anmelden</a>
+        <a routerLink="/login" class="btn-login">Sign in</a>
       }
 
-      <button class="menu-toggle" aria-label="Menü öffnen" (click)="toggleMenu()">
+      <button class="menu-toggle" aria-label="Open menu" (click)="toggleMenu()">
         <app-icon name="menu" [size]="22" />
       </button>
     </div>
@@ -93,27 +93,27 @@
   <div class="mobile-menu" [class.open]="menuOpen()">
     <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">
       <app-icon name="home" [size]="16" />
-      Rezepte
+      Recipes
     </a>
     <a routerLink="/generate" routerLinkActive="active" (click)="closeMenu()">
       <app-icon name="generate" [size]="16" />
-      Generieren
+      Generate
     </a>
     <a routerLink="/library" routerLinkActive="active" (click)="closeMenu()">
       <app-icon name="library" [size]="16" />
-      Bibliothek
+      Library
     </a>
     <a routerLink="/favorites" routerLinkActive="active" (click)="closeMenu()">
       <app-icon name="heart" [size]="16" />
-      Favoriten
+      Favorites
     </a>
     <a routerLink="/shopping" routerLinkActive="active" (click)="closeMenu()">
       <app-icon name="cart" [size]="16" />
-      Einkaufsliste
+      Shopping
     </a>
     <a routerLink="/planner" routerLinkActive="active" (click)="closeMenu()">
       <app-icon name="calendar" [size]="16" />
-      Wochenplan
+      Meal Plan
     </a>
     <a routerLink="/chat" routerLinkActive="active" (click)="closeMenu()">
       <app-icon name="chat" [size]="16" />
@@ -123,12 +123,12 @@
     @if (authService.isLoggedIn) {
       <button class="mobile-logout" (click)="logout(); closeMenu()">
         <app-icon name="logout" [size]="16" />
-        Abmelden
+        Sign out
       </button>
     } @else {
       <a routerLink="/login" (click)="closeMenu()">
         <app-icon name="user" [size]="16" />
-        Anmelden
+        Sign in
       </a>
     }
   </div>

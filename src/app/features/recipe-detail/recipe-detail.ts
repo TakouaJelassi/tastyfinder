@@ -46,7 +46,7 @@ export class RecipeDetail implements OnInit {
     if (!recipe || !this.isLoggedIn) return;
     await this.shoppingStore.add(recipe.ingredients);
     this.addedToList.set(true);
-    this.notification.success('Zutaten zur Einkaufsliste hinzugefügt');
+    this.notification.success('Ingredients added to shopping list');
     setTimeout(() => this.addedToList.set(false), 2500);
   }
 
@@ -57,11 +57,11 @@ export class RecipeDetail implements OnInit {
     if (this.favorite()) {
       await this.favoriteStore.remove(recipe.id);
       this.favorite.set(false);
-      this.notification.info('Aus Favoriten entfernt');
+      this.notification.info('Removed from favorites');
     } else {
       await this.favoriteStore.add(recipe.id);
       this.favorite.set(true);
-      this.notification.success('Zu Favoriten hinzugefügt');
+      this.notification.success('Added to favorites');
     }
   }
 

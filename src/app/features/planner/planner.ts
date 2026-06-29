@@ -17,13 +17,13 @@ interface DayColumn {
 }
 
 const DAY_LABELS: { key: WeekDay; label: string }[] = [
-  { key: 'mon', label: 'Montag' },
-  { key: 'tue', label: 'Dienstag' },
-  { key: 'wed', label: 'Mittwoch' },
-  { key: 'thu', label: 'Donnerstag' },
-  { key: 'fri', label: 'Freitag' },
-  { key: 'sat', label: 'Samstag' },
-  { key: 'sun', label: 'Sonntag' },
+  { key: 'mon', label: 'Monday' },
+  { key: 'tue', label: 'Tuesday' },
+  { key: 'wed', label: 'Wednesday' },
+  { key: 'thu', label: 'Thursday' },
+  { key: 'fri', label: 'Friday' },
+  { key: 'sat', label: 'Saturday' },
+  { key: 'sun', label: 'Sunday' },
 ];
 
 @Component({
@@ -105,7 +105,7 @@ export class Planner implements OnInit {
     const ingredients = this.recipeService.findByIds(ids).flatMap((r) => r.ingredients);
     await this.shoppingStore.add(ingredients);
     this.addedToShopping.set(true);
-    this.notification.success('Zutaten der Woche zur Einkaufsliste hinzugefügt');
+    this.notification.success("Week's ingredients added to shopping list");
     setTimeout(() => this.addedToShopping.set(false), 2500);
   }
 

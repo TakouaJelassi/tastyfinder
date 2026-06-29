@@ -7,28 +7,16 @@
   [attr.aria-label]="recipe().title"
 >
   <div class="card-img-wrap">
-    <img
-      [src]="recipe().image"
-      [alt]="recipe().title"
-      loading="lazy"
-      (error)="onImageError($event)"
-    />
+    <img [src]="recipe().image" [alt]="recipe().title" loading="lazy" (error)="onImageError($event)" />
     <div class="card-overlay"></div>
     <div class="card-badges">
-      @for (tag of visibleTags; track tag) {
-        <span>{{ tag }}</span>
-      }
+      @for (tag of visibleTags; track tag) { <span>{{ tag }}</span> }
     </div>
     <span class="rating-pill">
       <app-icon name="sparkles" [size]="12" />
       {{ rating }}
     </span>
-    <button
-      class="fav-btn"
-      (click)="toggleFavorite($event)"
-      [class.active]="isFavorite()"
-      aria-label="Favorit togglen"
-    >
+    <button class="fav-btn" (click)="toggleFavorite($event)" [class.active]="isFavorite()" aria-label="Toggle favorite">
       <app-icon name="heart" [size]="18" [filled]="isFavorite()" />
     </button>
   </div>
@@ -39,18 +27,12 @@
     <h3 class="card-title">{{ recipe().title }}</h3>
     <div class="card-meta">
       @if (recipe().readyInMinutes) {
-        <span>
-          <app-icon name="clock" [size]="14" />
-          {{ recipe().readyInMinutes }} min
-        </span>
+        <span><app-icon name="clock" [size]="14" /> {{ recipe().readyInMinutes }} min</span>
       }
       @if (recipe().servings) {
-        <span>
-          <app-icon name="users" [size]="14" />
-          {{ recipe().servings }} servings
-        </span>
+        <span><app-icon name="users" [size]="14" /> {{ recipe().servings }} servings</span>
       }
     </div>
-    <span class="card-link">Rezept ansehen</span>
+    <span class="card-link">View recipe</span>
   </div>
 </article>

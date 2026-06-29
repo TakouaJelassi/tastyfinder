@@ -2,43 +2,32 @@
   <div class="settings-copy">
     <span class="eyebrow">AI configuration</span>
     @if (serverConfigured()) {
-      <strong>AI ist serverseitig aktiv</strong>
-      <span>Groq-Anfragen laufen ueber den sicheren Backend-Proxy.</span>
+      <strong>AI is active (server-side)</strong>
+      <span>Groq requests run through the secure backend proxy.</span>
     } @else if (hasKey()) {
-      <strong>AI ist aktiv</strong>
-      <span>Groq ist fuer Generator und Chat konfiguriert.</span>
+      <strong>AI is active</strong>
+      <span>Groq is configured for generator and chat.</span>
     } @else {
-      <strong>AI bei Bedarf aktivieren</strong>
-      <span>
-        Fuer eigene Rezeptideen brauchst du einen Groq API Key. Die normale Rezeptsuche funktioniert
-        weiter ohne Key.
-      </span>
+      <strong>Enable AI</strong>
+      <span>For custom recipe generation you need a Groq API key. Recipe search works without one.</span>
     }
   </div>
 
   @if (serverConfigured()) {
     <div class="settings-actions">
-      <span class="saved-msg">Backend aktiv</span>
+      <span class="saved-msg">Backend active</span>
     </div>
   } @else if (hasKey()) {
     <div class="settings-actions">
-      @if (saved()) {
-        <span class="saved-msg">Gespeichert</span>
-      }
-      <button class="btn-secondary" type="button" (click)="removeAll()">Key entfernen</button>
+      @if (saved()) { <span class="saved-msg">Saved</span> }
+      <button class="btn-secondary" type="button" (click)="removeAll()">Remove key</button>
     </div>
   } @else {
     <div class="settings-actions">
-      <input
-        type="password"
-        placeholder="gsk_..."
-        aria-label="Groq API Key"
-        [ngModel]="keyInput()"
-        (ngModelChange)="keyInput.set($event)"
-        (keyup.enter)="save()"
-      />
-      <button class="btn-primary" type="button" (click)="save()">Aktivieren</button>
-      <a href="https://console.groq.com/keys" target="_blank" rel="noopener">Key erstellen</a>
+      <input type="password" placeholder="gsk_..." aria-label="Groq API Key"
+        [ngModel]="keyInput()" (ngModelChange)="keyInput.set($event)" (keyup.enter)="save()" />
+      <button class="btn-primary" type="button" (click)="save()">Enable</button>
+      <a href="https://console.groq.com/keys" target="_blank" rel="noopener">Get API key</a>
     </div>
   }
 </section>

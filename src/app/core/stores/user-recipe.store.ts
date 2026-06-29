@@ -19,12 +19,12 @@ const DEMO_RECIPES: GeneratedRecipe[] = [
   {
     id: 'demo-1',
     title: 'Mediterrane Orzo Bowl',
-    ingredients: ['Orzo', 'Kirschtomaten', 'Feta', 'Gurke', 'Oliven', 'Zitrone', 'Olivenöl'],
+    ingredients: ['Orzo', 'Cherry tomatoes', 'Feta', 'Cucumber', 'Olives', 'Lemon', 'Olive oil'],
     missingIngredients: ['Frische Minze'],
     steps: [
-      { step: 1, description: 'Orzo al dente kochen und kurz abkühlen lassen.' },
-      { step: 2, description: 'Gemüse schneiden, Feta zerbröseln und alles vermengen.' },
-      { step: 3, description: 'Mit Zitrone, Olivenöl, Salz und Pfeffer abschmecken.' },
+      { step: 1, description: 'Cook orzo al dente and let cool briefly.' },
+      { step: 2, description: 'Dice vegetables, crumble feta and toss everything together.' },
+      { step: 3, description: 'Season with lemon, olive oil, salt and pepper.' },
     ],
     duration: '25 Min',
     difficulty: 'Einfach',
@@ -41,18 +41,18 @@ const DEMO_RECIPES: GeneratedRecipe[] = [
       'Sojasauce',
       'Limette',
       'Karotte',
-      'Frühlingszwiebel',
+      'Spring onion',
     ],
     missingIngredients: ['Sesam'],
     steps: [
       { step: 1, description: 'Nudeln nach Packungsangabe garen.' },
       {
         step: 2,
-        description: 'Sauce aus Erdnussbutter, Sojasauce, Limette und warmem Wasser rühren.',
+        description: 'Whisk together peanut butter, soy sauce, lime juice and warm water.',
       },
       {
         step: 3,
-        description: 'Nudeln mit Sauce und Gemüse vermengen.',
+        description: 'Toss noodles with sauce and vegetables.',
         parallel: true,
         assignedTo: 1,
       },

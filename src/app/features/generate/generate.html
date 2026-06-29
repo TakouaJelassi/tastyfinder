@@ -3,84 +3,51 @@
     <span class="page-mark" aria-hidden="true">
       <app-icon name="sparkles" [size]="26" />
     </span>
-    <h1>Rezept generieren</h1>
-    <p>Gib deine Zutaten ein und lass die KI 3 Rezepte für dich erstellen.</p>
+    <h1>Generate Recipe</h1>
+    <p>Enter your ingredients and let AI create 3 recipes for you.</p>
   </div>
 
   <app-api-key-banner></app-api-key-banner>
 
   <div class="generate-form">
-    <!-- Zutaten -->
     <section class="form-section">
-      <h2>Zutaten</h2>
+      <h2>Ingredients</h2>
       @for (ingredient of ingredients(); track $index) {
         <div class="ingredient-row">
-          <input
-            #nameRef
-            type="text"
-            placeholder="Zutat (z.B. Tomaten)"
-            [value]="ingredient.name"
-            (input)="updateIngredient($index, 'name', nameRef.value)"
-            class="ingredient-name"
-          />
-          <input
-            #amountRef
-            type="text"
-            placeholder="Menge"
-            [value]="ingredient.amount"
-            (input)="updateIngredient($index, 'amount', amountRef.value)"
-            class="ingredient-amount"
-          />
-          <select
-            #unitRef
-            [value]="ingredient.unit"
-            (change)="updateIngredient($index, 'unit', unitRef.value)"
-            class="ingredient-unit"
-          >
+          <input #nameRef type="text" placeholder="Ingredient (e.g. tomatoes)"
+            [value]="ingredient.name" (input)="updateIngredient($index, 'name', nameRef.value)" class="ingredient-name" />
+          <input #amountRef type="text" placeholder="Amount"
+            [value]="ingredient.amount" (input)="updateIngredient($index, 'amount', amountRef.value)" class="ingredient-amount" />
+          <select #unitRef [value]="ingredient.unit" (change)="updateIngredient($index, 'unit', unitRef.value)" class="ingredient-unit">
             @for (unit of units; track unit) {
               <option [value]="unit">{{ unit }}</option>
             }
           </select>
           @if (ingredients().length > 1) {
-            <button
-              class="btn-remove"
-              (click)="removeIngredient($index)"
-              aria-label="Zutat entfernen"
-            >
+            <button class="btn-remove" (click)="removeIngredient($index)" aria-label="Remove ingredient">
               <app-icon name="close" [size]="14" />
             </button>
           }
         </div>
       }
-      <button class="btn-add" (click)="addIngredient()">+ Zutat hinzufügen</button>
+      <button class="btn-add" (click)="addIngredient()">+ Add ingredient</button>
     </section>
 
-    <!-- Präferenzen -->
     <section class="form-section">
-      <h2>Präferenzen</h2>
-
+      <h2>Preferences</h2>
       <div class="prefs-grid">
         <div class="pref-item">
-          <label>Portionen: {{ preferences().portions }}</label>
-          <input
-            #portionsRef
-            type="range"
-            min="1"
-            max="12"
-            [value]="preferences().portions"
-            (input)="updatePreference('portions', +portionsRef.value)"
-          />
+          <label>Servings: {{ preferences().portions }}</label>
+          <input #portionsRef type="range" min="1" max="12" [value]="preferences().portions"
+            (input)="updatePreference('portions', +portionsRef.value)" />
           <div class="range-labels"><span>1</span><span>12</span></div>
         </div>
 
         <div class="pref-item">
-          <label>Zubereitungszeit</label>
+          <label>Prep time</label>
           <div class="btn-group">
             @for (t of times; track t.value) {
-              <button
-                [class.active]="preferences().time === t.value"
-                (click)="updatePreference('time', t.value)"
-              >
+              <button [class.active]="preferences().time === t.value" (click)="updatePreference('time', t.value)">
                 {{ t.label }}
               </button>
             }
@@ -88,13 +55,10 @@
         </div>
 
         <div class="pref-item">
-          <label>Küche</label>
+          <label>Cuisine</label>
           <div class="btn-group wrap">
             @for (c of cuisines; track c) {
-              <button
-                [class.active]="preferences().cuisine === c"
-                (click)="updatePreference('cuisine', c)"
-              >
+              <button [class.active]="preferences().cuisine === c" (click)="updatePreference('cuisine', c)">
                 {{ c }}
               </button>
             }
@@ -102,13 +66,10 @@
         </div>
 
         <div class="pref-item">
-          <label>Ernährung</label>
+          <label>Diet</label>
           <div class="btn-group">
             @for (d of diets; track d.value) {
-              <button
-                [class.active]="preferences().diet === d.value"
-                (click)="updatePreference('diet', d.value)"
-              >
+              <button [class.active]="preferences().diet === d.value" (click)="updatePreference('diet', d.value)">
                 {{ d.label }}
               </button>
             }
@@ -116,26 +77,11 @@
         </div>
 
         <div class="pref-item">
-          <label>Kochhelfer: {{ preferences().helpers }}</label>
+          <label>Cooking helpers: {{ preferences().helpers }}</label>
           <div class="btn-group">
-            <button
-              [class.active]="preferences().helpers === 1"
-              (click)="updatePreference('helpers', 1)"
-            >
-              1 Person
-            </button>
-            <button
-              [class.active]="preferences().helpers === 2"
-              (click)="updatePreference('helpers', 2)"
-            >
-              2 Personen
-            </button>
-            <button
-              [class.active]="preferences().helpers === 3"
-              (click)="updatePreference('helpers', 3)"
-            >
-              3 Personen
-            </button>
+            <button [class.active]="preferences().helpers === 1" (click)="updatePreference('helpers', 1)">1 person</button>
+            <button [class.active]="preferences().helpers === 2" (click)="updatePreference('helpers', 2)">2 people</button>
+            <button [class.active]="preferences().helpers === 3" (click)="updatePreference('helpers', 3)">3 people</button>
           </div>
         </div>
       </div>
@@ -147,22 +93,21 @@
 
     <button class="btn-generate" (click)="generate()" [disabled]="loading()">
       @if (loading()) {
-        <span class="spinner"></span> KI generiert...
+        <span class="spinner"></span> AI generating...
       } @else {
         <app-icon name="sparkles" [size]="18" />
-        3 Rezepte generieren
+        Generate 3 recipes
       }
     </button>
   </div>
 
-  <!-- Ergebnisse -->
   @if (generatedRecipes().length > 0) {
     <div class="results">
-      <h2>Deine Rezepte</h2>
+      <h2>Your recipes</h2>
       @if (saved()) {
         <p class="saved-hint">
           <app-icon name="check" [size]="16" />
-          Alle Rezepte in der Bibliothek gespeichert.
+          All recipes saved to library.
         </p>
       }
       <div class="recipe-cards">
@@ -172,43 +117,33 @@
               <h3>{{ recipe.title }}</h3>
               <div class="card-meta">
                 <span><app-icon name="clock" [size]="13" /> {{ recipe.duration }}</span>
-                <span><app-icon name="users" [size]="13" /> {{ recipe.portions }} Port.</span>
+                <span><app-icon name="users" [size]="13" /> {{ recipe.portions }} serv.</span>
                 <span><app-icon name="gauge" [size]="13" /> {{ recipe.difficulty }}</span>
               </div>
             </div>
-
             <div class="card-body">
               <div class="section">
-                <h4>Zutaten</h4>
+                <h4>Ingredients</h4>
                 <ul>
-                  @for (ing of recipe.ingredients; track ing) {
-                    <li>{{ ing }}</li>
-                  }
+                  @for (ing of recipe.ingredients; track ing) { <li>{{ ing }}</li> }
                 </ul>
               </div>
-
               @if (recipe.missingIngredients.length) {
                 <div class="section missing">
-                  <h4>Fehlende Zutaten</h4>
+                  <h4>Missing ingredients</h4>
                   <ul>
-                    @for (m of recipe.missingIngredients; track m) {
-                      <li>{{ m }}</li>
-                    }
+                    @for (m of recipe.missingIngredients; track m) { <li>{{ m }}</li> }
                   </ul>
                 </div>
               }
-
               <div class="section">
-                <h4>Zubereitung</h4>
+                <h4>Instructions</h4>
                 <ol>
                   @for (step of recipe.steps; track step.step) {
                     <li [class.parallel]="step.parallel">
                       {{ step.description }}
                       @if (step.parallel) {
-                        <span class="parallel-badge">
-                          <app-icon name="zap" [size]="11" />
-                          parallel
-                        </span>
+                        <span class="parallel-badge"><app-icon name="zap" [size]="11" /> parallel</span>
                       }
                     </li>
                   }

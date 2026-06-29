@@ -1,38 +1,26 @@
 <div class="shopping-page">
   <div class="shopping-header">
-    <span class="page-mark" aria-hidden="true">
-      <app-icon name="cart" [size]="26" />
-    </span>
-    <h1>Einkaufsliste</h1>
-    <p>{{ items().length }} Artikel — {{ checkedCount }} erledigt</p>
+    <span class="page-mark" aria-hidden="true"><app-icon name="cart" [size]="26" /></span>
+    <h1>Shopping List</h1>
+    <p>{{ items().length }} items — {{ checkedCount }} done</p>
   </div>
-
   <div class="container">
     <form class="add-bar" (ngSubmit)="addItem()">
-      <input
-        type="text"
-        placeholder="Artikel hinzufügen (z. B. Tomaten)"
-        [ngModel]="newItem()"
-        (ngModelChange)="newItem.set($event)"
-        name="newItem"
-      />
-      <button type="submit" class="btn-add" [disabled]="!newItem().trim()">Hinzufügen</button>
+      <input type="text" placeholder="Add item (e.g. tomatoes)"
+        [ngModel]="newItem()" (ngModelChange)="newItem.set($event)" name="newItem" />
+      <button type="submit" class="btn-add" [disabled]="!newItem().trim()">Add</button>
     </form>
 
     @if (loading()) {
       <div class="loading-wrap"><div class="spinner"></div></div>
     } @else if (items().length === 0) {
       <div class="empty">
-        <span class="page-mark" aria-hidden="true">
-          <app-icon name="cart" [size]="26" />
-        </span>
-        <h2>Deine Einkaufsliste ist leer</h2>
-        <p>
-          Füge Artikel manuell hinzu oder übernimm Zutaten direkt aus Rezepten und Wochenplänen.
-        </p>
+        <span class="page-mark" aria-hidden="true"><app-icon name="cart" [size]="26" /></span>
+        <h2>Your shopping list is empty</h2>
+        <p>Add items manually or import ingredients from recipes and meal plans.</p>
         <div class="empty-actions">
-          <a routerLink="/home">Rezepte öffnen</a>
-          <a routerLink="/planner">Woche planen</a>
+          <a routerLink="/home">Browse recipes</a>
+          <a routerLink="/planner">Plan week</a>
         </div>
       </div>
     } @else {
@@ -44,17 +32,14 @@
               <span class="checkmark"></span>
               <span class="item-name">{{ item.name }}</span>
             </label>
-            <button class="btn-remove" (click)="remove(item)" aria-label="Entfernen">
+            <button class="btn-remove" (click)="remove(item)" aria-label="Remove">
               <app-icon name="close" [size]="16" />
             </button>
           </li>
         }
       </ul>
-
       @if (checkedCount > 0) {
-        <button class="btn-clear" (click)="clearChecked()">
-          {{ checkedCount }} erledigte entfernen
-        </button>
+        <button class="btn-clear" (click)="clearChecked()">Remove {{ checkedCount }} checked</button>
       }
     }
   </div>

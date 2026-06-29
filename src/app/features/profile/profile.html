@@ -8,122 +8,71 @@
           } @else {
             <span class="avatar-initial">{{ userInitial }}</span>
           }
-          <label class="avatar-upload-btn" title="Bild hochladen">
+          <label class="avatar-upload-btn" title="Upload image">
             <app-icon name="upload" [size]="16" />
             <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
           </label>
         </div>
         <div class="avatar-info">
-          <h2>{{ authService.displayName || 'Dein Profil' }}</h2>
+          <h2>{{ authService.displayName || 'Your Profile' }}</h2>
           <p>{{ authService.displayEmail }}</p>
         </div>
       </div>
     </div>
 
     <div class="profile-card">
-      <h3 class="card-title">Profil bearbeiten</h3>
-
+      <h3 class="card-title">Edit Profile</h3>
       <div class="form-group">
         <label>Name</label>
-        <input
-          type="text"
-          [ngModel]="name()"
-          (ngModelChange)="name.set($event)"
-          name="name"
-          placeholder="Dein Name"
-        />
+        <input type="text" [ngModel]="name()" (ngModelChange)="name.set($event)" name="name" placeholder="Your name" />
       </div>
-
       <div class="form-group">
-        <label>E-Mail</label>
+        <label>Email</label>
         <input type="email" [value]="authService.displayEmail" disabled />
-        <span class="field-hint">E-Mail kann nicht geändert werden</span>
+        <span class="field-hint">Email cannot be changed</span>
       </div>
-
       <div class="form-group">
-        <label>Profilbild</label>
+        <label>Profile picture</label>
         <label class="file-upload-area">
           <app-icon name="image" [size]="24" />
-          <span>Bild auswählen (JPG, PNG — wird automatisch verkleinert)</span>
+          <span>Choose image (JPG, PNG — automatically resized)</span>
           <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
         </label>
       </div>
-
-      @if (successMsg()) {
-        <p class="msg success">{{ successMsg() }}</p>
-      }
-      @if (errorMsg()) {
-        <p class="msg error">{{ errorMsg() }}</p>
-      }
-
+      @if (successMsg()) { <p class="msg success">{{ successMsg() }}</p> }
+      @if (errorMsg()) { <p class="msg error">{{ errorMsg() }}</p> }
       <button class="btn-primary" (click)="saveProfile()" [disabled]="saving()">
-        @if (saving()) {
-          <span class="spinner"></span>
-        } @else {
-          Speichern
-        }
+        @if (saving()) { <span class="spinner"></span> } @else { Save }
       </button>
     </div>
 
     @if (!isDemo) {
       <div class="profile-card">
-        <h3 class="card-title">Passwort ändern</h3>
-
+        <h3 class="card-title">Change Password</h3>
         <div class="form-group">
-          <label>Aktuelles Passwort</label>
-          <input
-            type="password"
-            [ngModel]="currentPassword()"
-            (ngModelChange)="currentPassword.set($event)"
-            name="currentPassword"
-            placeholder="••••••••"
-          />
+          <label>Current password</label>
+          <input type="password" [ngModel]="currentPassword()" (ngModelChange)="currentPassword.set($event)" name="currentPassword" placeholder="••••••••" />
         </div>
-
         <div class="form-group">
-          <label>Neues Passwort</label>
-          <input
-            type="password"
-            [ngModel]="newPassword()"
-            (ngModelChange)="newPassword.set($event)"
-            name="newPassword"
-            placeholder="Mindestens 6 Zeichen"
-          />
+          <label>New password</label>
+          <input type="password" [ngModel]="newPassword()" (ngModelChange)="newPassword.set($event)" name="newPassword" placeholder="At least 6 characters" />
         </div>
-
         <div class="form-group">
-          <label>Passwort bestätigen</label>
-          <input
-            type="password"
-            [ngModel]="confirmPassword()"
-            (ngModelChange)="confirmPassword.set($event)"
-            name="confirmPassword"
-            placeholder="••••••••"
-          />
+          <label>Confirm password</label>
+          <input type="password" [ngModel]="confirmPassword()" (ngModelChange)="confirmPassword.set($event)" name="confirmPassword" placeholder="••••••••" />
         </div>
-
-        @if (passwordError()) {
-          <p class="msg error">{{ passwordError() }}</p>
-        }
-        @if (passwordSuccess()) {
-          <p class="msg success">{{ passwordSuccess() }}</p>
-        }
-
+        @if (passwordError()) { <p class="msg error">{{ passwordError() }}</p> }
+        @if (passwordSuccess()) { <p class="msg success">{{ passwordSuccess() }}</p> }
         <button class="btn-primary" (click)="changePassword()" [disabled]="savingPassword()">
-          @if (savingPassword()) {
-            <span class="spinner"></span>
-          } @else {
-            Passwort ändern
-          }
+          @if (savingPassword()) { <span class="spinner"></span> } @else { Change password }
         </button>
       </div>
     }
 
     <div class="profile-card danger-zone">
-      <h3 class="card-title">Konto</h3>
+      <h3 class="card-title">Account</h3>
       <button class="btn-logout" (click)="logout()">
-        <app-icon name="logout" [size]="16" />
-        Abmelden
+        <app-icon name="logout" [size]="16" /> Sign out
       </button>
     </div>
   </div>

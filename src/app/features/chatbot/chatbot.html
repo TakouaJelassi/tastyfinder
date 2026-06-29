@@ -5,8 +5,8 @@
         <app-icon name="chat" [size]="22" style="color: var(--on-primary)" />
       </div>
       <div>
-        <h1>AI Rezept-Assistent</h1>
-        <p>Sag mir was du hast — ich finde das passende Rezept</p>
+        <h1>AI Recipe Assistant</h1>
+        <p>Tell me what you have — I'll find the right recipe</p>
       </div>
     </div>
   </div>
@@ -16,11 +16,7 @@
 
     <div class="message-list" #messageList>
       @for (msg of messages(); track $index) {
-        <div
-          class="message"
-          [class.user]="msg.sender === 'user'"
-          [class.bot]="msg.sender === 'bot'"
-        >
+        <div class="message" [class.user]="msg.sender === 'user'" [class.bot]="msg.sender === 'bot'">
           @if (msg.sender === 'bot') {
             <div class="avatar bot-avatar">
               <app-icon name="chat" [size]="15" style="color: var(--on-primary)" />
@@ -38,7 +34,6 @@
                 }
               </div>
             }
-
             @if (msg.generated; as g) {
               <div class="generated-card">
                 <div class="generated-head">
@@ -46,34 +41,25 @@
                   <div class="generated-meta">
                     <span><app-icon name="clock" [size]="13" /> {{ g.duration }}</span>
                     <span><app-icon name="gauge" [size]="13" /> {{ g.difficulty }}</span>
-                    <span><app-icon name="users" [size]="13" /> {{ g.portions }} Port.</span>
+                    <span><app-icon name="users" [size]="13" /> {{ g.portions }} serv.</span>
                   </div>
                 </div>
-
-                <h4>Zutaten</h4>
+                <h4>Ingredients</h4>
                 <ul class="generated-ingredients">
-                  @for (ing of g.ingredients; track ing) {
-                    <li>{{ ing }}</li>
-                  }
+                  @for (ing of g.ingredients; track ing) { <li>{{ ing }}</li> }
                 </ul>
-
-                <h4>Zubereitung</h4>
+                <h4>Instructions</h4>
                 <ol class="generated-steps">
-                  @for (step of g.steps; track step.step) {
-                    <li>{{ step.description }}</li>
-                  }
+                  @for (step of g.steps; track step.step) { <li>{{ step.description }}</li> }
                 </ol>
-
                 <button class="btn-add-shopping" (click)="addGeneratedToShopping(g)">
-                  <app-icon name="cart" [size]="16" />
-                  Zutaten zur Einkaufsliste
+                  <app-icon name="cart" [size]="16" /> Add to shopping list
                 </button>
               </div>
             }
           </div>
         </div>
       }
-
       @if (thinking()) {
         <div class="message bot">
           <div class="avatar bot-avatar">
@@ -94,14 +80,14 @@
 
     <div class="input-area">
       <textarea
-        placeholder="z.B. Ich habe Hühnchen und Kartoffeln..."
+        placeholder="e.g. I have chicken and potatoes..."
         [ngModel]="userInput()"
         (ngModelChange)="userInput.set($event)"
         (keydown)="onKeyDown($event)"
         rows="2"
-        aria-label="Nachricht eingeben"
+        aria-label="Type a message"
       ></textarea>
-      <button (click)="send()" [disabled]="thinking() || !userInput().trim()" aria-label="Senden">
+      <button (click)="send()" [disabled]="thinking() || !userInput().trim()" aria-label="Send">
         <app-icon name="send" [size]="18" />
       </button>
     </div>

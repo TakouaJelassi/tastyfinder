@@ -1,22 +1,18 @@
 <div class="library-page">
   <div class="page-header">
-    <span class="page-mark" aria-hidden="true">
-      <app-icon name="library" [size]="26" />
-    </span>
-    <h1>Bibliothek</h1>
-    <p>Deine generierten Rezepte — gespeichert und jederzeit verfügbar.</p>
+    <span class="page-mark" aria-hidden="true"><app-icon name="library" [size]="26" /></span>
+    <h1>Library</h1>
+    <p>Your generated recipes — saved and available anytime.</p>
   </div>
 
   @if (loading()) {
-    <div class="loading">Rezepte werden geladen...</div>
+    <div class="loading">Loading recipes...</div>
   } @else if (recipes().length === 0) {
     <div class="empty-state">
-      <span class="page-mark" aria-hidden="true">
-        <app-icon name="library" [size]="26" />
-      </span>
-      <h2>Noch keine Rezepte</h2>
-      <p>Starte mit vorhandenen Zutaten und speichere deine ersten eigenen Rezeptideen.</p>
-      <a class="empty-cta" routerLink="/generate">Erstes Rezept generieren</a>
+      <span class="page-mark" aria-hidden="true"><app-icon name="library" [size]="26" /></span>
+      <h2>No recipes yet</h2>
+      <p>Start with ingredients you have and save your first recipe ideas.</p>
+      <a class="empty-cta" routerLink="/generate">Generate first recipe</a>
     </div>
   } @else {
     <div class="recipe-list">
@@ -27,7 +23,7 @@
               <h3>{{ recipe.title }}</h3>
               <div class="meta">
                 <span><app-icon name="clock" [size]="13" /> {{ recipe.duration }}</span>
-                <span><app-icon name="users" [size]="13" /> {{ recipe.portions }} Port.</span>
+                <span><app-icon name="users" [size]="13" /> {{ recipe.portions }} serv.</span>
                 <span><app-icon name="gauge" [size]="13" /> {{ recipe.difficulty }}</span>
                 <span><app-icon name="utensils" [size]="13" /> {{ recipe.cuisine }}</span>
                 @if (recipe.diet && recipe.diet !== 'none') {
@@ -36,10 +32,7 @@
               </div>
             </div>
             <span class="chevron">
-              <app-icon
-                [name]="expandedId() === recipe.id ? 'chevronUp' : 'chevronDown'"
-                [size]="15"
-              />
+              <app-icon [name]="expandedId() === recipe.id ? 'chevronUp' : 'chevronDown'" [size]="15" />
             </span>
           </div>
 
@@ -47,36 +40,27 @@
             <div class="recipe-detail">
               <div class="detail-grid">
                 <div class="detail-section">
-                  <h4>Zutaten</h4>
+                  <h4>Ingredients</h4>
                   <ul>
-                    @for (ing of recipe.ingredients; track ing) {
-                      <li>{{ ing }}</li>
-                    }
+                    @for (ing of recipe.ingredients; track ing) { <li>{{ ing }}</li> }
                   </ul>
                 </div>
-
                 @if (recipe.missingIngredients.length) {
                   <div class="detail-section missing">
-                    <h4>Fehlende Zutaten</h4>
+                    <h4>Missing ingredients</h4>
                     <ul>
-                      @for (m of recipe.missingIngredients; track m) {
-                        <li>{{ m }}</li>
-                      }
+                      @for (m of recipe.missingIngredients; track m) { <li>{{ m }}</li> }
                     </ul>
                   </div>
                 }
-
                 <div class="detail-section steps">
-                  <h4>Zubereitung</h4>
+                  <h4>Instructions</h4>
                   <ol>
                     @for (step of recipe.steps; track step.step) {
                       <li>
                         {{ step.description }}
                         @if (step.parallel) {
-                          <span class="parallel-badge">
-                            <app-icon name="zap" [size]="11" />
-                            parallel
-                          </span>
+                          <span class="parallel-badge"><app-icon name="zap" [size]="11" /> parallel</span>
                         }
                       </li>
                     }

@@ -1,25 +1,18 @@
 <div class="favorites">
   <div class="favorites-header">
-    <span class="page-mark" aria-hidden="true">
-      <app-icon name="heart" [size]="26" />
-    </span>
-    <h1>Meine Favoriten</h1>
-    <p>{{ recipes().length }} gespeicherte Rezepte</p>
+    <span class="page-mark" aria-hidden="true"><app-icon name="heart" [size]="26" /></span>
+    <h1>My Favorites</h1>
+    <p>{{ recipes().length }} saved recipes</p>
   </div>
-
   <div class="container">
     @if (loading()) {
-      <div class="loading-wrap">
-        <div class="spinner"></div>
-      </div>
+      <div class="loading-wrap"><div class="spinner"></div></div>
     } @else if (recipes().length === 0) {
       <div class="empty">
-        <span class="page-mark" aria-hidden="true">
-          <app-icon name="heart" [size]="26" />
-        </span>
-        <h2>Noch keine Favoriten</h2>
-        <p>Speichere die Rezepte, die du wieder kochen willst, und finde sie hier sofort wieder.</p>
-        <a class="empty-cta" routerLink="/home">Rezepte entdecken</a>
+        <span class="page-mark" aria-hidden="true"><app-icon name="heart" [size]="26" /></span>
+        <h2>No favorites yet</h2>
+        <p>Save recipes you want to cook again and find them here instantly.</p>
+        <a class="empty-cta" routerLink="/home">Discover recipes</a>
       </div>
     } @else {
       <div class="grid">

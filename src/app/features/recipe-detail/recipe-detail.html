@@ -1,14 +1,14 @@
 @if (loading()) {
   <div class="loading-wrap">
     <div class="spinner"></div>
-    <p>Rezept wird geladen...</p>
+    <p>Loading recipe...</p>
   </div>
 } @else if (recipe(); as r) {
   <div class="detail">
     <div class="detail-backdrop" [style.backgroundImage]="'url(' + r.image + ')'"></div>
 
     <section class="recipe-panel">
-      <button class="back-btn" (click)="goBack()" aria-label="Zurueck">
+      <button class="back-btn" (click)="goBack()" aria-label="Back">
         <app-icon name="close" [size]="18" [strokeWidth]="2.5" />
       </button>
 
@@ -20,8 +20,8 @@
         <span class="recipe-kicker">{{ r.cuisine || r.category }}</span>
         <h1>{{ r.title }}</h1>
         <div class="hero-meta">
-          <span><app-icon name="clock" [size]="15" /> {{ r.readyInMinutes || 30 }} Min</span>
-          <span><app-icon name="users" [size]="15" /> {{ r.servings || 2 }} Portionen</span>
+          <span><app-icon name="clock" [size]="15" /> {{ r.readyInMinutes || 30 }} min</span>
+          <span><app-icon name="users" [size]="15" /> {{ r.servings || 2 }} servings</span>
           <span><app-icon name="gauge" [size]="15" /> {{ difficulty }}</span>
         </div>
 
@@ -34,28 +34,17 @@
         @if (isLoggedIn) {
           <div class="hero-actions-row">
             @if (r.ingredients.length) {
-              <button
-                class="primary-detail-btn"
-                (click)="addToShoppingList()"
-                [disabled]="addedToList()"
-              >
+              <button class="primary-detail-btn" (click)="addToShoppingList()" [disabled]="addedToList()">
                 @if (addedToList()) {
-                  <app-icon name="check" [size]="16" />
-                  Hinzugefuegt
+                  <app-icon name="check" [size]="16" /> Added
                 } @else {
-                  <app-icon name="cart" [size]="16" />
-                  Zutaten speichern
+                  <app-icon name="cart" [size]="16" /> Save ingredients
                 }
               </button>
             }
-
-            <button
-              class="favorite-hero-btn"
-              [class.active]="favorite()"
-              (click)="toggleFavorite()"
-            >
+            <button class="favorite-hero-btn" [class.active]="favorite()" (click)="toggleFavorite()">
               <app-icon name="heart" [size]="17" [filled]="favorite()" />
-              {{ favorite() ? 'Gespeichert' : 'Save' }}
+              {{ favorite() ? 'Saved' : 'Save' }}
             </button>
           </div>
         }
@@ -68,7 +57,7 @@
           <div class="ai-icon-wrap">
             <app-icon name="generate" [size]="18" style="color: var(--on-primary)" />
           </div>
-          <p>AI analysiert das Rezept...</p>
+          <p>AI is analysing the recipe...</p>
         </div>
       } @else if (aiSummary()) {
         <div class="ai-card">
@@ -76,7 +65,7 @@
             <app-icon name="generate" [size]="18" style="color: var(--on-primary)" />
           </div>
           <div>
-            <p class="ai-label">AI Zusammenfassung</p>
+            <p class="ai-label">AI Summary</p>
             <p>{{ aiSummary() }}</p>
           </div>
         </div>
@@ -86,7 +75,7 @@
         <div class="ingredients-section">
           <h2>
             <app-icon name="ingredients" [size]="20" style="color: var(--primary)" />
-            Zutaten
+            Ingredients
           </h2>
           <ul class="ingredients-list">
             @for (ingredient of r.ingredients; track $index) {
@@ -101,7 +90,7 @@
         <div class="instructions-section">
           <h2>
             <app-icon name="instructions" [size]="20" style="color: var(--primary)" />
-            Zubereitung
+            Instructions
           </h2>
           <ol class="instruction-steps">
             @for (step of instructionSteps; track $index) {
@@ -112,7 +101,7 @@
             } @empty {
               <li>
                 <span class="step-number">1</span>
-                <p>Noch keine Zubereitungsschritte verfuegbar.</p>
+                <p>No instructions available yet.</p>
               </li>
             }
           </ol>
@@ -126,12 +115,7 @@
             Video
           </h2>
           <div class="video-wrap">
-            <iframe
-              [src]="getYoutubeUrl(r.video)"
-              frameborder="0"
-              allowfullscreen
-              title="Rezept Video"
-            ></iframe>
+            <iframe [src]="getYoutubeUrl(r.video)" frameborder="0" allowfullscreen title="Recipe video"></iframe>
           </div>
         </div>
       }
@@ -140,7 +124,7 @@
 } @else {
   <div class="loading-wrap">
     <app-icon name="search" [size]="48" [strokeWidth]="1.5" />
-    <h3>Rezept nicht gefunden</h3>
-    <button class="btn-primary" (click)="goBack()">Zurueck zur Uebersicht</button>
+    <h3>Recipe not found</h3>
+    <button class="btn-primary" (click)="goBack()">Back to overview</button>
   </div>
 }

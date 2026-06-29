@@ -9,7 +9,7 @@ export class ErrorMapper {
       return {
         code: 'ai_invalid_response',
         title: 'AI response could not be parsed',
-        message: 'Die AI-Antwort konnte nicht sicher gelesen werden. Bitte nochmal generieren.',
+        message: 'The AI response could not be parsed. Please try generating again.',
         recoverable: true,
       };
     }
@@ -26,7 +26,7 @@ export class ErrorMapper {
     return {
       code: 'unknown',
       title: 'Unexpected error',
-      message: 'Es ist ein Fehler aufgetreten. Bitte versuche es nochmal.',
+      message: 'Something went wrong. Please try again.',
       recoverable: true,
     };
   }

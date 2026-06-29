@@ -47,13 +47,13 @@ export class Generate {
   units = ['g', 'kg', 'ml', 'L', 'Stück', 'EL', 'TL', 'Tasse'];
   cuisines = ['Deutsch', 'Italienisch', 'Japanisch', 'Indisch', 'Gourmet', 'Fusion'];
   times: { value: RecipePreferences['time']; label: string }[] = [
-    { value: 'quick', label: 'Schnell (bis 20 Min)' },
-    { value: 'medium', label: 'Mittel (20–45 Min)' },
-    { value: 'long', label: 'Aufwendig (45+ Min)' },
+    { value: 'quick', label: 'Quick (up to 20 min)' },
+    { value: 'medium', label: 'Medium (20–45 min)' },
+    { value: 'long', label: 'Elaborate (45+ min)' },
   ];
   diets: { value: RecipePreferences['diet']; label: string }[] = [
-    { value: 'none', label: 'Keine Einschränkung' },
-    { value: 'vegetarian', label: 'Vegetarisch' },
+    { value: 'none', label: 'No restriction' },
+    { value: 'vegetarian', label: 'Vegetarian' },
     { value: 'vegan', label: 'Vegan' },
     { value: 'keto', label: 'Keto' },
   ];

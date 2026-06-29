@@ -63,14 +63,14 @@ export class Profile implements OnInit {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      this.errorMsg.set('Bitte eine Bilddatei auswählen.');
+      this.errorMsg.set('Please select an image file.');
       return;
     }
 
     this.errorMsg.set('');
     this.resizeImage(file, 256)
       .then((dataUrl) => this.avatarBase64.set(dataUrl))
-      .catch(() => this.errorMsg.set('Bild konnte nicht verarbeitet werden.'));
+      .catch(() => this.errorMsg.set('Image could not be processed.'));
   }
 
   /** Verkleinert das Bild auf max. `size`px (quadratisch, zentriert) und gibt ein JPEG-DataURL zurück. */
@@ -115,9 +115,9 @@ export class Profile implements OnInit {
         avatarBase64: this.avatarBase64(),
       });
       this.authService.avatarBase64.set(this.avatarBase64());
-      this.successMsg.set('Profil erfolgreich gespeichert!');
+      this.successMsg.set('Profile saved!');
     } catch {
-      this.errorMsg.set('Fehler beim Speichern. Bitte erneut versuchen.');
+      this.errorMsg.set('Failed to save. Please try again.');
     } finally {
       this.saving.set(false);
     }
@@ -128,7 +128,7 @@ export class Profile implements OnInit {
     this.passwordSuccess.set('');
 
     if (this.newPassword() !== this.confirmPassword()) {
-      this.passwordError.set('Passwörter stimmen nicht überein.');
+      this.passwordError.set('Passwords do not match.');
       return;
     }
     if (this.newPassword().length < 6) {
@@ -144,7 +144,7 @@ export class Profile implements OnInit {
       const credential = EmailAuthProvider.credential(user.email, this.currentPassword());
       await reauthenticateWithCredential(user, credential);
       await updatePassword(user, this.newPassword());
-      this.passwordSuccess.set('Passwort erfolgreich geändert!');
+      this.passwordSuccess.set('Password changed successfully!');
       this.currentPassword.set('');
       this.newPassword.set('');
       this.confirmPassword.set('');
@@ -153,7 +153,7 @@ export class Profile implements OnInit {
       if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
         this.passwordError.set('Aktuelles Passwort ist falsch.');
       } else {
-        this.passwordError.set('Fehler beim Ändern des Passworts.');
+        this.passwordError.set('Failed to change password.');
       }
     } finally {
       this.savingPassword.set(false);

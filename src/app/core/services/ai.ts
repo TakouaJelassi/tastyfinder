@@ -98,7 +98,7 @@ export class AiService {
 
   async suggestRecipe(): Promise<string> {
     const hour = new Date().getHours();
-    const mealTime = hour < 11 ? 'Frühstück' : hour < 15 ? 'Mittagessen' : 'Abendessen';
+    const mealTime = hour < 11 ? 'Breakfast' : hour < 15 ? 'Lunch' : 'Dinner';
     const prompt =
       `Schlage ein passendes Rezept für ${mealTime} vor. ` +
       'Nenne nur den Namen und einen kurzen Grund warum es passt.';
@@ -116,7 +116,7 @@ export class AiService {
     if (proxyResponse.text || proxyResponse.error !== 'proxy-unavailable') return proxyResponse;
 
     if (!this.apiKey) {
-      return { text: '', error: 'Kein API Key gesetzt.' };
+      return { text: '', error: 'No API key set.' };
     }
 
     try {
@@ -139,12 +139,12 @@ export class AiService {
 
       if (data?.error) {
         console.error('Groq error:', data.error.message);
-        return { text: '', error: data.error.message ?? 'Groq konnte nicht antworten.' };
+        return { text: '', error: data.error.message ?? 'Groq could not respond.' };
       }
       const text = data?.choices?.[0]?.message?.content?.trim() ?? '';
       return { text };
     } catch {
-      return { text: '', error: 'Fehler bei der AI-Anfrage.' };
+      return { text: '', error: 'AI request failed.' };
     }
   }
 

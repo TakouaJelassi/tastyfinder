@@ -64,14 +64,14 @@ export class AuthPage {
     const code = (e as { code?: string })?.code ?? '';
     const map: Record<string, string> = {
       'auth/email-already-in-use': 'Diese E-Mail ist bereits registriert.',
-      'auth/invalid-email': 'Ungültige E-Mail-Adresse.',
+      'auth/invalid-email': 'Invalid email address.',
       'auth/weak-password': 'Passwort muss mindestens 6 Zeichen haben.',
-      'auth/user-not-found': 'Kein Konto mit dieser E-Mail gefunden.',
+      'auth/user-not-found': 'No account found with this email.',
       'auth/wrong-password': 'Falsches Passwort.',
       'auth/invalid-credential': 'E-Mail oder Passwort falsch.',
       'auth/popup-closed-by-user': 'Google Login abgebrochen.',
-      'auth/too-many-requests': 'Zu viele Versuche. Bitte später erneut versuchen.',
+      'auth/too-many-requests': 'Too many attempts. Please try again later.',
     };
-    return map[code] ?? 'Ein Fehler ist aufgetreten. Bitte erneut versuchen.';
+    return map[code] ?? 'Something went wrong. Please try again.';
   }
 }

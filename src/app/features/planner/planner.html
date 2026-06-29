@@ -1,10 +1,8 @@
 <div class="planner-page">
   <div class="planner-header">
-    <span class="page-mark" aria-hidden="true">
-      <app-icon name="calendar" [size]="26" />
-    </span>
-    <h1>Wochenplan</h1>
-    <p>{{ totalMeals() }} Gerichte geplant</p>
+    <span class="page-mark" aria-hidden="true"><app-icon name="calendar" [size]="26" /></span>
+    <h1>Meal Plan</h1>
+    <p>{{ totalMeals() }} meals planned</p>
   </div>
 
   <div class="container">
@@ -12,30 +10,19 @@
       <div class="loading-wrap"><div class="spinner"></div></div>
     } @else {
       @if (totalMeals() > 0) {
-        <button
-          class="btn-week-shopping"
-          (click)="addWeekToShopping()"
-          [disabled]="addedToShopping()"
-        >
+        <button class="btn-week-shopping" (click)="addWeekToShopping()" [disabled]="addedToShopping()">
           @if (addedToShopping()) {
-            <app-icon name="check" [size]="16" />
-            Zur Einkaufsliste hinzugefügt
+            <app-icon name="check" [size]="16" /> Added to shopping list
           } @else {
-            <app-icon name="cart" [size]="16" />
-            Alle Zutaten der Woche zur Einkaufsliste
+            <app-icon name="cart" [size]="16" /> Add all week's ingredients to shopping list
           }
         </button>
       } @else {
         <div class="empty-planner">
-          <span class="page-mark" aria-hidden="true">
-            <app-icon name="calendar" [size]="26" />
-          </span>
-          <h2>Plane deine erste Kochwoche</h2>
-          <p>
-            Lege pro Tag Rezepte ab und uebernimm alle Zutaten spaeter gesammelt in die
-            Einkaufsliste.
-          </p>
-          <a routerLink="/home">Rezepte entdecken</a>
+          <span class="page-mark" aria-hidden="true"><app-icon name="calendar" [size]="26" /></span>
+          <h2>Plan your first week</h2>
+          <p>Add recipes for each day and import all ingredients to your shopping list at once.</p>
+          <a routerLink="/home">Discover recipes</a>
         </div>
       }
 
@@ -46,31 +33,20 @@
               <h3>{{ day.label }}</h3>
               <span class="day-count">{{ day.recipes.length }}</span>
             </div>
-
             <div class="day-recipes">
               @for (recipe of day.recipes; track $index) {
                 <div class="meal">
-                  <img
-                    [src]="recipe.image"
-                    [alt]="recipe.title"
-                    (click)="openRecipe(recipe.id)"
-                    (error)="onImageError($event)"
-                  />
+                  <img [src]="recipe.image" [alt]="recipe.title" (click)="openRecipe(recipe.id)" (error)="onImageError($event)" />
                   <span class="meal-title" (click)="openRecipe(recipe.id)">{{ recipe.title }}</span>
-                  <button
-                    class="meal-remove"
-                    (click)="removeRecipe(day.key, $index)"
-                    aria-label="Entfernen"
-                  >
+                  <button class="meal-remove" (click)="removeRecipe(day.key, $index)" aria-label="Remove">
                     <app-icon name="close" [size]="14" />
                   </button>
                 </div>
               } @empty {
-                <p class="day-empty">Noch nichts geplant</p>
+                <p class="day-empty">Nothing planned yet</p>
               }
             </div>
-
-            <button class="btn-add-meal" (click)="openPicker(day.key)">+ Rezept</button>
+            <button class="btn-add-meal" (click)="openPicker(day.key)">+ Recipe</button>
           </div>
         }
       </div>
@@ -82,8 +58,8 @@
   <div class="picker-overlay" (click)="closePicker()">
     <div class="picker" (click)="$event.stopPropagation()">
       <div class="picker-head">
-        <h3>Rezept hinzufügen</h3>
-        <button class="picker-close" (click)="closePicker()" aria-label="Schließen">
+        <h3>Add recipe</h3>
+        <button class="picker-close" (click)="closePicker()" aria-label="Close">
           <app-icon name="close" [size]="16" />
         </button>
       </div>

@@ -59,7 +59,7 @@ export class Shopping implements OnInit {
   async clearChecked(): Promise<void> {
     this.items.update((list) => list.filter((i) => !i.checked));
     await this.shoppingStore.clearChecked();
-    this.notification.success('Erledigte Artikel entfernt');
+    this.notification.success('Checked items removed');
   }
 
   get checkedCount(): number {

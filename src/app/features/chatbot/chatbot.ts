@@ -40,16 +40,16 @@ export class Chatbot implements AfterViewChecked {
   messages = signal<ChatTurn[]>([
     {
       sender: 'bot',
-      text: 'Hallo! Ich helfe dir, das passende Rezept zu finden. Schreib mir, welche Zutaten du hast oder worauf du Lust hast.',
+      text: "Hi! I can help you find the perfect recipe. Tell me what ingredients you have or what you're in the mood for.",
       timestamp: new Date(),
     },
   ]);
 
   readonly quickPrompts = [
-    'Ich habe Hähnchen und Tomaten',
-    'Etwas Vegetarisches',
-    'Italienisch',
-    'Eine Suppe',
+    'I have chicken and tomatoes',
+    'Something vegetarian',
+    'Italian cuisine',
+    'A hearty soup',
   ];
 
   ngAfterViewChecked(): void {
@@ -80,24 +80,24 @@ export class Chatbot implements AfterViewChecked {
         if (generated) {
           this.addMessage(
             'bot',
-            `In der Sammlung war nichts Passendes — ich habe dir ein neues Rezept erstellt: „${generated.title}"`,
+            `No match in collection — I created a new recipe for you: "${generated.title}"`,
             undefined,
             generated,
           );
         } else {
           this.addMessage(
             'bot',
-            'Ich konnte gerade kein Rezept erstellen. Formuliere es bitte etwas anders.',
+            "I couldn't create a recipe right now. Please try rephrasing.",
           );
         }
       } else {
         this.addMessage(
           'bot',
-          'Dazu habe ich kein Rezept in der Sammlung. Mit aktivierter AI erstelle ich dir gerne ein neues Rezept.',
+          'No recipe found in the collection. Enable AI to generate a custom one.',
         );
       }
     } catch {
-      this.addMessage('bot', 'Ein Fehler ist aufgetreten. Bitte versuche es erneut.');
+      this.addMessage('bot', 'An error occurred. Please try again.');
     }
 
     this.thinking.set(false);
@@ -131,7 +131,7 @@ export class Chatbot implements AfterViewChecked {
 
   private async buildReply(query: string, recipes: RecipePreview[]): Promise<string> {
     if (recipes.length === 0) {
-      return 'Dazu habe ich leider kein passendes Rezept gefunden. Versuche es mit anderen Zutaten, einer Küche (z. B. „italienisch") oder „vegetarisch".';
+      return "Sorry, I couldn't find a matching recipe. Try other ingredients, a cuisine (e.g. Italian) or vegetarian.";
     }
 
     const names = recipes
@@ -141,7 +141,7 @@ export class Chatbot implements AfterViewChecked {
 
     if (await this.aiService.hasAiAccess()) {
       try {
-        const prompt = `Du bist ein freundlicher Koch-Assistent. Der Nutzer schrieb: "${query}". Ich schlage diese Rezepte vor: ${names}. Antworte in EINEM kurzen, freundlichen deutschen Satz, der zu den Vorschlägen hinführt. Keine Aufzählung, kein Markdown.`;
+        const prompt = `You are a friendly cooking assistant. The user asked: "${query}". I suggest these recipes: ${names}. Reply in ONE short friendly English sentence leading into the suggestions. No bullet points, no markdown.`;
         const aiText = await this.aiService.generateRaw(prompt);
         if (aiText?.trim()) return aiText.trim();
       } catch {
@@ -149,7 +149,7 @@ export class Chatbot implements AfterViewChecked {
       }
     }
 
-    return `Ich habe ${recipes.length} passende ${recipes.length === 1 ? 'Rezept' : 'Rezepte'} für dich gefunden:`;
+    return `I found ${recipes.length} matching ${recipes.length === 1 ? 'recipe' : 'recipes'} for you:`;
   }
 
   private search(text: string): Promise<RecipePreview[]> {
