@@ -14,16 +14,16 @@ describe('PromptBuilder', () => {
     });
 
     expect(prompt).toContain('tomatoes, pasta');
-    expect(prompt).toContain('Portionen: 4');
-    expect(prompt).toContain('bis 20 Min');
-    expect(prompt).toContain('validen JSON Array');
+    expect(prompt).toContain('Servings: 4');
+    expect(prompt).toContain('up to 20 min');
+    expect(prompt).toContain('valid JSON array');
   });
 
   it('builds single recipe prompts for chat fallback', () => {
     const prompt = builder.buildChatRecipePrompt('quick dinner with rice');
 
     expect(prompt).toContain('quick dinner with rice');
-    expect(prompt).toContain('validen JSON-Objekt');
+    expect(prompt).toContain('valid JSON object');
     expect(prompt).toContain('"title"');
   });
 });
