@@ -172,6 +172,38 @@
   border-color: color-mix(in srgb, var(--success) 28%, var(--border)) !important;
 }
 
+.summary-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-delete {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: all var(--transition);
+
+  .recipe-summary:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: var(--danger);
+    border-color: var(--danger);
+    background: var(--danger-light);
+  }
+}
+
 .chevron {
   width: 32px;
   height: 32px;

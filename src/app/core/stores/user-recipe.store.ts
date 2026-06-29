@@ -3,6 +3,8 @@ import {
   Firestore,
   collection,
   addDoc,
+  deleteDoc,
+  doc,
   getDocs,
   orderBy,
   query,
@@ -83,6 +85,17 @@ export class UserRecipeStore {
     }
     const col = collection(this.firestore, `users/${uid}/recipes`);
     return addDoc(col, { ...recipe, createdAt: Timestamp.now() }).then(() => {});
+  }
+
+  delete(id: string): Promise<void> {
+    const uid = this.auth.uid;
+    if (!uid) return Promise.resolve();
+    if (this.demo.isDemo) {
+      const recipes = this.demo.read(DEMO_KEY, DEMO_RECIPES).filter((r) => r.id !== id);
+      this.demo.write(DEMO_KEY, recipes);
+      return Promise.resolve();
+    }
+    return deleteDoc(doc(this.firestore, `users/${uid}/recipes/${id}`));
   }
 
   list(): Observable<GeneratedRecipe[]> {

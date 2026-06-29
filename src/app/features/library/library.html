@@ -31,9 +31,14 @@
                 }
               </div>
             </div>
-            <span class="chevron">
-              <app-icon [name]="expandedId() === recipe.id ? 'chevronUp' : 'chevronDown'" [size]="15" />
-            </span>
+            <div class="summary-actions">
+              <button class="btn-delete" (click)="deleteRecipe(recipe, $event)" aria-label="Delete recipe">
+                <app-icon name="trash" [size]="15" />
+              </button>
+              <span class="chevron">
+                <app-icon [name]="expandedId() === recipe.id ? 'chevronUp' : 'chevronDown'" [size]="15" />
+              </span>
+            </div>
           </div>
 
           @if (expandedId() === recipe.id) {

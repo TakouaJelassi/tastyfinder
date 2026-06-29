@@ -104,17 +104,25 @@
   @if (generatedRecipes().length > 0) {
     <div class="results">
       <h2>Your recipes</h2>
-      @if (saved()) {
-        <p class="saved-hint">
-          <app-icon name="check" [size]="16" />
-          All recipes saved to library.
-        </p>
-      }
       <div class="recipe-cards">
-        @for (recipe of generatedRecipes(); track recipe.title) {
+        @for (recipe of generatedRecipes(); track recipe.title; let i = $index) {
           <div class="recipe-card">
             <div class="card-header">
-              <h3>{{ recipe.title }}</h3>
+              <div class="card-title-row">
+                <h3>{{ recipe.title }}</h3>
+                <button
+                  class="btn-save-recipe"
+                  [class.saved]="isSaved(recipe, i)"
+                  (click)="saveRecipe(recipe, i)"
+                  [disabled]="isSaved(recipe, i)"
+                >
+                  @if (isSaved(recipe, i)) {
+                    <app-icon name="check" [size]="14" /> Saved
+                  } @else {
+                    <app-icon name="bookmark" [size]="14" /> Save to library
+                  }
+                </button>
+              </div>
               <div class="card-meta">
                 <span><app-icon name="clock" [size]="13" /> {{ recipe.duration }}</span>
                 <span><app-icon name="users" [size]="13" /> {{ recipe.portions }} serv.</span>

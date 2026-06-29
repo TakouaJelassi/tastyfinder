@@ -41,7 +41,7 @@ export class Generate {
 
   generatedRecipes = signal<GeneratedRecipe[]>([]);
   loading = signal(false);
-  saved = signal(false);
+  savedIds = signal<Set<string>>(new Set());
   error = signal('');
 
   units = ['g', 'kg', 'ml', 'L', 'Stück', 'EL', 'TL', 'Tasse'];
@@ -93,7 +93,7 @@ export class Generate {
     this.loading.set(true);
     this.error.set('');
     this.generatedRecipes.set([]);
-    this.saved.set(false);
+    this.savedIds.set(new Set());
 
     const ingredientList = this.validIngredients
       .map((i) => `${i.amount} ${i.unit} ${i.name}`.trim())
@@ -117,8 +117,8 @@ export class Generate {
       }
       const recipes = this.recipeParser.parseRecipeList(raw);
       this.generatedRecipes.set(recipes);
+      this.savedIds.set(new Set());
       this.loading.set(false);
-      this.saveAll(recipes);
     } catch (e) {
       this.error.set(this.errorMapper.fromUnknown(e).message);
       console.error(e);
@@ -126,10 +126,14 @@ export class Generate {
     }
   }
 
-  private async saveAll(recipes: GeneratedRecipe[]): Promise<void> {
-    for (const recipe of recipes) {
-      await this.userRecipeStore.save(recipe);
-    }
-    this.saved.set(true);
+  async saveRecipe(recipe: GeneratedRecipe, index: number): Promise<void> {
+    const key = recipe.id ?? String(index);
+    if (this.savedIds().has(key)) return;
+    await this.userRecipeStore.save(recipe);
+    this.savedIds.update((s) => new Set([...s, key]));
+  }
+
+  isSaved(recipe: GeneratedRecipe, index: number): boolean {
+    return this.savedIds().has(recipe.id ?? String(index));
   }
 }
