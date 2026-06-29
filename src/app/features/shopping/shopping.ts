@@ -41,7 +41,7 @@ export class Shopping implements OnInit {
     if (!name) return;
     this.newItem.set('');
     await this.shoppingStore.add([name]);
-    this.notification.success(`„${name}" hinzugefügt`);
+    this.notification.success(`"${name}" added`);
     this.load();
   }
 

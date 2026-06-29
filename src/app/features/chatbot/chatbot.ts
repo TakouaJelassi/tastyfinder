@@ -109,7 +109,7 @@ export class Chatbot implements AfterViewChecked {
 
   async addGeneratedToShopping(recipe: GeneratedRecipe): Promise<void> {
     await this.shoppingStore.add(recipe.ingredients);
-    this.addMessage('bot', `Zutaten für „${recipe.title}" wurden zur Einkaufsliste hinzugefügt.`);
+    this.addMessage('bot', `Ingredients from "${recipe.title}" added to shopping list.`);
   }
 
   private async generateRecipe(query: string): Promise<GeneratedRecipe | null> {
