@@ -50,7 +50,8 @@
     height: 38px;
     display: block;
     border-radius: 11px;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+    border: 1.5px solid var(--border);
+    box-shadow: var(--shadow-sm);
   }
 
   .logo-text {
@@ -251,10 +252,10 @@
   }
 
   &.logout {
-    color: #ef4444;
+    color: var(--danger);
 
     &:hover {
-      background: #fef2f2;
+      background: var(--danger-light);
     }
   }
 }
@@ -317,7 +318,7 @@
   border-radius: var(--radius-sm);
   font-size: 15px;
   font-weight: 600;
-  color: #ef4444;
+  color: var(--danger);
   background: none;
   border: none;
   cursor: pointer;
@@ -326,6 +327,6 @@
   transition: background 0.15s;
 
   &:hover {
-    background: #fef2f2;
+    background: var(--danger-light);
   }
 }

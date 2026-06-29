@@ -11,7 +11,7 @@
     linear-gradient(135deg, var(--hero-bg-a) 0%, var(--hero-bg-b) 100%);
   color: var(--text);
   padding: 20px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border);
 }
 
 .chat-header-inner {
