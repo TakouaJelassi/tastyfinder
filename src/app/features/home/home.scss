@@ -6,18 +6,12 @@
   padding: 72px 24px 84px;
   position: relative;
   overflow: hidden;
-
-  @media (max-width: 640px) {
-    padding: 44px 18px 52px;
-  }
 }
 
 .hero-content {
   max-width: 680px;
   margin: 0 auto;
   text-align: center;
-  position: relative;
-  z-index: 1;
 }
 
 .hero-badge {
@@ -31,9 +25,7 @@
   border-radius: 50px;
   font-size: 12.5px;
   font-weight: 500;
-  letter-spacing: 0.2px;
   margin-bottom: 26px;
-
 }
 
 .hero-content h1 {
@@ -115,7 +107,15 @@
   }
 
   @media (max-width: 640px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 34px 18px 30px;
   }
 }
 
@@ -130,13 +130,6 @@
   max-width: 580px;
   margin: 0 auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-
-  .search-icon {
-    width: 20px;
-    height: 20px;
-    color: var(--text-muted);
-    flex-shrink: 0;
-  }
 
   input {
     border: none;
@@ -409,8 +402,6 @@
 }
 
 .cuisine-garnish {
-  position: relative;
-  z-index: 1;
   border-radius: 999px;
   background: var(--accent-light);
   color: var(--accent);

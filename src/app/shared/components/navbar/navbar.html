@@ -91,18 +91,45 @@
   </div>
 
   <div class="mobile-menu" [class.open]="menuOpen()">
-    <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">Rezepte</a>
-    <a routerLink="/generate" routerLinkActive="active" (click)="closeMenu()">Generieren</a>
-    <a routerLink="/library" routerLinkActive="active" (click)="closeMenu()">Bibliothek</a>
-    <a routerLink="/favorites" routerLinkActive="active" (click)="closeMenu()">Favoriten</a>
-    <a routerLink="/shopping" routerLinkActive="active" (click)="closeMenu()">Einkaufsliste</a>
-    <a routerLink="/planner" routerLinkActive="active" (click)="closeMenu()">Wochenplan</a>
-    <a routerLink="/chat" routerLinkActive="active" (click)="closeMenu()">AI Chat</a>
+    <a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">
+      <app-icon name="home" [size]="16" />
+      Rezepte
+    </a>
+    <a routerLink="/generate" routerLinkActive="active" (click)="closeMenu()">
+      <app-icon name="generate" [size]="16" />
+      Generieren
+    </a>
+    <a routerLink="/library" routerLinkActive="active" (click)="closeMenu()">
+      <app-icon name="library" [size]="16" />
+      Bibliothek
+    </a>
+    <a routerLink="/favorites" routerLinkActive="active" (click)="closeMenu()">
+      <app-icon name="heart" [size]="16" />
+      Favoriten
+    </a>
+    <a routerLink="/shopping" routerLinkActive="active" (click)="closeMenu()">
+      <app-icon name="cart" [size]="16" />
+      Einkaufsliste
+    </a>
+    <a routerLink="/planner" routerLinkActive="active" (click)="closeMenu()">
+      <app-icon name="calendar" [size]="16" />
+      Wochenplan
+    </a>
+    <a routerLink="/chat" routerLinkActive="active" (click)="closeMenu()">
+      <app-icon name="chat" [size]="16" />
+      AI Chat
+    </a>
     <hr style="border-color: var(--border); margin: 0.5rem 0" />
     @if (authService.isLoggedIn) {
-      <button class="mobile-logout" (click)="logout(); closeMenu()">Abmelden</button>
+      <button class="mobile-logout" (click)="logout(); closeMenu()">
+        <app-icon name="logout" [size]="16" />
+        Abmelden
+      </button>
     } @else {
-      <a routerLink="/login" (click)="closeMenu()">Anmelden</a>
+      <a routerLink="/login" (click)="closeMenu()">
+        <app-icon name="user" [size]="16" />
+        Anmelden
+      </a>
     }
   </div>
 </nav>
