@@ -45,9 +45,11 @@
   img {
     width: 42px;
     height: 42px;
-    border: 1.5px solid var(--border);
+    background: var(--primary-light);
+    border: 1.5px solid var(--border-strong);
     border-radius: 13px;
     box-shadow: var(--shadow-sm);
+    padding: 4px;
   }
 }
 
