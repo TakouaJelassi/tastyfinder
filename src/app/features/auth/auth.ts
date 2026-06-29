@@ -63,13 +63,13 @@ export class AuthPage {
   private translateError(e: unknown): string {
     const code = (e as { code?: string })?.code ?? '';
     const map: Record<string, string> = {
-      'auth/email-already-in-use': 'Diese E-Mail ist bereits registriert.',
+      'auth/email-already-in-use': 'This email is already registered.',
       'auth/invalid-email': 'Invalid email address.',
-      'auth/weak-password': 'Passwort muss mindestens 6 Zeichen haben.',
+      'auth/weak-password': 'Password must be at least 6 characters.',
       'auth/user-not-found': 'No account found with this email.',
-      'auth/wrong-password': 'Falsches Passwort.',
-      'auth/invalid-credential': 'E-Mail oder Passwort falsch.',
-      'auth/popup-closed-by-user': 'Google Login abgebrochen.',
+      'auth/wrong-password': 'Incorrect password.',
+      'auth/invalid-credential': 'Email or password is incorrect.',
+      'auth/popup-closed-by-user': 'Google sign-in was cancelled.',
       'auth/too-many-requests': 'Too many attempts. Please try again later.',
     };
     return map[code] ?? 'Something went wrong. Please try again.';

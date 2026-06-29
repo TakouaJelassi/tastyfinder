@@ -30,20 +30,19 @@ export class N8nService {
   }
 
   private async generateViaGroq(ingredients: string, preferences: string): Promise<string> {
-    const prompt = `You are a professional chef. Generate exactly 3 distinct recipe suggestions \
-basierend auf diesen Zutaten: ${ingredients}.
+    const prompt = `You are a professional chef. Generate exactly 3 distinct recipe suggestions based on these ingredients: ${ingredients}.
 
 Preferences: ${preferences}
 
-Antworte NUR mit einem validen JSON Array ohne Markdown, genau in diesem Format:
+Reply ONLY with a valid JSON array without Markdown, exactly in this format:
 [
   {
     "title": "Recipe name",
-    "ingredients": ["Zutat 1"],
+    "ingredients": ["Ingredient 1"],
     "missingIngredients": [],
-    "steps": [{ "step": 1, "description": "Schritt", "parallel": false, "assignedTo": 1 }],
-    "duration": "30 Min",
-    "difficulty": "Einfach",
+    "steps": [{ "step": 1, "description": "Step description", "parallel": false, "assignedTo": 1 }],
+    "duration": "30 min",
+    "difficulty": "Easy",
     "cuisine": "Fusion",
     "diet": "none",
     "portions": 2

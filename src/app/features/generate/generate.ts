@@ -44,8 +44,8 @@ export class Generate {
   savedIds = signal<Set<string>>(new Set());
   error = signal('');
 
-  units = ['g', 'kg', 'ml', 'L', 'Stück', 'EL', 'TL', 'Tasse'];
-  cuisines = ['Deutsch', 'Italienisch', 'Japanisch', 'Indisch', 'Gourmet', 'Fusion'];
+  units = ['g', 'kg', 'ml', 'L', 'pcs', 'tbsp', 'tsp', 'cup'];
+  cuisines = ['German', 'Italian', 'Japanese', 'Indian', 'Gourmet', 'Fusion'];
   times: { value: RecipePreferences['time']; label: string }[] = [
     { value: 'quick', label: 'Quick (up to 20 min)' },
     { value: 'medium', label: 'Medium (20–45 min)' },
@@ -82,11 +82,11 @@ export class Generate {
 
   async generate(): Promise<void> {
     if (this.validIngredients.length === 0) {
-      this.error.set('Bitte mindestens eine Zutat eingeben.');
+      this.error.set('Please enter at least one ingredient.');
       return;
     }
     if (!(await this.aiService.hasAiAccess())) {
-      this.error.set('Bitte aktiviere AI in der Konfiguration auf dieser Seite.');
+      this.error.set('Please enable AI in the configuration section on this page.');
       return;
     }
 
@@ -103,7 +103,7 @@ export class Generate {
     const prompt = this.promptBuilder.buildRecipeListPrompt(ingredientList, prefs);
 
     try {
-      const prefsText = `Portionen: ${prefs.portions}, Zeit: ${prefs.time}, Küche: ${prefs.cuisine}, Ernährung: ${prefs.diet}`;
+      const prefsText = `Servings: ${prefs.portions}, Time: ${prefs.time}, Cuisine: ${prefs.cuisine}, Diet: ${prefs.diet}`;
       let raw = '';
       try {
         raw = await this.n8nService.generateRecipe(ingredientList, prefsText);
@@ -111,7 +111,7 @@ export class Generate {
         raw = await this.aiService.generateRaw(prompt);
       }
       if (!raw || raw.trim() === '') {
-        this.error.set('Kein AI-Ergebnis erhalten. Bitte pruefe deinen Groq API Key.');
+        this.error.set('No AI response received. Please check your Groq API key.');
         this.loading.set(false);
         return;
       }

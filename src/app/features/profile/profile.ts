@@ -132,7 +132,7 @@ export class Profile implements OnInit {
       return;
     }
     if (this.newPassword().length < 6) {
-      this.passwordError.set('Passwort muss mindestens 6 Zeichen haben.');
+      this.passwordError.set('Password must be at least 6 characters.');
       return;
     }
 
@@ -151,7 +151,7 @@ export class Profile implements OnInit {
     } catch (e: unknown) {
       const code = (e as { code?: string })?.code ?? '';
       if (code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
-        this.passwordError.set('Aktuelles Passwort ist falsch.');
+        this.passwordError.set('Current password is incorrect.');
       } else {
         this.passwordError.set('Failed to change password.');
       }

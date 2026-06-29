@@ -89,9 +89,8 @@ export class AiService {
 
   async summarizeRecipe(recipeName: string, instructions: string): Promise<string> {
     const prompt =
-      `Fasse dieses Rezept "${recipeName}" in 2-3 Sätzen zusammen und gib den ` +
-      `Schwierigkeitsgrad an (Einfach/Mittel/Schwer). ` +
-      `Anweisungen: ${instructions.substring(0, 500)}`;
+      `Summarise the recipe "${recipeName}" in 2-3 sentences and indicate the difficulty ` +
+      `(Easy/Medium/Hard). Instructions: ${instructions.substring(0, 500)}`;
     const response = await this.callGroq(prompt);
     return response.text;
   }
@@ -100,8 +99,8 @@ export class AiService {
     const hour = new Date().getHours();
     const mealTime = hour < 11 ? 'Breakfast' : hour < 15 ? 'Lunch' : 'Dinner';
     const prompt =
-      `Schlage ein passendes Rezept für ${mealTime} vor. ` +
-      'Nenne nur den Namen und einen kurzen Grund warum es passt.';
+      `Suggest a suitable recipe for ${mealTime}. ` +
+      'Give only the name and a short reason why it fits.';
     const response = await this.callGroq(prompt);
     return response.text;
   }
