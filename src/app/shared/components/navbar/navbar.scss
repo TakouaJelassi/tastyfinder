@@ -46,14 +46,11 @@
   text-decoration: none;
 
   .logo-mark {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     display: block;
-    border-radius: 11px;
-    background: var(--primary-light);
-    border: 1.5px solid var(--border-strong);
-    box-shadow: var(--shadow-sm);
-    padding: 4px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(194, 103, 74, 0.35);
   }
 
   .logo-text {

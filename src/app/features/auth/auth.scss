@@ -43,13 +43,10 @@
   gap: 10px;
 
   img {
-    width: 42px;
-    height: 42px;
-    background: var(--primary-light);
-    border: 1.5px solid var(--border-strong);
+    width: 44px;
+    height: 44px;
     border-radius: 13px;
-    box-shadow: var(--shadow-sm);
-    padding: 4px;
+    box-shadow: 0 4px 16px rgba(194, 103, 74, 0.35);
   }
 }
 
