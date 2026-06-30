@@ -214,25 +214,18 @@ src/app/
 
 ## Engineering Highlights
 
-- Modern Angular architecture with **Standalone Components**, **Signals** and
-  lazy-loaded feature routes
-- Firebase Authentication with an SSR-safe route guard and per-user Firestore
-  data boundaries
-- AI recipe generation and conversational search powered by Groq, with an
-  optional n8n workflow for local automation
-- Central generated recipe parser with JSON extraction, validation and typed
-  parse errors
-- Contextual AI key configuration instead of a global setup banner
-- Demo workspace notice with local browser persistence for recruiter review
-- Firestore-backed personal library, favorites, shopping list, profile and meal
-  planning flows
-- Responsive SCSS design system with reusable shared components for navigation,
-  recipe cards, skeleton loading and API-key management
-- GitHub Actions CI for install, type checks, focused unit tests and production
-  build
-- Firebase Hosting deployment with Angular SSR support
+- **Angular 22 Signals** — all UI state via `signal()` / `computed()`; Observables only at I/O boundaries, always cleaned up with `takeUntilDestroyed`
+- **Proxy-first AI with fallback** — production proxy keeps Groq key server-side; graceful fallback to user-supplied key in `localStorage`
+- **Focused Firestore stores** — `UserRecipeStore`, `FavoriteStore`, `ShoppingStore`, `MealPlanStore` each own their Firestore path and Observable interface
+- **Typed AI pipeline** — `PromptBuilder` → `GeneratedRecipeParser` → `AppError` shapes; malformed AI output never reaches the template unchecked
+- **SSR-safe auth guard** — awaits first Firebase auth emission before redirect; no login flash on hard refresh
+- **Optimistic UI with rollback** — library deletes update the signal immediately, restore on Firestore failure
+- **Demo Workspace** — full product flow without an account; Firestore writes skipped, data persisted in `localStorage`
+- **Custom icon system** — inline SVG registry (Feather/Lucide style), single `<app-icon>` component, zero icon-font weight
+- **GitHub Actions CI** — install, type checks, focused unit tests and production build on every push
+- **Firebase Hosting + Angular SSR** — fast initial load with server-side rendering
 
-See [docs/CASE_STUDY.md](docs/CASE_STUDY.md) for a concise portfolio case study.
+See [docs/CASE_STUDY.md](docs/CASE_STUDY.md) for the full portfolio case study.
 
 ---
 
@@ -240,8 +233,7 @@ See [docs/CASE_STUDY.md](docs/CASE_STUDY.md) for a concise portfolio case study.
 
 - Deploy the server-side Groq proxy on the production hosting target
 - Dietary filters (vegetarian, vegan, gluten-free)
-- Recipe ratings and notes
-- Split the current Firestore facade into focused stores as the product grows
+- Real user recipe ratings and community notes
 
 ---
 
