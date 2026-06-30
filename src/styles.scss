@@ -7,27 +7,27 @@
 }
 
 /* ---------------------------------------------------------------
-   Quiet-Luxury Design-System
-   - Warmes Creme/Off-White statt purem Weiß
-   - Gedeckte Terrakotta als Akzent, Salbeigrün als Sekundärfarbe
-   - Serif (Playfair Display) für große Titel, Sans (Plus Jakarta) für UI
+   Quiet-Luxury Design System
+   - Warm cream/off-white instead of pure white
+   - Muted terracotta accent, sage green secondary
+   - Serif (Playfair Display) for large titles, sans (Plus Jakarta) for UI
 ---------------------------------------------------------------- */
 :root {
-  /* Akzent: gedecktes Terrakotta-Safran */
+  /* Primary: muted terracotta-saffron */
   --primary: #f47d4f;
   --primary-dark: #c2674a;
   --primary-light: #fff0e7;
-  /* Sekundär: beruhigendes Salbeigrün */
+  /* Secondary: calming sage green */
   --accent: #5f7d54;
   --accent-light: #eef5ea;
 
-  /* Flächen: warmes Creme statt kühlem Grau */
+  /* Surfaces: warm cream instead of cool grey */
   --bg: #fbf5ea;
   --surface: #fffaf2;
   --surface-2: #f3eadc;
   --surface-3: #eadbc8;
 
-  /* Schrift: warmes Anthrazit statt purem Schwarz */
+  /* Text: warm charcoal instead of pure black */
   --text: #241f19;
   --text-muted: #66765a;
   --border: rgba(65, 78, 52, 0.16);
@@ -78,7 +78,7 @@
   --space-8: 32px;
   --space-10: 40px;
   --space-12: 48px;
-  /* Warm getönte Schatten (nicht kühles Schwarz) */
+  /* Warm-tinted shadows (not cool black) */
   --shadow-sm: 0 2px 8px rgba(60, 45, 30, 0.07);
   --shadow: 0 16px 38px rgba(60, 45, 30, 0.12);
   --shadow-lg: 0 30px 80px rgba(60, 45, 30, 0.18);
@@ -86,7 +86,7 @@
   --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Dark-Mode: tiefes mattes Anthrazit-Charcoal statt purem Schwarz */
+/* Dark mode: deep forest green instead of pure black */
 :root[data-theme='dark'] {
   --primary: #f47d4f;
   --primary-dark: #c2674a;
@@ -152,7 +152,7 @@ body {
     color 0.3s ease;
 }
 
-/* Große Titel in ausdrucksstarker Serif — wirkt sofort "Design-Agentur" */
+/* Large headings in expressive serif */
 h1 {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -310,6 +310,18 @@ button {
     color: var(--primary);
     background: var(--primary-light);
   }
+}
+
+/* Icon color utilities — replaces inline style="color: ..." on <app-icon> */
+.icon-primary  { color: var(--primary); }
+.icon-muted    { color: var(--text-muted); }
+.icon-on-primary { color: var(--on-primary); }
+
+/* Navbar divider */
+.nav-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0.5rem 0;
 }
 
 @media (max-width: 640px) {

@@ -83,14 +83,14 @@
   padding: 11px 18px;
   border-radius: 999px;
   background: var(--primary);
-  color: var(--on-primary) !important;
+  color: var(--on-primary);
   font-size: 14px;
   font-weight: 800;
   text-decoration: none;
 
   &:hover {
     background: var(--primary-dark);
-    text-decoration: none !important;
+    text-decoration: none;
   }
 }
 
@@ -167,9 +167,9 @@
 }
 
 .diet-badge {
-  background: var(--success-light) !important;
-  color: var(--success) !important;
-  border-color: color-mix(in srgb, var(--success) 28%, var(--border)) !important;
+  background: var(--success-light);
+  color: var(--success);
+  border-color: color-mix(in srgb, var(--success) 28%, var(--border));
 }
 
 .summary-actions {

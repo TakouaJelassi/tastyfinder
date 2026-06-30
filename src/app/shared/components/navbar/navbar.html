@@ -119,7 +119,7 @@
       <app-icon name="chat" [size]="16" />
       AI Chat
     </a>
-    <hr style="border-color: var(--border); margin: 0.5rem 0" />
+    <hr class="nav-divider" />
     @if (authService.isLoggedIn) {
       <button class="mobile-logout" (click)="logout(); closeMenu()">
         <app-icon name="logout" [size]="16" />

@@ -130,7 +130,7 @@ In production the app falls back to calling Groq directly.
 
 ### Prerequisites
 
-- Node.js 22+
+- Node.js 22.22.3+ or 24.15.0+
 - npm 11+
 - A free [Groq API Key](https://console.groq.com/keys) for the AI features
 

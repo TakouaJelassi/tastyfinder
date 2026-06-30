@@ -55,14 +55,14 @@
       @if (aiLoading()) {
         <div class="ai-card loading">
           <div class="ai-icon-wrap">
-            <app-icon name="generate" [size]="18" style="color: var(--on-primary)" />
+            <app-icon name="generate" [size]="18" class="icon-on-primary" />
           </div>
           <p>AI is analysing the recipe...</p>
         </div>
       } @else if (aiSummary()) {
         <div class="ai-card">
           <div class="ai-icon-wrap">
-            <app-icon name="generate" [size]="18" style="color: var(--on-primary)" />
+            <app-icon name="generate" [size]="18" class="icon-on-primary" />
           </div>
           <div>
             <p class="ai-label">AI Summary</p>
@@ -74,7 +74,7 @@
       <div class="two-col">
         <div class="ingredients-section">
           <h2>
-            <app-icon name="ingredients" [size]="20" style="color: var(--primary)" />
+            <app-icon name="ingredients" [size]="20" class="icon-primary" />
             Ingredients
           </h2>
           <ul class="ingredients-list">
@@ -89,7 +89,7 @@
 
         <div class="instructions-section">
           <h2>
-            <app-icon name="instructions" [size]="20" style="color: var(--primary)" />
+            <app-icon name="instructions" [size]="20" class="icon-primary" />
             Instructions
           </h2>
           <ol class="instruction-steps">
@@ -111,7 +111,7 @@
       @if (r.video) {
         <div class="video-section">
           <h2>
-            <app-icon name="video" [size]="20" style="color: var(--primary)" />
+            <app-icon name="video" [size]="20" class="icon-primary" />
             Video
           </h2>
           <div class="video-wrap">
