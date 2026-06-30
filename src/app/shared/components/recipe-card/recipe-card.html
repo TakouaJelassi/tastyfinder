@@ -10,11 +10,11 @@
     <img [src]="recipe().image" [alt]="recipe().title" loading="lazy" (error)="onImageError($event)" />
     <div class="card-overlay"></div>
     <div class="card-badges">
-      @for (tag of visibleTags; track tag) { <span>{{ tag }}</span> }
+      @for (tag of visibleTags(); track tag) { <span>{{ tag }}</span> }
     </div>
     <span class="rating-pill">
       <app-icon name="sparkles" [size]="12" />
-      {{ rating }}
+      {{ rating() }}
     </span>
     <button class="fav-btn" (click)="toggleFavorite($event)" [class.active]="isFavorite()" aria-label="Toggle favorite">
       <app-icon name="heart" [size]="18" [filled]="isFavorite()" />

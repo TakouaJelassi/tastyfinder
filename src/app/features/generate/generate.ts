@@ -117,7 +117,6 @@ export class Generate {
       }
       const recipes = this.recipeParser.parseRecipeList(raw);
       this.generatedRecipes.set(recipes);
-      this.savedIds.set(new Set());
       this.loading.set(false);
     } catch (e) {
       this.error.set(this.errorMapper.fromUnknown(e).message);

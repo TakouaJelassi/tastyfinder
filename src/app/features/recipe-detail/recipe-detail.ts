@@ -1,4 +1,5 @@
-import { Component, inject, signal, OnInit, input } from '@angular/core';
+import { Component, inject, signal, OnInit, input, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Location, isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { PLATFORM_ID } from '@angular/core';
@@ -29,6 +30,7 @@ export class RecipeDetail implements OnInit {
   private location = inject(Location);
   private sanitizer = inject(DomSanitizer);
   private platformId = inject(PLATFORM_ID);
+  private destroyRef = inject(DestroyRef);
 
   recipe = signal<Recipe | null>(null);
   loading = signal(true);
@@ -66,16 +68,22 @@ export class RecipeDetail implements OnInit {
   }
 
   ngOnInit(): void {
-    this.recipeService.getById(this.id()).subscribe((recipe) => {
-      this.recipe.set(recipe);
-      this.loading.set(false);
-      if (recipe) {
-        this.loadAiSummary(recipe);
-        this.favoriteStore.isFavorite(recipe.id).subscribe((isFavorite) => {
-          this.favorite.set(isFavorite);
-        });
-      }
-    });
+    this.recipeService
+      .getById(this.id())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((recipe) => {
+        this.recipe.set(recipe);
+        this.loading.set(false);
+        if (recipe) {
+          this.loadAiSummary(recipe);
+          this.favoriteStore
+            .isFavorite(recipe.id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((isFavorite) => {
+              this.favorite.set(isFavorite);
+            });
+        }
+      });
   }
 
   goBack(): void {
@@ -83,7 +91,11 @@ export class RecipeDetail implements OnInit {
   }
 
   getYoutubeUrl(url: string): SafeResourceUrl {
-    const id = url?.split('v=')?.[1] ?? '';
+    let id = '';
+    try {
+      const parsed = new URL(url);
+      id = parsed.searchParams.get('v') ?? parsed.pathname.split('/').pop() ?? '';
+    } catch {}
     return this.sanitizer.bypassSecurityTrustResourceUrl(`https://www.youtube.com/embed/${id}`);
   }
 
@@ -91,7 +103,7 @@ export class RecipeDetail implements OnInit {
     const minutes = this.recipe()?.readyInMinutes ?? 0;
     if (minutes <= 25) return 'Easy';
     if (minutes <= 50) return 'Medium';
-    return 'Anspruchsvoll';
+    return 'Challenging';
   }
 
   get instructionSteps(): string[] {

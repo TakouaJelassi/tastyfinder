@@ -55,7 +55,7 @@ export class Home implements OnInit {
         distinctUntilChanged(),
         switchMap((term: string) => {
           this.loading.set(true);
-          return term ? this.recipeService.search(term) : this.recipeService.search('');
+          return this.recipeService.search(term);
         }),
         takeUntilDestroyed(this.destroyRef),
       )
@@ -74,23 +74,32 @@ export class Home implements OnInit {
   onCategorySelect(category: string): void {
     this.selectedCategory.set(category);
     this.loading.set(true);
-    this.recipeService.getByCategory(category).subscribe((results: RecipePreview[]) => {
-      this.recipes.set(results);
-      this.loading.set(false);
-    });
+    this.recipeService
+      .getByCategory(category)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((results: RecipePreview[]) => {
+        this.recipes.set(results);
+        this.loading.set(false);
+      });
   }
 
   private loadInitial(): void {
-    this.recipeService.search('').subscribe((results: RecipePreview[]) => {
-      this.recipes.set(results);
-      this.loading.set(false);
-    });
+    this.recipeService
+      .search('')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((results: RecipePreview[]) => {
+        this.recipes.set(results);
+        this.loading.set(false);
+      });
   }
 
   private loadCategories(): void {
-    this.recipeService.getCategories().subscribe((cats) => {
-      this.categories.set(cats);
-    });
+    this.recipeService
+      .getCategories()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((cats) => {
+        this.categories.set(cats);
+      });
   }
 
   private cuisineGarnish(name: string): string {

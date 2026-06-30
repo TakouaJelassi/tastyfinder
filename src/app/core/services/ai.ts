@@ -112,7 +112,7 @@ export class AiService {
 
   private async callGroq(prompt: string): Promise<AiResponse> {
     const proxyResponse = await this.callServerProxy(prompt);
-    if (proxyResponse.text || proxyResponse.error !== 'proxy-unavailable') return proxyResponse;
+    if (proxyResponse.text) return proxyResponse;
 
     if (!this.apiKey) {
       return { text: '', error: 'No API key set.' };

@@ -38,9 +38,15 @@ export class Library implements OnInit {
   async deleteRecipe(recipe: GeneratedRecipe, event: Event): Promise<void> {
     event.stopPropagation();
     if (!recipe.id) return;
+    const backup = this.recipes();
     this.recipes.update((list) => list.filter((r) => r.id !== recipe.id));
     if (this.expandedId() === recipe.id) this.expandedId.set(null);
-    await this.userRecipeStore.delete(recipe.id);
-    this.notification.success('Recipe removed from library');
+    try {
+      await this.userRecipeStore.delete(recipe.id);
+      this.notification.success('Recipe removed from library');
+    } catch {
+      this.recipes.set(backup);
+      this.notification.error('Failed to remove recipe. Please try again.');
+    }
   }
 }

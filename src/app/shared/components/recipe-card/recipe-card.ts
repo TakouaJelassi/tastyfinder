@@ -1,4 +1,4 @@
-import { Component, input, output, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { Component, input, output, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { RecipePreview } from '../../../core/models/recipe.interface';
@@ -24,6 +24,25 @@ export class RecipeCard implements OnInit {
 
   isFavorite = signal(false);
   onImageError = onImageError;
+
+  readonly visibleTags = computed(() => {
+    const recipe = this.recipe();
+    const tags = recipe.tags
+      ?.split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean)
+      .slice(0, 2);
+    return tags?.length
+      ? tags
+      : [recipe.category, recipe.cuisine].filter((tag): tag is string => Boolean(tag)).slice(0, 2);
+  });
+
+  readonly rating = computed(() => {
+    const seed = this.recipe()
+      .id.split('')
+      .reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    return (4.6 + (seed % 4) / 10).toFixed(1);
+  });
 
   ngOnInit(): void {
     if (!this.authService.isLoggedIn) return;
@@ -53,23 +72,4 @@ export class RecipeCard implements OnInit {
     this.router.navigate(['/recipe', this.recipe().id]);
   }
 
-  get visibleTags(): string[] {
-    const recipe = this.recipe();
-    const tags = recipe.tags
-      ?.split(',')
-      .map((tag) => tag.trim())
-      .filter(Boolean)
-      .slice(0, 2);
-
-    return tags?.length
-      ? tags
-      : [recipe.category, recipe.cuisine].filter((tag): tag is string => Boolean(tag)).slice(0, 2);
-  }
-
-  get rating(): string {
-    const seed = this.recipe()
-      .id.split('')
-      .reduce((sum, char) => sum + char.charCodeAt(0), 0);
-    return (4.6 + (seed % 4) / 10).toFixed(1);
-  }
 }
