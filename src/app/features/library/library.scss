@@ -64,12 +64,12 @@
   }
 
   a {
-    color: var(--primary);
+    color: var(--text-muted);
     font-weight: 700;
     text-decoration: none;
 
     &:hover {
-      text-decoration: underline;
+      color: var(--text);
     }
   }
 }
