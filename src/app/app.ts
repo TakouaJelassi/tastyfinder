@@ -8,6 +8,5 @@ import { Toast } from './shared/components/toast/toast';
   selector: 'app-root',
   imports: [RouterOutlet, Navbar, DemoWorkspaceNotice, Toast],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
 })
 export class App {}
