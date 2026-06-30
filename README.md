@@ -237,6 +237,12 @@ See [docs/CASE_STUDY.md](docs/CASE_STUDY.md) for the full portfolio case study.
 
 ---
 
+## Data Sources
+
+Recipe data and images are sourced from [TheMealDB](https://www.themealdb.com) (free public API, used for demonstration purposes).
+
+---
+
 ## License
 
 MIT
