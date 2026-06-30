@@ -15,7 +15,7 @@ import { DemoDataStore } from './demo-data.store';
 const DEMO_KEY = 'tf_demo_favorites';
 const DEMO_DEFAULT = ['2', '4', '8'];
 
-/** Favorisierte Rezepte (nur IDs) pro Nutzer. */
+/** Per-user favorite recipe IDs. */
 @Injectable({ providedIn: 'root' })
 export class FavoriteStore {
   private firestore = inject(Firestore);

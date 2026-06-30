@@ -28,11 +28,8 @@ export class Home implements OnInit {
   loading = signal(true);
   onImageError = onImageError;
 
-  /** "Rezept des Tages" — dominante Bento-Kachel (erstes geladenes Rezept). */
   featured = computed(() => this.recipes()[0] ?? null);
-  /** Kleine Bento-Kacheln: erste vier Küchen als Schnellfilter. */
   quickCategories = computed(() => this.categories().slice(0, 4));
-  /** Bento nur in der Entdecken-Ansicht zeigen (nicht beim Suchen/Filtern). */
   showBento = computed(() => !this.searchTerm() && !this.selectedCategory());
   cuisineShowcase = computed(() =>
     this.categories()

@@ -13,7 +13,7 @@ export interface UserProfile {
 
 const DEMO_DEFAULT: UserProfile = { displayName: 'Demo Workspace' };
 
-/** Profildaten (Anzeigename + Avatar) pro Nutzer. */
+/** Per-user profile data (display name + avatar). */
 @Injectable({ providedIn: 'root' })
 export class ProfileStore {
   private firestore = inject(Firestore);

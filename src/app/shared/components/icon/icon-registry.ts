@@ -1,5 +1,5 @@
-// Zentrale Icon-Registry (Feather/Lucide-Stil, viewBox 0 0 24 24).
-// Wert = innerer SVG-Inhalt; die Icon-Komponente baut das <svg>-Element drumherum.
+// Icon registry — Feather/Lucide style, viewBox 0 0 24 24.
+// Value = inner SVG content; the Icon component wraps it in an <svg> element.
 
 export type IconName =
   | 'home'

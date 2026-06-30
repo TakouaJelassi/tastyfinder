@@ -1,16 +1,16 @@
 /**
- * Reine Hilfsfunktionen für die Demo-Modus-Persistenz (localStorage).
- * Bewusst frei von Angular-DI, damit sie isoliert testbar sind.
+ * Pure helpers for demo-mode persistence (localStorage).
+ * Intentionally free of Angular DI so they can be tested in isolation.
  */
 
-/** Tiefe Kopie über JSON — schützt die Seed-Daten vor Mutationen. */
+/** Deep copy via JSON — protects seed data from mutations. */
 export function cloneValue<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
 }
 
 /**
- * Parst einen gespeicherten Rohwert. Bei fehlendem oder ungültigem JSON
- * wird eine Kopie des Fallbacks zurückgegeben (nie der Original-Seed).
+ * Parses a stored raw value. Returns a copy of the fallback when the value
+ * is missing or contains invalid JSON — never the original seed object.
  */
 export function parseStoredValue<T>(raw: string | null, fallback: T): T {
   if (!raw) return cloneValue(fallback);

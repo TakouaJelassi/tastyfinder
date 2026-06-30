@@ -18,14 +18,14 @@ import { uniqueNewShoppingNames } from '../utils/shopping-items';
 const DEMO_KEY = 'tf_demo_shopping';
 
 const DEMO_ITEMS: ShoppingItem[] = [
-  { id: 'demo-shopping-1', name: 'Kirschtomaten', checked: false },
+  { id: 'demo-shopping-1', name: 'Cherry tomatoes', checked: false },
   { id: 'demo-shopping-2', name: 'Feta', checked: false },
-  { id: 'demo-shopping-3', name: 'Limetten', checked: true },
+  { id: 'demo-shopping-3', name: 'Limes', checked: true },
 ];
 
 const byChecked = (a: ShoppingItem, b: ShoppingItem) => Number(a.checked) - Number(b.checked);
 
-/** Einkaufsliste pro Nutzer. */
+/** Per-user shopping list. */
 @Injectable({ providedIn: 'root' })
 export class ShoppingStore {
   private firestore = inject(Firestore);
@@ -46,7 +46,7 @@ export class ShoppingStore {
     );
   }
 
-  /** Fügt mehrere Zutaten auf einmal hinzu (Duplikate werden übersprungen). */
+  /** Adds multiple ingredients at once; duplicates are skipped. */
   async add(names: string[]): Promise<void> {
     const uid = this.auth.uid;
     if (!uid || names.length === 0) return;

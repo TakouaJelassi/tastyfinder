@@ -4,9 +4,8 @@ import { AuthService } from '../services/auth';
 import { parseStoredValue } from '../utils/demo-storage';
 
 /**
- * Gemeinsame Grundlage für den Demo-Modus: liest/schreibt Demo-Daten im
- * localStorage des Browsers, damit Portfolio-Besucher die App ohne echtes
- * Konto ausprobieren können.
+ * Shared base for demo mode: reads/writes demo data in localStorage so portfolio
+ * visitors can explore the app without a real account.
  */
 @Injectable({ providedIn: 'root' })
 export class DemoDataStore {

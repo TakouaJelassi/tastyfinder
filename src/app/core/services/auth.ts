@@ -24,7 +24,7 @@ export class AuthService {
   avatarBase64 = signal<string>('');
   demoMode = signal(false);
 
-  /** Wird aufgelöst, sobald Firebase den ersten Auth-Status geliefert hat. */
+  /** Resolves once Firebase has emitted its first auth state. */
   readonly ready: Promise<void>;
   private resolveReady!: () => void;
 
@@ -50,7 +50,7 @@ export class AuthService {
     }
   }
 
-  /** Lädt das gespeicherte Profilbild aus Firestore, fällt sonst auf das Google-Bild zurück. */
+  /** Loads the stored avatar from Firestore; falls back to the Google profile photo. */
   private async loadAvatar(user: User): Promise<void> {
     try {
       const ref = doc(this.firestore, `users/${user.uid}/profile/data`);

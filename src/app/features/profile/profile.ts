@@ -73,7 +73,7 @@ export class Profile implements OnInit {
       .catch(() => this.errorMsg.set('Image could not be processed.'));
   }
 
-  /** Verkleinert das Bild auf max. `size`px (quadratisch, zentriert) und gibt ein JPEG-DataURL zurück. */
+  /** Scales the image down to `size`px (square, centered) and returns a JPEG data URL. */
   private resizeImage(file: File, size: number): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

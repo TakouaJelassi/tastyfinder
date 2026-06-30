@@ -12,10 +12,7 @@ export const EMPTY_MEAL_PLAN: MealPlan = {
   sun: [],
 };
 
-/**
- * Stellt sicher, dass ein (evtl. unvollständiger) gespeicherter Plan alle
- * Wochentage enthält. Unbekannte Tage werden ignoriert.
- */
+/** Ensures a (possibly partial) saved plan has all seven days; unknown keys are ignored. */
 export function normalizeMealPlan(plan?: Partial<MealPlan> | null): MealPlan {
   const normalized: MealPlan = {
     mon: [],
@@ -34,12 +31,12 @@ export function normalizeMealPlan(plan?: Partial<MealPlan> | null): MealPlan {
   return normalized;
 }
 
-/** Alle Rezept-IDs eines Plans (über alle Tage, in Wochenreihenfolge). */
+/** All recipe IDs in the plan across all days, in week order. */
 export function collectPlanIds(plan: MealPlan): string[] {
   return WEEK_DAYS.flatMap((day) => plan[day]);
 }
 
-/** Anzahl geplanter Gerichte in der Woche. */
+/** Number of meals planned for the week. */
 export function countPlannedMeals(plan: MealPlan): number {
   return collectPlanIds(plan).length;
 }

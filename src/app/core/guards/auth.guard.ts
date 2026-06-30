@@ -8,11 +8,10 @@ export const authGuard: CanActivateFn = async () => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  // Serverseitig (SSR/Prerender) gibt es keine Auth-Session → nicht umleiten,
-  // die echte Prüfung erfolgt im Browser.
+  // During SSR there is no auth session — skip redirect; browser will re-check.
   if (!isPlatformBrowser(platformId)) return true;
 
-  // Auf den ersten Auth-Status von Firebase warten (sonst Redirect beim Reload)
+  // Wait for the first Firebase auth emission before redirecting (prevents login flash on reload).
   await auth.ready;
 
   if (auth.isLoggedIn) return true;

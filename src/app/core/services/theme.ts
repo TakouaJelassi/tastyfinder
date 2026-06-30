@@ -8,7 +8,7 @@ export type Theme = 'light' | 'dark';
 export class ThemeService {
   private platformId = inject(PLATFORM_ID);
 
-  /** Aktuelles Theme (Default: hell, oder gespeicherte/System-Präferenz). */
+  /** Current theme — defaults to system preference or the last saved value. */
   theme = signal<Theme>('light');
 
   constructor() {

@@ -67,7 +67,7 @@ const DEMO_RECIPES: GeneratedRecipe[] = [
   },
 ];
 
-/** Bibliothek: vom Nutzer (oder per AI) generierte Rezepte. */
+/** Personal library of AI-generated recipes saved by the user. */
 @Injectable({ providedIn: 'root' })
 export class UserRecipeStore {
   private firestore = inject(Firestore);

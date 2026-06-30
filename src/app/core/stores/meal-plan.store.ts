@@ -17,7 +17,7 @@ const DEMO_PLAN: MealPlan = normalizeMealPlan({
   sun: ['18'],
 });
 
-/** Wochenplan pro Nutzer. */
+/** Per-user weekly meal plan. */
 @Injectable({ providedIn: 'root' })
 export class MealPlanStore {
   private firestore = inject(Firestore);
