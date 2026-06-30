@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { Recipe, RecipePreview, Category } from '../models/recipe.interface';
 import { RECIPES } from '../data/recipes.data';
 
-// Kategorien aus dem lokalen Datensatz ableiten (eindeutige Küchen).
+// Derive unique cuisine categories from the local dataset.
 const CUISINE_CATEGORIES: Category[] = Array.from(
   new Set(RECIPES.map((r) => r.cuisine).filter(Boolean)),
 ).map((name, i) => ({ id: String(i + 1), name }));
@@ -67,12 +67,12 @@ export class RecipeService {
     return of(CUISINE_CATEGORIES);
   }
 
-  /** Alle Rezepte als Vorschau (z. B. für den Meal-Planner-Picker). */
+  /** All recipes as previews, used by lists and the meal-planner picker. */
   listAll(): RecipePreview[] {
     return RECIPES.map((r) => this.toPreview(r));
   }
 
-  /** Volle Rezepte zu einer Liste von IDs (Reihenfolge der Eingabe). */
+  /** Full recipes for a list of IDs, preserving input order. */
   findByIds(ids: string[]): Recipe[] {
     return ids.map((id) => RECIPES.find((r) => r.id === id)).filter((r): r is Recipe => !!r);
   }
@@ -86,8 +86,8 @@ export class RecipeService {
   }
 
   /**
-   * Freitext-Suche für den Chat: bewertet jedes Rezept danach, wie viele
-   * Wörter der Anfrage in Titel, Zutaten, Küche, Kategorie oder Tags vorkommen.
+   * Free-text search for chat: scores recipes by matching query terms against
+   * title, ingredients, cuisine, category and tags.
    */
   searchSmart(queryText: string): Observable<RecipePreview[]> {
     const stop = new Set([
@@ -126,7 +126,7 @@ export class RecipeService {
       'rezepte',
     ]);
 
-    // Deutsche Begriffe → englische Küche/Tags im Datensatz
+    // German user terms mapped to English cuisines/tags in the dataset.
     const synonyms: Record<string, string> = {
       italienisch: 'italian',
       asiatisch: 'asian',

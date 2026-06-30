@@ -3,9 +3,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ICONS, IconName } from './icon-registry';
 
 /**
- * Wiederverwendbares Icon: `<app-icon name="clock" />`.
- * Rendert ein zentral registriertes SVG (Feather/Lucide-Stil), statt die
- * SVG-Markup überall im Template zu duplizieren.
+ * Reusable icon: `<app-icon name="clock" />`.
+ * Renders a centrally registered SVG (Feather/Lucide style) so templates do
+ * not duplicate SVG markup.
  */
 @Component({
   selector: 'app-icon',
